@@ -1,4 +1,4 @@
-package com.fours.tolevelup.Friend;
+package com.fours.tolevelup.friend;
 
 public class Friend {
 }
