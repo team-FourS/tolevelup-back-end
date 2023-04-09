@@ -14,5 +14,5 @@ public class FriendController {
         this.friendService = friendService;
     }
     @GetMapping("/test")
-    public FriendDTO.DefaultResponse test() { return new UserDTO.DefaultResponse("테스트");}
+    public FriendDTO.DefaultResponse test() { return new FriendDTO.DefaultResponse("테스트");}
 }
