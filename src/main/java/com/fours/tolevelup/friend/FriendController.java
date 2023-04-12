@@ -13,6 +13,8 @@ public class FriendController {
     {
         this.friendService = friendService;
     }
-    @GetMapping("/test")
+    /*@GetMapping("/test")
     public FriendDTO.DefaultResponse test() { return new FriendDTO.DefaultResponse("테스트");}
+
+     */
 }

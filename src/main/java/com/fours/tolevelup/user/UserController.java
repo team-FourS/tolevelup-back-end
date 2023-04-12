@@ -12,9 +12,15 @@ public class UserController {
     public UserController(UserService userService){
         this.userService = userService;
     }
-    @GetMapping("/test")
+    /*@GetMapping("/test")
     public UserDTO.DefaultResponse test(){
         return new UserDTO.DefaultResponse("테스트");
+    }*/
+
+    int a = 1;
+    @GetMapping("/test")
+    public int test(){
+        return a;
     }
 
 }
