@@ -12,15 +12,15 @@ public class UserController {
     public UserController(UserService userService){
         this.userService = userService;
     }
-    /*@GetMapping("/test")
-    public UserDTO.DefaultResponse test(){
-        return new UserDTO.DefaultResponse("테스트");
-    }*/
 
-    int a = 1;
     @GetMapping("/test")
-    public int test(){
-        return a;
+    public String test(){
+        return "테스트용";
+    }
+
+    @GetMapping("/user/join")
+    public void join(UserDTO.JoinForm joinForm){
+        userService.userJoin(joinForm);
     }
 
 }
