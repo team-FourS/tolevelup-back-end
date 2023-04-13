@@ -15,6 +15,8 @@ public class UserServiceImpl implements UserService {
         //dto->entity 변환
     }
 
+    @Override
+    public void userStatus() {
 
-
+    }
 }
