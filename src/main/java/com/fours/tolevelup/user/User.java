@@ -17,7 +17,15 @@ public class User {
     @Id
     private String id;
     private String password;
+
+    private String name;
+    private String email;
     private long exp;
+
+    @Builder
+    public User(UserDTO.Form form){
+
+    }
 
 
 }

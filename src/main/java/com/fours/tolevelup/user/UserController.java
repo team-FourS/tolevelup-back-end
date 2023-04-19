@@ -2,8 +2,7 @@ package com.fours.tolevelup.user;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UserController {
@@ -18,9 +17,21 @@ public class UserController {
         return "테스트용";
     }
 
-    @GetMapping("/user/join")
-    public void join(UserDTO.JoinForm joinForm){
+    @PostMapping("/user/join") //회원가입 데이터 넘겨받기
+    public void join(@RequestBody UserDTO.JoinForm joinForm){
         userService.userJoin(joinForm);
     }
+
+    @PostMapping("/user/login") //로그인 데이터 넘겨받기
+    public void login(String id, String pw){
+        userService.userLogin(id,pw);
+    }
+
+    @DeleteMapping()//로그아웃
+    public void logout(){
+
+    }
+
+
 
 }
