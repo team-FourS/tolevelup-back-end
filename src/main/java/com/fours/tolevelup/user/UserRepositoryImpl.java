@@ -20,14 +20,13 @@ public class UserRepositoryImpl implements UserRepository{
     }
 
     @Override
-    public Optional<User> findById(String id){
-        User user = em.find(User.class, id);
-        return Optional.ofNullable(user);
+    public User findById(String id){
+        return em.find(User.class, id);
     }
 
     @Override
-    public void delete(User user){
-        em.remove(user);
+    public void delete(String id){
+        em.remove(findById(id));
     }
 
 

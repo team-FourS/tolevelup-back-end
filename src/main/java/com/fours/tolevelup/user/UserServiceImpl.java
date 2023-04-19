@@ -26,9 +26,7 @@ public class UserServiceImpl implements UserService {
         User user = new User();
     }
     public void userDelete(String id){
-        User user = User.builder()
-                .id(id)
-                .build();
+        userRepository.delete(id);
     }
     public void userStatus() {
 

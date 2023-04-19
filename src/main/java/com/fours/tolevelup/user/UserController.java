@@ -29,7 +29,7 @@ public class UserController {
 
     @DeleteMapping("/users/{id}")//탈퇴
     public String logout(@PathVariable String id){
-        //userService.userDelete(id);
+        userService.userDelete(id);
         return id;
     }
 
