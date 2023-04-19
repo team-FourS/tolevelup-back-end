@@ -15,7 +15,9 @@ public class UserServiceImpl implements UserService {
         //dto->entity 변환
     }
 
-    @Override
+    public void userLogin(String id, String pw){
+        User user = new User();
+    }
     public void userStatus() {
 
     }

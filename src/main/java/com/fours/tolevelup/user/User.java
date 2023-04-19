@@ -1,6 +1,7 @@
 package com.fours.tolevelup.user;
 
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,6 +17,13 @@ public class User {
     private String id;
     private String password;
     private String name;
+    private String email;
     private long exp;
+
+    @Builder
+    public User(UserDTO.Form form){
+
+    }
+
 
 }
