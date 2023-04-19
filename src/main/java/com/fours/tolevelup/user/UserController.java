@@ -17,21 +17,27 @@ public class UserController {
         return "테스트용";
     }
 
-    @PostMapping("/user/join")
-    public void join(@RequestBody UserDTO.JoinForm joinForm){
+    @PostMapping("/users/new")
+    public void join(@RequestBody UserDTO.JoinForm joinForm)throws Exception{
         userService.userJoin(joinForm);
     }
 
-    @PostMapping("/user/login") //로그인 데이터 넘겨받기
+    @PostMapping("/users") //로그인 데이터 넘겨받기
     public void login(String id, String pw){
         userService.userLogin(id,pw);
     }
 
-    @DeleteMapping("/user/{id}")//탈퇴
-    public void logout(@PathVariable String id){
-        userService.userDelete(id);
+    @DeleteMapping("/users/{id}")//탈퇴
+    public String logout(@PathVariable String id){
+        //userService.userDelete(id);
+        return id;
     }
 
+    @GetMapping("/users")
+    public void userInfo(){
+
+        //UserDTO.UserInfo
+    }
 
 
 }
