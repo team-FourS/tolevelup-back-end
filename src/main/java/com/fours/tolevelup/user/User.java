@@ -23,8 +23,12 @@ public class User {
     private long exp;
 
     @Builder
-    public User(UserDTO.Form form){
-
+    public User(String id,String password,String name,String email,long exp){
+        this.id = id;
+        this.password = password;
+        this.name = name;
+        this.email = email;
+        this.exp = exp;
     }
 
 

@@ -13,6 +13,15 @@ public class UserServiceImpl implements UserService {
 
     public void userJoin(UserDTO.JoinForm joinForm){
         //dto->entity 변환
+        User user = User.builder()
+                .id(joinForm.getId())
+                .password(joinForm.getPassword())
+                .name(joinForm.getName())
+                .email(joinForm.getEmail())
+                .build();
+
+
+
     }
 
     public void userLogin(String id, String pw){
