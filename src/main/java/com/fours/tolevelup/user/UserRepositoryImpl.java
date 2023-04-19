@@ -15,6 +15,11 @@ public class UserRepositoryImpl implements UserRepository{
     @Override
     public void save(User user){
         em.persist(user);
-        //return user;
+
+    }
+
+    @Override
+    public void delete(User user){
+        em.remove(user);
     }
 }
