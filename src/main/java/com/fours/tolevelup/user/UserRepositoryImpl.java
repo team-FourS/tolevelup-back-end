@@ -1,8 +1,10 @@
 package com.fours.tolevelup.user;
 
+import org.springframework.stereotype.Repository;
+
 import javax.persistence.EntityManager;
 
-
+@Repository
 public class UserRepositoryImpl implements UserRepository{
     private final EntityManager em;
 

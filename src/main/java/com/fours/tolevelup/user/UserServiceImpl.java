@@ -20,12 +20,15 @@ public class UserServiceImpl implements UserService {
                 .email(joinForm.getEmail())
                 .build();
 
-
+        userRepository.save(user);
 
     }
 
     public void userLogin(String id, String pw){
         User user = new User();
+    }
+    public void userDelete(String id){
+
     }
     public void userStatus() {
 

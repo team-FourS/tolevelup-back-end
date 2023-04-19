@@ -17,7 +17,7 @@ public class UserController {
         return "테스트용";
     }
 
-    @PostMapping("/user/join") //회원가입 데이터 넘겨받기
+    @PostMapping("/user/join")
     public void join(@RequestBody UserDTO.JoinForm joinForm){
         userService.userJoin(joinForm);
     }
@@ -27,9 +27,9 @@ public class UserController {
         userService.userLogin(id,pw);
     }
 
-    @DeleteMapping()//로그아웃
-    public void logout(){
-
+    @DeleteMapping("/user/{id}")//탈퇴
+    public void logout(@PathVariable String id){
+        userService.userDelete(id);
     }
 
 
