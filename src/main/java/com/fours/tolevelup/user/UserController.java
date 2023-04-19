@@ -31,12 +31,13 @@ public class UserController {
     public String logout(@PathVariable String id){
         userService.userDelete(id);
         return id;
+
     }
 
     @GetMapping("/users")
     public void userInfo(){
 
-        //UserDTO.UserInfo
+
     }
 
 
