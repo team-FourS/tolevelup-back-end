@@ -26,8 +26,8 @@ public class UserRepositoryImpl implements UserRepository{
     }
 
     @Override
-    public void delete(String id){
-        em.remove(id);
+    public void delete(User user){
+        em.remove(user);
     }
 
 
