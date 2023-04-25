@@ -22,22 +22,22 @@ public class UserController {
         userService.userJoin(joinForm);
     }
 
+    @GetMapping("/users")
+    public void userInfo(){
+        userService.userInfo();
+    }
+
+    @DeleteMapping("/users/{id}")
+    public void deleteUser(@PathVariable String id){
+        userService.userDelete(id);
+    }
+
+
     @PostMapping("/users") //로그인 데이터 넘겨받기
     public void login(String id, String pw){
         userService.userLogin(id,pw);
     }
 
-    @DeleteMapping("/users/{id}")//탈퇴
-    public String logout(@PathVariable String id){
-        userService.userDelete(id);
-        return id;
-    }
-
-    @GetMapping("/users")
-    public void userInfo(){
-
-        //UserDTO.UserInfo
-    }
 
 
 }
