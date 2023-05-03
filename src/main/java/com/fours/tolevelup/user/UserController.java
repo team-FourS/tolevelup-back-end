@@ -17,6 +17,9 @@ public class UserController {
     public void join(@RequestBody UserDTO.JoinForm joinForm){
         userService.userJoin(joinForm);
     }
+    @GetMapping("/users") //회원 마이페이지 정보 전달
+    public void info(){
+
 
     @GetMapping("/users")
     public void login(String id, String pw){
@@ -32,9 +35,6 @@ public class UserController {
     public void deleteUser(@PathVariable String id){
         userService.userDelete(id);
     }
-
-
-
 
 
 
