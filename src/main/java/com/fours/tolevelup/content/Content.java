@@ -11,9 +11,7 @@ import javax.persistence.Id;
 @Entity
 
 public class Content {
-
     @Id
-    private String contentType;
-    private String contentName;
-
+    private String name;
+    private String type;
 }
