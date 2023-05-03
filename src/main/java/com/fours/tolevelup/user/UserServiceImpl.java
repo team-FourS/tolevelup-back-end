@@ -1,6 +1,7 @@
 package com.fours.tolevelup.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,12 +24,18 @@ public class UserServiceImpl implements UserService {
     }
 
     public void userLogin(String id, String pw){
-        User user = new User();
+        User user = userRepository.findById(id);
+        if(user.getPassword().equals(pw)){
+
+        }
+
+
     }
     public void userDelete(String id){
         userRepository.delete(id);
+        //return ResponseEntity.ok();
     }
-    public void userInfo(){
+    public void userInfo(String id){
 
     }
     public void userStatus() {

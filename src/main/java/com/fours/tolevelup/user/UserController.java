@@ -2,6 +2,7 @@ package com.fours.tolevelup.user;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,19 +13,19 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/test")
-    public String test(){
-        return "테스트용";
-    }
-
-    @PostMapping("/users/new")
-    public void join(@RequestBody UserDTO.JoinForm joinForm)throws Exception{
+    @PostMapping("/users/new") //회원가입용(리소스 생성)
+    public void join(@RequestBody UserDTO.JoinForm joinForm){
         userService.userJoin(joinForm);
     }
 
     @GetMapping("/users")
-    public void userInfo(){
-        userService.userInfo();
+    public void login(String id, String pw){
+        userService.userLogin(id,pw);
+    }
+
+    @GetMapping("/users/{id}") //유저정보 리턴
+    public void userInfo(@PathVariable String id){
+        userService.userInfo(id);
     }
 
     @DeleteMapping("/users/{id}")
@@ -33,10 +34,8 @@ public class UserController {
     }
 
 
-    @PostMapping("/users") //로그인 데이터 넘겨받기
-    public void login(String id, String pw){
-        userService.userLogin(id,pw);
-    }
+
+
 
 
 
