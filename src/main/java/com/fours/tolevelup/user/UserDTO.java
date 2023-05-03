@@ -13,7 +13,7 @@ public class UserDTO {
     private String name;
     private String email;
     private long exp;
-
+    private String responseLocation;
 
     @Getter
     @Setter
@@ -42,8 +42,7 @@ public class UserDTO {
                 .build();
     }
 
-    @Getter
-    @AllArgsConstructor
+
     public static class DefaultResponse{
         private String returnMessage;
     }
