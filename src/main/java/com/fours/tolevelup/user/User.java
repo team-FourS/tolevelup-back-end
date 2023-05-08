@@ -20,15 +20,15 @@ public class User {
 
     private String name;
     private String email;
-    private long exp;
+    private long level;
 
     @Builder
-    public User(String id,String password,String name,String email,long exp){
+    public User(String id,String password,String name,String email,long level){
         this.id = id;
         this.password = password;
         this.name = name;
         this.email = email;
-        this.exp = exp;
+        this.level = level;
     }
 
 
