@@ -41,7 +41,7 @@ public class UserDTO {
                 .build();
     }
 
-    public static class DefaultResponse{
+    public static class Response{
         private String returnMessage;
     }
 

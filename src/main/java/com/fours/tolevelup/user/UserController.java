@@ -26,8 +26,9 @@ public class UserController {
         userService.userData(id);
     }
     @DeleteMapping("/users/{id}") //회원탈퇴
-    public void deleteUser(@PathVariable String id){
+    public ResponseEntity<UserDTO.Response> deleteUser(@PathVariable String id){
         userService.userDelete(id);
+        return ResponseEntity.ok().build();
     }
 
 }
