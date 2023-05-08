@@ -12,7 +12,7 @@ public class UserDTO {
     private String password;
     private String name;
     private String email;
-    private long exp;
+    private int level;
     private String responseLocation;
 
     @Getter
@@ -37,10 +37,9 @@ public class UserDTO {
                 .password(password)
                 .name(name)
                 .email(email)
-                .exp(exp)
+                .level(level)
                 .build();
     }
-
 
     public static class DefaultResponse{
         private String returnMessage;

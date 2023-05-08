@@ -23,12 +23,12 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
-    public void userLogin(String id, String pw){
+    public int userLogin(String id, String pw){
         User user = userRepository.findById(id);
         if(user.getPassword().equals(pw)){
-
+            return 1;
         }
-
+        return 0;
     }
     public void userDelete(String id){
         userRepository.delete(id);
