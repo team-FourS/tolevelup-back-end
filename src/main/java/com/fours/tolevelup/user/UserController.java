@@ -13,30 +13,22 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/users/new") //회원가입용(리소스 생성)
+    @PostMapping("/users/new") //회원가입
     public void join(@RequestBody UserDTO.JoinForm joinForm){
         userService.userJoin(joinForm);
     }
-    @GetMapping("/users") //회원 마이페이지 정보 전달
-    public void info() {
-
-    }
-
-    @GetMapping("/users")
+    @GetMapping("/users")//로그인(성공시 테마미션화면정보api호출)
     public void login(String id, String pw){
         userService.userLogin(id,pw);
     }
-
-    @GetMapping("/users/{id}") //유저정보 리턴
+    @GetMapping("/users/{id}") //회원정보(마이페이지용)
     public void userInfo(@PathVariable String id){
-        userService.userInfo(id);
+        userService.userData(id);
     }
-
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/users/{id}") //회원탈퇴
     public void deleteUser(@PathVariable String id){
         userService.userDelete(id);
     }
-
 
 
 }

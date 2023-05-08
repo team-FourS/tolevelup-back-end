@@ -26,11 +26,10 @@ public class UserDTO {
 
     @Getter
     @Setter
-    public static class UserInfo{
+    public static class UserData{
         private String name;
 
     }
-
 
     public User toEntity(){
         return User.builder()

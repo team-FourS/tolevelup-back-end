@@ -29,13 +29,12 @@ public class UserServiceImpl implements UserService {
 
         }
 
-
     }
     public void userDelete(String id){
         userRepository.delete(id);
         //return ResponseEntity.ok();
     }
-    public void userInfo(String id){
+    public void userData(String id){
 
     }
     public void userStatus() {
