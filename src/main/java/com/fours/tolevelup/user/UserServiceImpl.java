@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
                 .password(joinForm.getPassword())
                 .name(joinForm.getName())
                 .email(joinForm.getEmail())
-                .exp(0)
+                .level(1)
                 .build();
         userRepository.save(user);
     }
