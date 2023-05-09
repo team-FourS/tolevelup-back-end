@@ -26,9 +26,18 @@ public class UserDTO {
 
     @Getter
     @Setter
+    @AllArgsConstructor
     public static class UserData{
-        private String name;
+        private String id;
+        private String password;
 
+        private String name;
+        private String email;
+        private int level;
+
+        public UserData() {
+
+        }
     }
 
     public User toEntity(){

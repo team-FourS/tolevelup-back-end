@@ -1,5 +1,6 @@
 package com.fours.tolevelup.user;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -34,7 +35,11 @@ public class UserServiceImpl implements UserService {
         userRepository.delete(id);
         //return ResponseEntity.ok();
     }
-    public void userData(String id){
+    public UserDTO.UserData userData(String id){
+        User user = userRepository.findById(id);
+        UserDTO.UserData userData = new UserDTO.UserData();
+        BeanUtils.copyProperties(user,userData);
+        return userData;
 
     }
     public void userStatus() {
