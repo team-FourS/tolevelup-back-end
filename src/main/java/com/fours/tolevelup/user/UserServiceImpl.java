@@ -23,13 +23,14 @@ public class UserServiceImpl implements UserService {
                 .build();
         userRepository.save(user);
     }
-
-    public int userLogin(String id, String pw){
+    public String userLogin(String id, String pw){
         User user = userRepository.findById(id);
         if(user.getPassword().equals(pw)){
-            return 1;
+            UserDTO.UserData userData = new UserDTO.UserData();
+            BeanUtils.copyProperties(user,userData);
+            return userData.getId();
         }
-        return 0;
+        return "";
     }
     public void userDelete(String id){
         userRepository.delete(id);
@@ -40,9 +41,18 @@ public class UserServiceImpl implements UserService {
         UserDTO.UserData userData = new UserDTO.UserData();
         BeanUtils.copyProperties(user,userData);
         return userData;
-
     }
-    public void userStatus() {
-
+    public UserDTO.UserData userDataChange(UserDTO.UserData userData, String id){
+        User user = userRepository.findById(id);
+        User.builder()
+                .id(userData.getId())
+                .password(userData.getPassword())
+                .name(userData.getName())
+                .email(userData.getEmail())
+                .build();
+        //레포 수정메소드로 연결 필요
+        BeanUtils.copyProperties(user,userData);
+        return userData;
     }
+
 }

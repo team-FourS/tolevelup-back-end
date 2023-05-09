@@ -1,8 +1,5 @@
 package com.fours.tolevelup.user;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Builder
@@ -26,7 +23,7 @@ public class UserDTO {
 
     @Getter
     @Setter
-    @AllArgsConstructor
+    @NoArgsConstructor
     public static class UserData{
         private String id;
         private String password;
@@ -35,9 +32,6 @@ public class UserDTO {
         private String email;
         private int level;
 
-        public UserData() {
-
-        }
     }
 
     public User toEntity(){
