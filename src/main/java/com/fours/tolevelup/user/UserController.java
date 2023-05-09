@@ -17,18 +17,18 @@ public class UserController {
     public void join(@RequestBody UserDTO.JoinForm joinForm){
         userService.userJoin(joinForm);
     }
-    @GetMapping("/users")//로그인(성공시 테마미션화면정보api호출)
-    public void login(String id, String pw){
-        userService.userLogin(id,pw);
+    @GetMapping("/users")//로그인(성공시 테마)
+    public int login(String id, String pw){
+        return userService.userLogin(id,pw);
     }
     @GetMapping("/users/{id}") //회원정보(마이페이지용)
     public void userInfo(@PathVariable String id){
         userService.userData(id);
     }
     @DeleteMapping("/users/{id}") //회원탈퇴
-    public void deleteUser(@PathVariable String id){
+    public ResponseEntity<UserDTO.Response> deleteUser(@PathVariable String id){
         userService.userDelete(id);
+        return ResponseEntity.ok().build();
     }
-
 
 }
