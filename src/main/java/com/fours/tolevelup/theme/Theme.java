@@ -15,5 +15,6 @@ public class Theme {
     @Column(name = "Theme_name")
     private String name;
     private String type;
+    private long exp;
 }
 
