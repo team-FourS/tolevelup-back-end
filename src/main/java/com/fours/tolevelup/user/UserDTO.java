@@ -30,7 +30,6 @@ public class UserDTO {
         private String name;
         private String email;
         private int level;
-
     }
 
     public User toEntity(){
