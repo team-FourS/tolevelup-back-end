@@ -1,5 +1,6 @@
 package com.fours.tolevelup.theme;
 
+import com.fours.tolevelup.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

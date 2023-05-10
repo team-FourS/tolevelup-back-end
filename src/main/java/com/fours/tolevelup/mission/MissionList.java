@@ -12,12 +12,10 @@ import javax.persistence.ManyToOne;
 @NoArgsConstructor
 @Getter
 @Entity
-public class Mission {
+public class MissionList {
     @Id
-    private String id;
-    private String content;
-    private String state;
-
-
+    private String name;
+    @ManyToOne
+    @JoinColumn(name = "Theme_name")
+    private Theme theme;
 }
-
