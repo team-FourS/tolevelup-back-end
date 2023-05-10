@@ -1,6 +1,6 @@
-package com.fours.tolevelup.mission;
+package com.fours.tolevelup.theme;
 
-import com.fours.tolevelup.theme.Theme;
+import com.fours.tolevelup.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,12 +12,9 @@ import javax.persistence.ManyToOne;
 @NoArgsConstructor
 @Getter
 @Entity
-public class Mission {
+public class ThemeList {
     @Id
-    private String id;
-    private String content;
-    private String state;
-
-
+    @ManyToOne
+    @JoinColumn(name = "User_id")
+    private User user;
 }
-
