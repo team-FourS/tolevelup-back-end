@@ -1,4 +1,4 @@
-package com.fours.tolevelup.theme;
+package com.fours.tolevelup.mission;
 
 public class MissionDTO {
 
