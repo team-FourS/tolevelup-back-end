@@ -27,7 +27,6 @@ public class UserDTO {
     public static class UserData{
         private String id;
         private String password;
-
         private String name;
         private String email;
         private int level;
@@ -43,7 +42,6 @@ public class UserDTO {
                 .level(level)
                 .build();
     }
-
     public static class Response{
         private String returnMessage;
     }
