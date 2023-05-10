@@ -23,7 +23,7 @@ public class UserController {
         userService.userJoin(joinForm);
         return ResponseEntity.ok().build();
     }
-    @PostMapping ("/users/login")
+    @PostMapping("/users/login")
     public ResponseEntity<Objects> login(String id, String pw){
         String userid = userService.userLogin(id,pw);
         if(userid.equals(id)){
