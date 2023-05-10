@@ -14,7 +14,11 @@ import javax.persistence.ManyToOne;
 @Entity
 public class ThemeList {
     @Id
+    private String id;
     @ManyToOne
     @JoinColumn(name = "User_id")
     private User user;
+    @ManyToOne
+    @JoinColumn(name = "Theme_name")
+    private Theme theme;
 }
