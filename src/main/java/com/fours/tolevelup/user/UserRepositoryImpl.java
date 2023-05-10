@@ -32,5 +32,10 @@ public class UserRepositoryImpl implements UserRepository{
         em.remove(findById(id));
     }
 
+    @Override
+    public void update(User user){
+        em.merge(user);
+    }
+
 
 }
