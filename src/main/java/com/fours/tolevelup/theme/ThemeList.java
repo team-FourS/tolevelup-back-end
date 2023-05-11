@@ -1,6 +1,7 @@
 package com.fours.tolevelup.theme;
 
 import com.fours.tolevelup.user.User;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,4 +22,11 @@ public class ThemeList {
     @ManyToOne
     @JoinColumn(name = "Theme_name")
     private Theme theme;
+
+    @Builder
+    public ThemeList(String id,User user,Theme theme){
+        this.id = id;
+        this.user = user;
+        this.theme = theme;
+    }
 }

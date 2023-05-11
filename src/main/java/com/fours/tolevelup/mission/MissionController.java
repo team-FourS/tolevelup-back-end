@@ -14,4 +14,13 @@ public class MissionController {
         this.missionService = missionService;
     }
 
+    public void state(){
+
+    }
+
+
+
+
+
+
 }

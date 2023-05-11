@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
     }
     public void userDelete(String id){
         userRepository.delete(id);
-        //return ResponseEntity.ok();
+
     }
     public UserDTO.UserData userData(String id){
         User user = userRepository.findById(id);
@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
                 .name(userData.getName())
                 .email(userData.getEmail())
                 .build();
-        //레포 수정메소드로 연결 필요
+        userRepository.update(user);
         BeanUtils.copyProperties(user,userData);
         return userData;
     }

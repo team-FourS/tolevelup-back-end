@@ -18,4 +18,6 @@ public class MissionList {
     @ManyToOne
     @JoinColumn(name = "Theme_name")
     private Theme theme;
+
+
 }
