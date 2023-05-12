@@ -1,6 +1,7 @@
 package com.fours.tolevelup.mission;
 
 import com.fours.tolevelup.theme.Theme;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,6 +19,12 @@ public class Mission {
     private String content;
     private String state;
 
+    @Builder
+    public Mission(String id,String content,String state){
+        this.id = id;
+        this.content = content;
+        this.state = state;
+    }
 
 }
 
