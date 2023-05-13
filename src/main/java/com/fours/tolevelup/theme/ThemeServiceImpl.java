@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ThemeServiceImpl {
+public class ThemeServiceImpl implements ThemeService {
 
     private final ThemeRepository themeRepository;
 
@@ -13,4 +13,12 @@ public class ThemeServiceImpl {
         this.themeRepository = themeRepository;
     }
 
+
+    public void themeList() {
+
+    }
+
+    public void themeData() {
+
+    }
 }
