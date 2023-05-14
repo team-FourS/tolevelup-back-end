@@ -16,7 +16,7 @@ public class Mission {
     @Id
     private String id;
     private String content;
-    private String state;
+    private boolean state;
 
 
 }
