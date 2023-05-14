@@ -17,7 +17,7 @@ public class Mission {
     @Id
     private String id;
     private String content;
-    private String state;
+    private boolean state;
 
     @Builder
     public Mission(String id,String content,String state){
