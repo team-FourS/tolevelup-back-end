@@ -1,11 +1,17 @@
 package com.fours.tolevelup.mission;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MissionServiceImpl implements MissionService {
 
+    private final MissionRepositoryImpl missionRepository;
+    @Autowired
+    public MissionServiceImpl(MissionRepositoryImpl missionRepository){
+        this.missionRepository = missionRepository;
+    }
 
     public void missionData() {
 
@@ -15,7 +21,8 @@ public class MissionServiceImpl implements MissionService {
 
     }
 
-    public void missionStateChange() {
-
+    public void missionStateChange(String id) {
+        Mission mission = missionRepository.findById(id);
+        //missionRepository.upState();
     }
 }

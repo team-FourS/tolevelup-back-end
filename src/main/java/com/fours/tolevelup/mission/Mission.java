@@ -20,7 +20,7 @@ public class Mission {
     private boolean state;
 
     @Builder
-    public Mission(String id,String content,String state){
+    public Mission(String id,String content,boolean state){
         this.id = id;
         this.content = content;
         this.state = state;

@@ -4,5 +4,6 @@ public interface ThemeService {
 
     void themeList();
     void themeData();
+    void themeExpUp();
 
 }
