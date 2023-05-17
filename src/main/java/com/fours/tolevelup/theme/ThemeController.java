@@ -4,10 +4,7 @@ package com.fours.tolevelup.theme;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class ThemeController {
@@ -27,8 +24,9 @@ public class ThemeController {
     public void theme(@PathVariable String name){
 
     }
-    @PostMapping("/theme/{id}")
+    @PutMapping("/theme/{id}")
     public void themeExp(@PathVariable String id){
+
 //얜 다시 테마리스트 보내는 api 로
     }
 

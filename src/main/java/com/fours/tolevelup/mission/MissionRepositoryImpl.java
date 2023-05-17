@@ -20,8 +20,8 @@ public class MissionRepositoryImpl implements MissionRepository{
 
     @Override
     @Transactional
-    public void upState(boolean state){
-        em.merge(state);
+    public void upState(Mission mission){
+        em.merge(mission);
     }
 
 }
