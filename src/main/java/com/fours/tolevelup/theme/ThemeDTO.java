@@ -6,23 +6,9 @@ import lombok.Setter;
 
 @Builder
 public class ThemeDTO {
-
+    private int id;
     private String name;
     private String type;
-    private long exp;
-
-    @Getter
-    @Setter
-    public static class ThemeData{
-        private String name;
-        private String type;
-    }
-
-    @Getter
-    @Setter
-    public static class ThemeExp{
-        private String name;
-        private long exp;
-    }
+    private float exp_total;
 
 }
