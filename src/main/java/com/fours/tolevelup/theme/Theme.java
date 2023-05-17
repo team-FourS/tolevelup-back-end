@@ -12,13 +12,15 @@ import javax.persistence.*;
 @Entity
 public class Theme {
     @Id
-    @Column(name = "Theme_name")
+    @Column(name = "theme_id")
+    private int id;
     private String name;
     private String type;
     private long exp;
 
     @Builder
-    public Theme(String name, String type, long exp){
+    public Theme(int id, String name, String type, long exp){
+        this.id = id;
         this.name = name;
         this.type = type;
         this.exp = exp;
