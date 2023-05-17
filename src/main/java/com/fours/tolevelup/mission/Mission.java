@@ -12,16 +12,19 @@ import javax.persistence.*;
 @Entity
 public class Mission {
     @Id
-    @Column(name = "Mission_id")
+    @Column(name = "mission_id")
     private String id;
     private String content;
-    private boolean state;
+
+    @ManyToOne
+    @JoinColumn(name = "theme_id")
+    private Theme theme;
 
     @Builder
-    public Mission(String id,String content,boolean state){
+    public Mission(String id,String content, Theme theme){
         this.id = id;
         this.content = content;
-        this.state = state;
+        this.theme = theme;
     }
 
 }
