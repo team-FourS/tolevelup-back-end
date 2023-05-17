@@ -16,14 +16,12 @@ public class Theme {
     private int id;
     private String name;
     private String type;
-    private long exp;
 
     @Builder
-    public Theme(int id, String name, String type, long exp){
+    public Theme(int id, String name, String type){
         this.id = id;
         this.name = name;
         this.type = type;
-        this.exp = exp;
     }
 
 }

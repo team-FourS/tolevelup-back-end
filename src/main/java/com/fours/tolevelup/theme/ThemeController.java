@@ -16,7 +16,7 @@ public class ThemeController {
     }
 
     @GetMapping("/theme/{id}")
-    public ResponseEntity<ThemeDTO.ThemeData> themeList(@PathVariable String id){
+    public ResponseEntity<ThemeDTO> themeList(@PathVariable String id){
 
         return ResponseEntity.ok().build();
     }

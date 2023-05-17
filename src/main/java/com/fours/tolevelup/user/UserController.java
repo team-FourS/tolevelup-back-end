@@ -44,8 +44,7 @@ public class UserController {
     @PutMapping("/users/{id}")
     public ResponseEntity<UserDTO.UserData> changeUser(@RequestBody UserDTO.UserData userData, @PathVariable String id){
         UserDTO.UserData changeData = userService.userDataChange(userData,id);
-        return ResponseEntity.created(linkTo(methodOn(UserController.class)
-                .userInfo(changeData.getId())).toUri()).body(changeData);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/users/{id}")

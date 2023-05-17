@@ -19,7 +19,6 @@ public class User {
     @Column(name = "user_id")
     private String id;
     private String password;
-
     private String name;
     private String email;
     private int level;
