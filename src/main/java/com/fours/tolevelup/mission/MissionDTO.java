@@ -6,12 +6,8 @@ import lombok.Builder;
 
 @Builder
 public class MissionDTO {
-
-    private String id;
+    private int id;
     private String content;
-    private boolean state;
-
-
-
-
+    private float exp;
+    private int theme_id;
 }
