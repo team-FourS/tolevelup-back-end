@@ -4,6 +4,6 @@ public interface ThemeService {
 
     void themeList();
     void themeData();
-    void themeExpUp();
+    void themeExpUp(String name);
 
 }

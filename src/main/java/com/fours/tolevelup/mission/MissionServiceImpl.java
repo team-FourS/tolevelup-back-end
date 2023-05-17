@@ -23,6 +23,7 @@ public class MissionServiceImpl implements MissionService {
 
     public void missionStateChange(String id) {
         Mission mission = missionRepository.findById(id);
+        mission.builder().state(true).build();
         //missionRepository.upState();
     }
 }

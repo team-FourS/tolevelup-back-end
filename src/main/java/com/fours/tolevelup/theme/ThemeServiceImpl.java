@@ -21,7 +21,7 @@ public class ThemeServiceImpl implements ThemeService {
 
     }
 
-    public void themeExpUp() {
+    public void themeExpUp(String name) {
 
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @Controller
 public class MissionController {
@@ -17,7 +18,7 @@ public class MissionController {
         this.missionService = missionService;
     }
 
-    @PostMapping("/mission/{id}")
+    @PutMapping("/mission/{id}")
     public ResponseEntity stateChange(@PathVariable String id){
         return ResponseEntity.ok().build(); //이거 exp 오르는 api url 연결
     }
