@@ -9,6 +9,5 @@ public class ThemeDTO {
     private int id;
     private String name;
     private String type;
-    private float exp_total;
 
 }
