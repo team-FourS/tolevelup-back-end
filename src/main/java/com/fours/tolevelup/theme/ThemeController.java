@@ -6,10 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/theme")
 public class ThemeController {
 
     final private ThemeServiceImpl themeService;
@@ -18,17 +18,19 @@ public class ThemeController {
         this.themeService = themeService;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/theme/{id}")
     public ResponseEntity<ThemeDTO.ThemeData> themeList(@PathVariable String id){
 
         return ResponseEntity.ok().build();
     }
-    @GetMapping("/{name}")
+    @GetMapping("/theme/{name}")
     public void theme(@PathVariable String name){
 
     }
-
-
+    @PostMapping("/theme/{id}")
+    public void themeExp(@PathVariable String id){
+//얜 다시 테마리스트 보내는 api 로
+    }
 
 
 }

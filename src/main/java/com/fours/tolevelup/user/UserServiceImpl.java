@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
     }
     public UserDTO.UserData userDataChange(UserDTO.UserData userData, String id){
         User user = userRepository.findById(id);
-        User.builder()
+        user.builder()
                 .id(userData.getId())
                 .password(userData.getPassword())
                 .name(userData.getName())

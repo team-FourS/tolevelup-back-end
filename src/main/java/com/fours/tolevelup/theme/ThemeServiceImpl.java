@@ -17,8 +17,11 @@ public class ThemeServiceImpl implements ThemeService {
     public void themeList() {
 
     }
-
     public void themeData() {
+
+    }
+
+    public void themeExpUp() {
 
     }
 }
