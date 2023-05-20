@@ -5,6 +5,5 @@ public interface MissionService {
 
     void missionList();
     void missionData();
-    void missionStateChange(String id);
 
 }

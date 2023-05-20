@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class Mission {
     @Id
     @Column(name = "mission_id")
-    private String id;
+    private int id;
     private String content;
 
     @ManyToOne
@@ -21,7 +21,7 @@ public class Mission {
     private Theme theme;
 
     @Builder
-    public Mission(String id,String content, Theme theme){
+    public Mission(int id,String content, Theme theme){
         this.id = id;
         this.content = content;
         this.theme = theme;
