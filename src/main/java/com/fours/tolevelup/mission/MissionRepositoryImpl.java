@@ -18,10 +18,5 @@ public class MissionRepositoryImpl implements MissionRepository{
         return em.find(Mission.class, id);
     }
 
-    @Override
-    @Transactional
-    public void upState(Mission mission){
-        em.merge(mission);
-    }
 
 }

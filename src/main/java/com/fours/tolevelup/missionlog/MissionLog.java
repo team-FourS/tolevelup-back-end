@@ -17,7 +17,6 @@ import java.sql.Timestamp;
 public class MissionLog {
     @Id
     private int id;
-    private String mission_id;
     private Timestamp start_date;
     private Timestamp end_date;
     private String status;
@@ -31,10 +30,10 @@ public class MissionLog {
     private Mission mission;
 
     @Builder
-    public MissionLog(int id, User user, String mission_id, Timestamp start_date, Timestamp end_date, String status){
+    public MissionLog(int id, User user, Mission mission, Timestamp start_date, Timestamp end_date, String status){
         this.id = id;
         this.user = user;
-        this.mission_id = mission_id;
+        this.mission = mission;
         this.start_date = start_date;
         this.end_date = end_date;
         this.status = status;
