@@ -4,6 +4,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -23,6 +24,7 @@ public class UserServiceImpl implements UserService {
                 .build();
         userRepository.save(user);
     }
+    @Transactional
     public String userLogin(String id, String pw){
         User user = userRepository.findById(id);
         if(user.getPassword().equals(pw)){

@@ -15,19 +15,14 @@ public class ThemeController {
         this.themeService = themeService;
     }
 
-    @GetMapping("/theme/{id}")
+    @GetMapping("/themes/{id}")
     public ResponseEntity<ThemeDTO> themeList(@PathVariable String id){
 
         return ResponseEntity.ok().build();
     }
-    @GetMapping("/theme/{name}")
+    @GetMapping("/themes/{name}")
     public void theme(@PathVariable String name){
 
-    }
-    @PutMapping("/theme/{id}")
-    public void themeExp(@PathVariable String id){
-
-//얜 다시 테마리스트 보내는 api 로
     }
 
 
