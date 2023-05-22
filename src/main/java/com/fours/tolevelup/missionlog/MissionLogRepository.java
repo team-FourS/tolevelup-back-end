@@ -4,7 +4,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
 
-@Repository
+
 public interface MissionLogRepository {
     MissionLog findById(String user_id);
     void save(MissionLog missionLog);

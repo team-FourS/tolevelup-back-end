@@ -14,7 +14,7 @@ public class MissionRepositoryImpl implements MissionRepository{
     }
 
     @Override
-    public Mission findById(String id){
+    public Mission findById(int id){
         return em.find(Mission.class, id);
     }
 
