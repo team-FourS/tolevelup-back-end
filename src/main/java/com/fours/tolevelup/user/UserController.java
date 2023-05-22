@@ -25,7 +25,7 @@ public class UserController {
     }
     @PostMapping("/users/login")
     public ResponseEntity<Objects> login(String id, String pw){
-        String userid = userService.userLogin(id,pw);
+        String userid = userService.userLogin(id,pw); //여기 그냥 바로 미션데이터 전달...
         if(userid.equals(id)){
             return ResponseEntity.created(linkTo(ThemeController.class).slash(id).toUri()).build();
         }
@@ -41,6 +41,7 @@ public class UserController {
         UserDTO.UserData userData = userService.userData(id);
         return ResponseEntity.ok(userData);
     }
+
     @PutMapping("/users/{id}")
     public ResponseEntity<UserDTO.UserData> changeUser(@RequestBody UserDTO.UserData userData, @PathVariable String id){
         UserDTO.UserData changeData = userService.userDataChange(userData,id);
