@@ -1,5 +1,6 @@
 package com.fours.tolevelup.missionlog;
 
+import com.fours.tolevelup.mission.Mission;
 import com.fours.tolevelup.mission.MissionRepositoryImpl;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -18,9 +19,10 @@ public class MissionLogRepositoryImpl implements MissionLogRepository{
     }
 
     @Override
-    public MissionLog findById(String user_id){
-        return em.find(MissionLog.class, user_id);
+    public MissionLog findById(int id){
+        return em.find(MissionLog.class, id);
     }
+
     @Override
     public void save(MissionLog missionLog){
         em.persist(missionLog);
