@@ -4,10 +4,7 @@ package com.fours.tolevelup.mission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class MissionController {
@@ -26,8 +23,8 @@ public class MissionController {
     }
 
     @PutMapping("/missions/{id}")
-    public ResponseEntity stateChange(@PathVariable String id){
-        missionService.missionClear(id);
+    public ResponseEntity stateChange(@PathVariable int mission_id, @ModelAttribute("user") String user_id){
+        missionService.missionClear(mission_id,user_id);
         return ResponseEntity.ok().build();
     }
 

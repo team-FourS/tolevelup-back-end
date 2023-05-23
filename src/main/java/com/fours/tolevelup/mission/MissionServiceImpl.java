@@ -1,19 +1,26 @@
 package com.fours.tolevelup.mission;
 
 
+import com.fours.tolevelup.missionlog.MissionLog;
+import com.fours.tolevelup.missionlog.MissionLogRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.Timestamp;
 
 
 @Service
 public class MissionServiceImpl implements MissionService {
 
     private final MissionRepositoryImpl missionRepository;
+    private final MissionLogRepositoryImpl missionLogRepository;
     @Autowired
-    public MissionServiceImpl(MissionRepositoryImpl missionRepository){
+    public MissionServiceImpl(MissionRepositoryImpl missionRepository,MissionLogRepositoryImpl missionLogRepository ){
         this.missionRepository = missionRepository;
+        this.missionLogRepository = missionLogRepository;
     }
+
 
     public void missionData() {
 
@@ -24,12 +31,12 @@ public class MissionServiceImpl implements MissionService {
         //리턴타임 리스트
     }
     @Transactional
-    public void missionClear(String id){
-        //유저아이디+미션아이디 로그에서
-        //미션 로그 남김
-        //그 미션의 exp가져옴
-        //그 미션의 테마 id+유저아이디 찾아서 exp테이블에 +
-        //이렇게 완료되면 다시 미션페이지에 테마별 미션 줌
-
+    public void missionClear(int mission_id,String user_id){
+        MissionLog missionLog = missionLogRepository.findByMissionId(mission_id);
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        missionLogRepository.missionChecked(timestamp,"완료");
+        missionLogRepository.save(missionLog);
+        Mission mission = missionRepository.findById(mission_id);
+        //repository 구현중
     }
 }
