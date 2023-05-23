@@ -15,15 +15,17 @@ public class Mission {
     @Column(name = "mission_id")
     private int id;
     private String content;
+    private float exp;
 
     @ManyToOne
     @JoinColumn(name = "theme_id")
     private Theme theme;
 
     @Builder
-    public Mission(int id,String content, Theme theme){
+    public Mission(int id, float exp, String content, Theme theme){
         this.id = id;
         this.content = content;
+        this.exp = exp;
         this.theme = theme;
     }
 

@@ -3,7 +3,6 @@ package com.fours.tolevelup.mission;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
 
 @Repository
 public class MissionRepositoryImpl implements MissionRepository{
@@ -13,10 +12,12 @@ public class MissionRepositoryImpl implements MissionRepository{
         this.em = em;
     }
 
-    @Override
     public Mission findById(int id){
-        return em.find(Mission.class, id);
+        String query = "select m.theme, m.exp from Mission m";
+        return (Mission) em.createQuery(query);
     }
+
+
 
 
 }
