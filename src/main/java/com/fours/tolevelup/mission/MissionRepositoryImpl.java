@@ -1,5 +1,7 @@
 package com.fours.tolevelup.mission;
 
+import com.fours.tolevelup.theme.Theme;
+import com.fours.tolevelup.user.User;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -16,6 +18,7 @@ public class MissionRepositoryImpl implements MissionRepository{
         String query = "select m.theme, m.exp from Mission m";
         return (Mission) em.createQuery(query);
     }
+
 
 
 

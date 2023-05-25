@@ -15,12 +15,14 @@ public class UserRepositoryImpl implements UserRepository{
     }
 
     @Override
+    // 회원가입 정보 저장
     public void save(User user){
         em.persist(user);
 
     }
 
     @Override
+    // 유저 id 찾기
     public User findById(String id){
         return em.find(User.class, id);
     }
@@ -28,11 +30,13 @@ public class UserRepositoryImpl implements UserRepository{
 
     @Override
     @Transactional
+    // 회원 탈퇴
     public void delete(String id){
         em.remove(findById(id));
     }
 
     @Override
+    // 회원 정보 변경
     public void update(User user){
         em.merge(user);
     }
