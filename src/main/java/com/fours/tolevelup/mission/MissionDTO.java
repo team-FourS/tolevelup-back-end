@@ -3,6 +3,7 @@ package com.fours.tolevelup.mission;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
@@ -19,6 +20,16 @@ public class MissionDTO {
     @Builder
     public static class MissionData{
         private String content;
+        private int theme_id;
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class MissionInfo{
+        private int id;
+        private String content;
+        private float exp;
         private int theme_id;
     }
 }
