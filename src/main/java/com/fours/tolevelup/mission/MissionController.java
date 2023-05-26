@@ -22,8 +22,8 @@ public class MissionController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/missions/{id}")
-    public ResponseEntity stateChange(@PathVariable int mission_id, @ModelAttribute("user") String user_id){
+    @PutMapping("/missions/{mission_id}")
+    public ResponseEntity<Object> stateChange(@PathVariable int mission_id, @ModelAttribute("user") String user_id){
         missionService.missionClear(mission_id,user_id);
         return ResponseEntity.ok().build();
     }
