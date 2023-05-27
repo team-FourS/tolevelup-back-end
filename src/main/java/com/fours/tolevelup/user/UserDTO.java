@@ -2,7 +2,9 @@ package com.fours.tolevelup.user;
 import lombok.*;
 import org.springframework.web.bind.annotation.GetMapping;
 
-@Builder
+@Setter
+@Getter
+@NoArgsConstructor
 public class UserDTO {
 
     private String id;
@@ -14,6 +16,8 @@ public class UserDTO {
 
     @Getter
     @Setter
+    @Data
+    @NoArgsConstructor
     public static class JoinForm{
         private String id;
         private String password;

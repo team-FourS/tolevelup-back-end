@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import java.util.List;
 
 @Repository
 public class ThemeRepositoryImpl implements ThemeRepository{
@@ -16,8 +17,8 @@ public class ThemeRepositoryImpl implements ThemeRepository{
 
     @Override
     // theme의 모든 필드를 담은 리스트
-    public TypedQuery<Theme> findAll(int id){
-        return (TypedQuery<Theme>) em.createQuery("select t from Theme t", Theme.class)
+    public List<Theme> findAll(){
+        return em.createQuery("select t from Theme t", Theme.class)
                 .getResultList();
 
     }
