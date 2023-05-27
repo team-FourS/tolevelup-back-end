@@ -37,6 +37,7 @@ public class MissionLogRepositoryImpl implements MissionLogCustomRepository {
     }
 
 
+
     @Override
     // 미션 수행 후 end_date와 status 업데이트 / 미션로그 id 를 이용
     @Modifying(clearAutomatically = true)

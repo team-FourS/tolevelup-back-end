@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ThemeServiceImpl implements ThemeService {
+public class ThemeExpServiceImpl implements ThemeExpService {
 
     public List<ThemeExpDTO.ThemeExp> themeExp(String id){
         List<ThemeExpDTO.ThemeExp> themeExps = new ArrayList<>();

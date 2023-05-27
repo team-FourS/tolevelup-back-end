@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.sql.rowset.serial.SerialBlob;
+import java.sql.Blob;
 
 @NoArgsConstructor
 @Getter
@@ -16,6 +18,7 @@ public class Theme {
     private int id;
     private String name;
     private String type;
+    //private SerialBlob img;
 
     @Builder
     public Theme(int id, String name, String type){

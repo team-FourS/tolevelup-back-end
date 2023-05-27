@@ -2,9 +2,12 @@ package com.fours.tolevelup.theme;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Builder
+@Setter
+@Getter
+@NoArgsConstructor
 public class ThemeDTO {
     private int id;
     private String name;
