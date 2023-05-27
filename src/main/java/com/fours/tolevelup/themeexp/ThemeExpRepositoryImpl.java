@@ -17,16 +17,18 @@ public class ThemeExpRepositoryImpl implements ThemeExpRepository{
     public void save(ThemeExp themeExp){
         em.persist(themeExp);
     }
-    @Override
+/*    @Override
     // themeexp id 값 찾는 메서드
     public ThemeExp findById(Theme theme, User user){
         String query = "select t.id from ThemeExp t";
         return (ThemeExp) em.createQuery(query);
-    }
+    }*/
 
     @Override //요거 부탁해요♥
     public List<ThemeExp> findById(String id) {
-        return null;
+        return em.createQuery("select t from ThemeExp t where t.id = :uid")
+                .setParameter("uid", id)
+                .getResultList();
     }
 
     @Override
