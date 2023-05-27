@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface ThemeExpService {
 
-    List<ThemeExpDTO.ThemeExp> themeExp(String id);
+    List<ThemeExpDTO.ThemeExp> findUserThemeExps(String id);
 }
