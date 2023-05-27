@@ -19,7 +19,7 @@ public class UserController {
         this.userService = userService;
     }
     @PostMapping("/users/new")
-    public ResponseEntity<Objects> join(@RequestBody UserDTO.JoinForm joinForm){
+    public ResponseEntity<Objects> join(UserDTO.JoinForm joinForm){
         userService.userJoin(joinForm);
         return ResponseEntity.ok().build();
     }
