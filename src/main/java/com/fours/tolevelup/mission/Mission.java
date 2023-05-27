@@ -12,7 +12,6 @@ import javax.persistence.*;
 @Entity
 public class Mission {
     @Id
-    @Column(name = "mission_id")
     private int id;
     private String content;
     private float exp;

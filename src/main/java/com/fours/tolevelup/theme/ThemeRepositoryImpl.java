@@ -17,10 +17,11 @@ public class ThemeRepositoryImpl implements ThemeRepository{
 
     @Override
     // theme의 모든 필드를 담은 리스트
-    public TypedQuery<Theme> findAll(int id){
-        return (TypedQuery<Theme>) em.createQuery("select distinct t from Theme t", Theme.class)
+    public List<Theme> findAll(){
+        return em.createQuery("select distinct t from Theme t", Theme.class)
                 .getResultList();
 
     }
+
 
 }

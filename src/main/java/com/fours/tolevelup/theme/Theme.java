@@ -14,7 +14,6 @@ import java.sql.Blob;
 @Entity
 public class Theme {
     @Id
-    @Column(name = "theme_id")
     private int id;
     private String name;
     private String type;

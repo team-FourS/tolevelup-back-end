@@ -16,7 +16,6 @@ import javax.persistence.Id;
 public class User {
 
     @Id
-    @Column(name = "user_id")
     private String id;
     private String password;
     private String name;
