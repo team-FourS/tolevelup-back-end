@@ -33,7 +33,7 @@ public class MissionServiceImpl implements MissionService {
         //리턴타임 리스트
     }
 
-    public void missionClear(int mission_id,String user_id){
+    public void userMissionStatusChange(int mission_id,String user_id){
         MissionLog missionLog = missionLogRepository.findByMissionId(mission_id);
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         missionLogRepository.missionChecked(timestamp,"완료");
