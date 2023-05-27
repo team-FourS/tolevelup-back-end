@@ -4,6 +4,7 @@ import com.fours.tolevelup.theme.Theme;
 import com.fours.tolevelup.user.User;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 public class ThemeExpRepositoryImpl implements ThemeExpRepository{
     private final EntityManager em;
@@ -19,6 +20,11 @@ public class ThemeExpRepositoryImpl implements ThemeExpRepository{
     public ThemeExp findById(Theme theme, User user){
         String query = "select t.id from ThemeExp t";
         return (ThemeExp) em.createQuery(query);
+    }
+
+    @Override //요거 부탁해요♥
+    public List<ThemeExp> findById(String id) {
+        return null;
     }
 
     @Override
