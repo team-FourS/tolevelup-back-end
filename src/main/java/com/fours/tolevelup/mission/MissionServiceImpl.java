@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 
 
 @Service
+@Transactional
 public class MissionServiceImpl implements MissionService {
 
     private final MissionRepositoryImpl missionRepository;
@@ -31,7 +32,7 @@ public class MissionServiceImpl implements MissionService {
         //사용자 id+현재날짜 이용해 미션로그에서 미션 가져옴
         //리턴타임 리스트
     }
-    @Transactional
+
     public void missionClear(int mission_id,String user_id){
         MissionLog missionLog = missionLogRepository.findByMissionId(mission_id);
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
