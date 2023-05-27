@@ -2,10 +2,12 @@ package com.fours.tolevelup.themeexp;
 
 import com.fours.tolevelup.theme.Theme;
 import com.fours.tolevelup.user.User;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
+@Repository
 public class ThemeExpRepositoryImpl implements ThemeExpRepository{
     private final EntityManager em;
     public ThemeExpRepositoryImpl(EntityManager em) { this.em = em; }
