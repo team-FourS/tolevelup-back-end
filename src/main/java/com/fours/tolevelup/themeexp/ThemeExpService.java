@@ -2,7 +2,7 @@ package com.fours.tolevelup.themeexp;
 
 import java.util.List;
 
-public interface ThemeService {
+public interface ThemeExpService {
 
     List<ThemeExpDTO.ThemeExp> themeExp(String id);
 }

@@ -1,9 +1,10 @@
 package com.fours.tolevelup.theme;
 
+import java.util.List;
+
 public interface ThemeService {
 
-    void themeList();
-    void themeData();
+    List<ThemeDTO> findThemes();
 
 
 }

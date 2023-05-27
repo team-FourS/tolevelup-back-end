@@ -35,11 +35,11 @@ public class MissionLogRepositoryImpl implements MissionLogRepository{
         return (MissionLog) query.getResultList();
     }
 
-    @Override
+    /*@Override
     // 유저 id 리스트를 받아 그 리스트안에서 미션 id를 통해 미션 로그 id 리턴하는 메소드
     public MissionLog findMissionLogid(){
 
-    };
+    };*/
 
     @Override
     // 미션 수행 후 end_date와 status 업데이트

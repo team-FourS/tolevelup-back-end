@@ -4,9 +4,12 @@ package com.fours.tolevelup.theme;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.List;
+
+@RestController
 public class ThemeController {
 
     final private ThemeServiceImpl themeService;
@@ -15,15 +18,11 @@ public class ThemeController {
         this.themeService = themeService;
     }
 
-    @GetMapping("/themes/{id}")
-    public ResponseEntity<ThemeDTO> themeList(@PathVariable String id){
-
-        return ResponseEntity.ok().build();
+    @GetMapping("/themes")
+    public ResponseEntity<List<ThemeDTO>> themeList(){
+        return ResponseEntity.ok(themeService.findThemes());
     }
-    @GetMapping("/themes/{name}")
-    public void theme(@PathVariable String name){
 
-    }
 
 
 }
