@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 @NoArgsConstructor
@@ -17,8 +18,8 @@ import java.sql.Timestamp;
 public class MissionLog {
     @Id
     private int id;
-    private Timestamp start_date;
-    private Timestamp end_date;
+    private Date start_date;
+    private Date end_date;
     private String status;
 
     @ManyToOne
@@ -30,7 +31,7 @@ public class MissionLog {
     private Mission mission;
 
     @Builder
-    public MissionLog(int id, User user, Mission mission, Timestamp start_date, Timestamp end_date, String status){
+    public MissionLog(int id, User user, Mission mission, Date start_date, Date end_date, String status){
         this.id = id;
         this.user = user;
         this.mission = mission;
