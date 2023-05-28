@@ -9,11 +9,10 @@ import java.sql.Timestamp;
 import java.util.List;
 
 
-public interface MissionLogCustomRepository extends JpaRepository<MissionLog, Long>{
+public interface MissionLogCustomRepository{
     void saveMissionLog(MissionLog missionLog);
     void missionChecked(Date end_date, String status);
     MissionLog findByMissionId(int mission_id);
 
-    List<MissionLog> findByUser_IdAndStart_date(User user_id, Date start_date);
 
 }
