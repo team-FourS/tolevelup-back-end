@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.sql.Date;
 
 
 @Service
@@ -35,9 +36,9 @@ public class MissionServiceImpl implements MissionService {
 
     public void userMissionStatusChange(int mission_id,String user_id){
         MissionLog missionLog = missionLogRepository.findByMissionId(mission_id);
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        Date timestamp = new Date(System.currentTimeMillis());
         missionLogRepository.missionChecked(timestamp,"완료");
-        missionLogRepository.save(missionLog);
+        missionLogRepository.saveMissionLog(missionLog);
         Mission mission = missionRepository.findById(mission_id);
         MissionDTO.MissionInfo missionInfo = new MissionDTO.MissionInfo();
         BeanUtils.copyProperties(mission,missionInfo);
