@@ -12,10 +12,10 @@ import java.util.List;
 @Transactional
 public class ThemeServiceImpl implements ThemeService {
 
-    private final ThemeRepository themeRepository;
+    private final ThemeCustomRepository themeRepository;
 
     @Autowired
-    public ThemeServiceImpl(ThemeRepository themeRepository){
+    public ThemeServiceImpl(ThemeCustomRepository themeRepository){
         this.themeRepository = themeRepository;
     }
 

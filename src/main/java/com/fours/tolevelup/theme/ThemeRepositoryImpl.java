@@ -3,11 +3,10 @@ package com.fours.tolevelup.theme;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
-public class ThemeRepositoryImpl implements ThemeRepository{
+public class ThemeRepositoryImpl implements ThemeCustomRepository {
 
     private final EntityManager em;
 
