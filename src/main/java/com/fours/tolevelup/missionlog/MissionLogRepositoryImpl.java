@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 import java.util.Optional;
 
 @Repository
-public class MissionLogRepositoryImpl implements MissionLogCustomRepository {
+public abstract class MissionLogRepositoryImpl implements MissionLogCustomRepository {
 
     private final EntityManager em;
 
@@ -36,7 +36,8 @@ public class MissionLogRepositoryImpl implements MissionLogCustomRepository {
         em.persist(missionLog);
     }
 
-
+    @Query("select m.id from MissionLog m where m.user.id = :uid AND m.start_date = :start")
+    abstract MissionLog findMissionLogId(@Param("uid") String user_id, @Param("start") Timestamp start_date);
 
     @Override
     // 미션 수행 후 end_date와 status 업데이트 / 미션로그 id 를 이용

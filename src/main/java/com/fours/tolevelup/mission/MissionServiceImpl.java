@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -23,17 +25,14 @@ public class MissionServiceImpl implements MissionService {
         this.missionLogRepository = missionLogRepository;
     }
 
-
-    public void missionData() {
-
+    @Override
+    public List<MissionDTO.MissionContent> getUserThemeMissionContentList(String theme_id,String user_id) {
+        List<MissionDTO.MissionContent> missionContentList = new ArrayList<>();
+        //missionLogRepository.findMi
+        return missionContentList;
     }
 
-    public void missionList() {
-        //사용자 id+현재날짜 이용해 미션로그에서 미션 가져옴
-        //리턴타임 리스트
-    }
-
-    public void userMissionStatusChange(int mission_id,String user_id){
+    public void userMissionStatusChange(int mission_id, String user_id){
         MissionLog missionLog = missionLogRepository.findByMissionId(mission_id);
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         missionLogRepository.missionChecked(timestamp,"완료");

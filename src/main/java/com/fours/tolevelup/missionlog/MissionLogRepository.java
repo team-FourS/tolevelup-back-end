@@ -12,8 +12,7 @@ import java.util.List;
 
 public interface MissionLogRepository extends JpaRepository<MissionLog, Long> {
 
-    @Query("select m.id from MissionLog m where m.user.id = :uid AND m.start_date = :start")
-    MissionLog findMissionLogId(@Param("uid") String user_id, @Param("start")Timestamp start_date);
+
 
 
 

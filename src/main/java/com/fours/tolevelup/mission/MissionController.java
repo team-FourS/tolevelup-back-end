@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 public class MissionController {
 
@@ -16,10 +18,9 @@ public class MissionController {
         this.missionService = missionService;
     }
 
-    @GetMapping("/missions")
-    public ResponseEntity missionList(){
-        missionService.missionList();
-        return ResponseEntity.ok().build();
+    @GetMapping("/missions/{theme_id}")
+    public ResponseEntity<List<MissionDTO.MissionContent>> missionList(@PathVariable String theme_id,String user_id){
+        return ResponseEntity.ok(missionService.getUserThemeMissionContentList(theme_id,user_id));
     }
 
     @PutMapping("/missions/{mission_id}")

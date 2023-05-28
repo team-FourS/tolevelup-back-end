@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.sql.Timestamp;
 
 
-public interface MissionLogCustomRepository {
+public interface MissionLogCustomRepository  {
     void save(MissionLog missionLog);
     void missionChecked(Timestamp end_date, String status);
     MissionLog findByMissionId(int mission_id);

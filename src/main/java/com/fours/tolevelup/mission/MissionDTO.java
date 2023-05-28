@@ -14,13 +14,10 @@ public class MissionDTO {
     private float exp;
     private int theme_id;
 
-
     @Getter
     @Setter
-    @Builder
-    public static class MissionData{
+    public static class MissionContent{
         private String content;
-        private int theme_id;
     }
 
     @Getter
