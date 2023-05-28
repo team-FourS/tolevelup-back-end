@@ -13,7 +13,8 @@ import java.util.List;
 
 public interface MissionLogRepository extends JpaRepository<MissionLog, Long>, MissionLogCustomRepository {
 
-    List<MissionLog> findByUser_IdAndStart_date(User user_id, Date start_date);
+   /* List<MissionLog> findByUser_IdAndStart_date(User user_id, Date start_date);*/
+
     /*@Query("select m from MissionLog m where m.user.id = :uid AND m.start_date = :start")
     MissionLog findMissionLogId(@Param("uid") String user_id, @Param("start")Timestamp start_date);*/
 
