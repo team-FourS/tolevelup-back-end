@@ -1,6 +1,5 @@
 package com.fours.tolevelup.themeexp;
 
-import com.fours.tolevelup.theme.Theme;
 import com.fours.tolevelup.user.User;
 import org.springframework.stereotype.Repository;
 
@@ -24,12 +23,17 @@ public class ThemeExpRepositoryImpl implements ThemeExpRepository{
         return (ThemeExp) em.createQuery(query);
     }*/
 
-    @Override //요거 부탁해요♥
-    public List<ThemeExp> findById(String id) {
+    @Override
+    public List<ThemeExp> findByUser_id(String user_id){
+        return em.createQuery("select t.user.id from ThemeExp t where t.user.id = :uid", ThemeExp.class)
+                .getResultList();
+    }
+/*    @Override //요거 부탁해요♥
+    public List<ThemeExp> findById(String user_id) {
         return em.createQuery("select t from ThemeExp t where t.user = :id")
                 .setParameter("id", id)
                 .getResultList();
-    }
+    }*/
 
     @Override
     // exp 값 더해서 저장 메서드

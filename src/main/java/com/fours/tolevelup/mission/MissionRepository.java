@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MissionRepository {
-    Mission findById(int id);
+    Mission findByContent(String missionContent);
 }

@@ -14,8 +14,8 @@ public class MissionRepositoryImpl implements MissionRepository{
         this.em = em;
     }
 
-    public Mission findById(int id){
-        String query = "select m.theme, m.exp from Mission m";
+    public Mission findByContent(String missionContent){
+        String query = "select m from Mission m where m.content = :content";
         return (Mission) em.createQuery(query);
     }
 
