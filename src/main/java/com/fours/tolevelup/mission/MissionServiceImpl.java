@@ -2,7 +2,11 @@ package com.fours.tolevelup.mission;
 
 
 import com.fours.tolevelup.missionlog.MissionLog;
+import com.fours.tolevelup.missionlog.MissionLogRepository;
 import com.fours.tolevelup.missionlog.MissionLogRepositoryImpl;
+import com.fours.tolevelup.missionlog.MissionLogService;
+import com.fours.tolevelup.themeexp.ThemeExpRepository;
+import com.fours.tolevelup.themeexp.ThemeExpRepositoryImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -17,33 +24,44 @@ import java.sql.Date;
 public class MissionServiceImpl implements MissionService {
 
     private final MissionRepositoryImpl missionRepository;
-    private final MissionLogRepositoryImpl missionLogRepository;
+    private final MissionLogRepository missionLogRepository;
+    private final ThemeExpRepositoryImpl themeExpRepository;
     @Autowired
-    public MissionServiceImpl(MissionRepositoryImpl missionRepository,MissionLogRepositoryImpl missionLogRepository ){
+    public MissionServiceImpl(
+            MissionRepositoryImpl missionRepository,MissionLogRepository missionLogRepository,ThemeExpRepositoryImpl themeExpRepository){
         this.missionRepository = missionRepository;
         this.missionLogRepository = missionLogRepository;
+        this.themeExpRepository = themeExpRepository;
     }
 
-
-    public void missionData() {
-
+    @Override
+    public List<MissionDTO.MissionContentData> getUserThemeMissionContentList(String theme_name, String user_id) {
+        List<MissionDTO.MissionContentData> missionContentDataList = new ArrayList<>();
+        List<MissionLog> missionLogList = missionLogRepository.findByUser_IdAndStart_date(user_id,Date.valueOf(LocalDate.now()));
+        for(MissionLog missionLog : missionLogList){
+            if(missionLog.getMission().getTheme().getName().equals(theme_name)){
+                missionContentDataList.add(
+                        MissionDTO.MissionContentData.builder()
+                                .content(missionLog.getMission().getContent())
+                                .status(missionLog.getStatus())
+                                .build()
+                );
+            }
+        }
+        return missionContentDataList;
     }
 
-    public void missionList() {
-        //사용자 id+현재날짜 이용해 미션로그에서 미션 가져옴
-        //리턴타임 리스트
-    }
+    @Override
+    public void userMissionStatusChange(String missionContent,String user_id){
+        Mission mission = missionRepository.findById()//미션 콘텐츠 일치하는 미션 찾기
+        List<MissionLog> missionLogList = missionLogRepository.findByUser_IdAndStart_date(user_id,Date.valueOf(LocalDate.now()));
+        for(MissionLog missionLog : missionLogList){
+            if(missionLog.getMission().getContent().equals(missionContent)){
+                missionLogRepository.missionChecked(Date.valueOf(LocalDate.now()),missionLog.getId());
+                break;
+            }
+        }
+        themeExpRepository.expPlus();//exp업데이트 하는 메소드...
 
-    public void userMissionStatusChange(int mission_id,String user_id){
-        MissionLog missionLog = missionLogRepository.findByMissionId(mission_id);
-        Date timestamp = new Date(System.currentTimeMillis());
-        missionLogRepository.missionChecked(timestamp,"완료");
-        missionLogRepository.saveMissionLog(missionLog);
-        Mission mission = missionRepository.findById(mission_id);
-        MissionDTO.MissionInfo missionInfo = new MissionDTO.MissionInfo();
-        BeanUtils.copyProperties(mission,missionInfo);
-        float exp = missionInfo.getExp();
-        int theme_id = missionInfo.getTheme_id();
-        //repository 구현중
     }
 }

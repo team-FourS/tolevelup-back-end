@@ -19,7 +19,7 @@ import java.sql.Timestamp;
 import java.util.Optional;
 import java.util.function.Function;
 
-@Repository
+
 public class MissionLogRepositoryImpl implements MissionLogCustomRepository {
 
     private final EntityManager em;
@@ -50,7 +50,7 @@ public class MissionLogRepositoryImpl implements MissionLogCustomRepository {
     // 미션 수행 후 end_date와 status 업데이트 / 미션로그 id 를 이용
     @Modifying(clearAutomatically = true)
     @Query(value = "UPDATE MissionLog m set m.end_date = :end_date, m.status = 'checked' where m.id = :id")
-    public void missionChecked(@Param("end_date") Date end_date, @Param("id") String id) {
+    public void missionChecked(@Param("end_date") Date end_date, @Param("id") int id) {
     }
 
     @Override

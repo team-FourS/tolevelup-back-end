@@ -1,10 +1,11 @@
 package com.fours.tolevelup.mission;
 
 
+import java.util.List;
+
 public interface MissionService {
 
-    void missionList();
-    void missionData();
-    void userMissionStatusChange(int mission_id,String user_id);
+    List<MissionDTO.MissionContentData> getUserThemeMissionContentList(String theme_id, String user_id);
+    void userMissionStatusChange(String missionContent,String user_id);
 
 }
