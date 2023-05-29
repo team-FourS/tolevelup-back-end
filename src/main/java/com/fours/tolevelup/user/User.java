@@ -21,14 +21,16 @@ public class User {
     private String name;
     private String email;
     private int level;
+    private String intro;
 
     @Builder
-    public User(String id,String password,String name,String email,int level){
+    public User(String id,String password,String name,String email,int level,String intro){
         this.id = id;
         this.password = password;
         this.name = name;
         this.email = email;
         this.level = level;
+        this.intro = intro;
     }
 
 

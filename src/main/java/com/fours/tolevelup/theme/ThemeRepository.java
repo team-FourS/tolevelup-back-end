@@ -1,11 +1,14 @@
 package com.fours.tolevelup.theme;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-import com.fours.tolevelup.themeexp.ThemeExp;
+import java.util.*;
 
-import javax.persistence.TypedQuery;
-import java.util.List;
+public interface ThemeRepository extends JpaRepository<Theme, Long> {
 
-public interface ThemeRepository {
-    List<Theme> findAll();
+    // theme name으로 theme 리스트로 받기
+    @Query("select t from Theme t where t.name = :name")
+    List<Theme> findByName(@Param("name") String name);
 }

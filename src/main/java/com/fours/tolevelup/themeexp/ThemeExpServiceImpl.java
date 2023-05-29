@@ -1,7 +1,5 @@
 package com.fours.tolevelup.themeexp;
 
-import com.fours.tolevelup.theme.Theme;
-import com.fours.tolevelup.theme.ThemeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
