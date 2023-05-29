@@ -2,7 +2,9 @@ package com.fours.tolevelup.mission;
 
 
 import com.fours.tolevelup.missionlog.MissionLog;
+import com.fours.tolevelup.missionlog.MissionLogRepository;
 import com.fours.tolevelup.missionlog.MissionLogRepositoryImpl;
+import com.fours.tolevelup.missionlog.MissionLogService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -17,21 +22,28 @@ import java.sql.Date;
 public class MissionServiceImpl implements MissionService {
 
     private final MissionRepositoryImpl missionRepository;
-    private final MissionLogRepositoryImpl missionLogRepository;
+    private final MissionLogRepository missionLogRepository;
     @Autowired
-    public MissionServiceImpl(MissionRepositoryImpl missionRepository,MissionLogRepositoryImpl missionLogRepository ){
+    public MissionServiceImpl(MissionRepositoryImpl missionRepository,MissionLogRepository missionLogRepository ){
         this.missionRepository = missionRepository;
         this.missionLogRepository = missionLogRepository;
     }
 
-
-    public void missionData() {
-
-    }
-
-    public void missionList() {
-        //사용자 id+현재날짜 이용해 미션로그에서 미션 가져옴
-        //리턴타임 리스트
+    @Override
+    public List<MissionDTO.MissionContentData> getUserThemeMissionContentList(String theme_name, String user_id) {
+        List<MissionDTO.MissionContentData> missionContentDataList = new ArrayList<>();
+        List<MissionLog> missionLogList = missionLogRepository.findByUser_IdAndStart_date(user_id,Date.valueOf(LocalDate.now()));
+        for(MissionLog missionLog : missionLogList){
+            if(missionLog.getMission().getTheme().getName().equals(theme_name)){
+                missionContentDataList.add(
+                        MissionDTO.MissionContentData.builder()
+                                .content(missionLog.getMission().getContent())
+                                .status(missionLog.getStatus())
+                                .build()
+                );
+            }
+        }
+        return missionContentDataList;
     }
 
     public void userMissionStatusChange(int mission_id,String user_id){

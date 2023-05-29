@@ -19,7 +19,7 @@ import java.sql.Timestamp;
 import java.util.Optional;
 import java.util.function.Function;
 
-@Repository
+
 public class MissionLogRepositoryImpl implements MissionLogCustomRepository {
 
     private final EntityManager em;

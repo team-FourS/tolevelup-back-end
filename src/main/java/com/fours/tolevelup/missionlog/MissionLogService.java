@@ -17,10 +17,10 @@ import java.util.List;
 public class MissionLogService {
     private Date daily_date;
     private Date weekly_date;
-    private final MissionLogRepositoryImpl missionLogRepository;
+    private final MissionLogRepository missionLogRepository;
     private final UserRepositoryImpl userRepository;
     @Autowired
-    public MissionLogService(MissionLogRepositoryImpl missionLogRepository, UserRepositoryImpl userRepository){
+    public MissionLogService(MissionLogRepository missionLogRepository, UserRepositoryImpl userRepository){
         this.missionLogRepository = missionLogRepository;
         this.userRepository = userRepository;
     }
