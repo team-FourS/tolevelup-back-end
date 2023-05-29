@@ -23,6 +23,10 @@ public class MissionController {
         return ResponseEntity.ok(missionService.getUserThemeMissionContentList(theme_name,user_id));
     }
 
+    @PutMapping("/missions")
+    public ResponseEntity<Object> missionClear(){
+        return ResponseEntity.ok().build();
+    }
 
 
 }

@@ -19,7 +19,7 @@ public class ThemeExpServiceImpl implements ThemeExpService {
     @Override
     public List<ThemeExpDTO.ThemeExp> findUserThemeExps(String id) {
         List<ThemeExpDTO.ThemeExp> userThemeExps = new ArrayList<>();
-        List<ThemeExp> userExpList = themeExpRepository.findById(id);
+        List<ThemeExp> userExpList = themeExpRepository.findById(id); //유저아이디로 찾기
         for(ThemeExp themeExp:userExpList){
             userThemeExps.add(
                     ThemeExpDTO.ThemeExp.builder()
