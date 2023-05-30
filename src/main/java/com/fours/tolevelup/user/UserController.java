@@ -54,4 +54,12 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+    /*@PostMapping("/login")
+    public ResponseEntity<UserDTO.TokenResponse> login(@RequestBody UserDTO.LoginData loginData){
+        String token = userService.createToken(loginData);
+        return ResponseEntity.ok(new UserDTO.TokenResponse(token,"bearer"));
+    }*/
+
+
+
 }
