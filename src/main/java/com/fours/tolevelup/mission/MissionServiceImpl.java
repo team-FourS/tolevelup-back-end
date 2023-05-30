@@ -5,6 +5,7 @@ import com.fours.tolevelup.missionlog.MissionLog;
 import com.fours.tolevelup.missionlog.MissionLogRepository;
 import com.fours.tolevelup.missionlog.MissionLogRepositoryImpl;
 import com.fours.tolevelup.missionlog.MissionLogService;
+import com.fours.tolevelup.theme.Theme;
 import com.fours.tolevelup.themeexp.ThemeExpRepository;
 import com.fours.tolevelup.themeexp.ThemeExpRepositoryImpl;
 import org.springframework.beans.BeanUtils;
@@ -52,7 +53,7 @@ public class MissionServiceImpl implements MissionService {
     }
 
     @Override
-    public void userMissionStatusChange(String missionContent,String user_id){
+    public void userMissionStatusChange(String missionContent,String user_id, float exp_total, String theme_id){
         Mission mission = missionRepository.findByContent(missionContent);//미션 콘텐츠 일치하는 미션 찾기
         List<MissionLog> missionLogList = missionLogRepository.findByUser_IdAndStart_date(user_id,Date.valueOf(LocalDate.now()));
         for(MissionLog missionLog : missionLogList){
@@ -61,7 +62,7 @@ public class MissionServiceImpl implements MissionService {
                 break;
             }
         }
-        themeExpRepository.expPlus();//exp업데이트 하는 메소드...
+        themeExpRepository.expPlus(exp_total, user_id, theme_id); //exp업데이트 하는 메소드...
 
     }
 }
