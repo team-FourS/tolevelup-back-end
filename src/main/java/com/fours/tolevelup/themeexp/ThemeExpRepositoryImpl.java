@@ -1,6 +1,10 @@
 package com.fours.tolevelup.themeexp;
 
+import com.fours.tolevelup.theme.Theme;
 import com.fours.tolevelup.user.User;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -37,8 +41,9 @@ public class ThemeExpRepositoryImpl implements ThemeExpRepository{
     }*/
 
     @Override
+    @Modifying(clearAutomatically = true)
+    @Query(value = "update ThemeExp t set t.exp_total =+ :exp_total where t.user.id = :uid and t.theme.id = :tid")
     // exp 값 더해서 저장 메서드
-    public void expPlus(){
-
+    public void expPlus(@Param("exp_total") float exp_total, @Param("uid") String user_id, @Param("tid") String theme_id){
     }
 }
