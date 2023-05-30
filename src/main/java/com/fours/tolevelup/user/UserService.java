@@ -9,5 +9,5 @@ public interface UserService {
     UserDTO.UserData userData(String id);
     UserDTO.UserData userDataChange(UserDTO.UserData userData, String id);
     void userDelete(String id);
-
+    String createToken(UserDTO.LoginData loginData);
 }

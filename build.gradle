@@ -26,7 +26,9 @@ dependencies {
 	implementation ("org.springframework.boot:spring-boot-starter-hateoas")
 	implementation 'com.querydsl:querydsl-jpa' // queryDSL 을 사용하기 위한 라이브러리
 	implementation 'com.querydsl:querydsl-apt' // QClass를 생성하기 위한 라이브러리
-
+	implementation 'io.jsonwebtoken:jjwt:0.9.1' //토큰용
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis' //레디스
+	//compile "javax.xml.bind:jaxb-api"
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

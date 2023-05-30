@@ -1,8 +1,8 @@
 package com.fours.tolevelup.user;
 
+import com.fours.tolevelup.security.JwtTokenProvider;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,9 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class UserServiceImpl implements UserService {
     private final UserRepositoryImpl userRepository;
+    private final JwtTokenProvider jwtTokenProvider;
     @Autowired
-    public UserServiceImpl(UserRepositoryImpl userRepository){
+    public UserServiceImpl(UserRepositoryImpl userRepository,JwtTokenProvider jwtTokenProvider){
         this.userRepository = userRepository;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     public void userJoin(UserDTO.JoinForm joinForm){
@@ -52,10 +54,17 @@ public class UserServiceImpl implements UserService {
                 .password(userData.getPassword())
                 .name(userData.getName())
                 .email(userData.getEmail())
+                .intro(userData.getIntro())
                 .build();
         userRepository.update(user);
         BeanUtils.copyProperties(user,userData);
         return userData;
+    }
+
+
+    public String createToken(UserDTO.LoginData loginData){
+        User user = userRepository.findById(loginData.getId());
+        return jwtTokenProvider.createToken(user.getId());
     }
 
 }

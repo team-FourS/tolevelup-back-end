@@ -12,6 +12,7 @@ public class UserDTO {
     private String name;
     private String email;
     private int level;
+    private String intro;
     private String responseLocation;
 
     @Getter
@@ -27,6 +28,14 @@ public class UserDTO {
 
     @Getter
     @Setter
+    public static class LoginData{
+        private String id;
+        private String password;
+    }
+
+
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class UserData{
         private String id;
@@ -34,7 +43,10 @@ public class UserDTO {
         private String name;
         private String email;
         private int level;
+        private String intro;
     }
+
+
 
     public User toEntity(){
         return User.builder()
@@ -43,10 +55,9 @@ public class UserDTO {
                 .name(name)
                 .email(email)
                 .level(level)
+                .intro(intro)
                 .build();
     }
-    public static class Response{
-        private String returnMessage;
-    }
+
 
 }
