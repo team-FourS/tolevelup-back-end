@@ -53,7 +53,7 @@ public class MissionServiceImpl implements MissionService {
 
     @Override
     public void userMissionStatusChange(String missionContent,String user_id){
-        Mission mission = missionRepository.findById()//미션 콘텐츠 일치하는 미션 찾기
+        Mission mission = missionRepository.findByContent(missionContent);//미션 콘텐츠 일치하는 미션 찾기
         List<MissionLog> missionLogList = missionLogRepository.findByUser_IdAndStart_date(user_id,Date.valueOf(LocalDate.now()));
         for(MissionLog missionLog : missionLogList){
             if(missionLog.getMission().getContent().equals(missionContent)){

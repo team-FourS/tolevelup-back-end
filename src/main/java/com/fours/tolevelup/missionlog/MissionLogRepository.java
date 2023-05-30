@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.List;
 
 @Repository
