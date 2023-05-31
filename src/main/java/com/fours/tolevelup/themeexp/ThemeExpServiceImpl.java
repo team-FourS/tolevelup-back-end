@@ -1,5 +1,6 @@
 package com.fours.tolevelup.themeexp;
 
+import com.fours.tolevelup.mission.Mission;
 import com.fours.tolevelup.theme.Theme;
 import com.fours.tolevelup.theme.ThemeRepositoryImpl;
 import com.fours.tolevelup.user.User;
@@ -34,6 +35,11 @@ public class ThemeExpServiceImpl implements ThemeExpService {
             );
         }
         return userThemeExps;
+    }
+
+    @Override
+    public void plusUserThemeExp(String user_id, Mission mission) {
+        themeExpRepository.expPlus(mission.getExp(), user_id,mission.getTheme().getId());
     }
 
     @Override
