@@ -1,7 +1,6 @@
 package com.fours.tolevelup;
 
-import com.fours.tolevelup.user.User;
-import com.fours.tolevelup.user.UserRepository;
+import com.fours.tolevelup.user.UserCustomRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,7 +11,7 @@ import javax.persistence.EntityManager;
 class TolevelupApplicationTests {
 
 	@Autowired
-	private UserRepository userRepository;
+	private UserCustomRepository userRepository;
 	EntityManager em;
 
 
