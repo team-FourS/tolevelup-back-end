@@ -4,10 +4,9 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
-import java.util.Optional;
 
 @Repository
-public class UserRepositoryImpl implements UserRepository{
+public class UserRepositoryImpl implements UserCustomRepository {
     private final EntityManager em;
 
     public UserRepositoryImpl(EntityManager em){
@@ -16,7 +15,7 @@ public class UserRepositoryImpl implements UserRepository{
 
     @Override
     // 회원가입 정보 저장
-    public void save(User user){
+    public void saveUser(User user){
         em.persist(user);
 
     }

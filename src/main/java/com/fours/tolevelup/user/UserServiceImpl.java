@@ -14,11 +14,13 @@ public class UserServiceImpl implements UserService {
     private final UserRepositoryImpl userRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final ThemeExpServiceImpl themeExpService;
+    private final UserRepository userRepository1;
     @Autowired
-    public UserServiceImpl(UserRepositoryImpl userRepository,ThemeExpServiceImpl themeExpService,JwtTokenProvider jwtTokenProvider){
+    public UserServiceImpl(UserRepositoryImpl userRepository,ThemeExpServiceImpl themeExpService,JwtTokenProvider jwtTokenProvider, UserRepository userRepository1){
         this.userRepository = userRepository;
         this.themeExpService = themeExpService;
         this.jwtTokenProvider = jwtTokenProvider;
+        this.userRepository1 = userRepository1;
     }
 
     @Override
@@ -31,7 +33,7 @@ public class UserServiceImpl implements UserService {
                 .level(1)
                 .intro("자신을 한줄로 소개해주세요.")
                 .build();
-        userRepository.save(user);
+        userRepository.saveUser(user);
         themeExpService.saveUserThemeExps(user);
     }
     @Override
@@ -80,7 +82,7 @@ public class UserServiceImpl implements UserService {
                 .email(userData.getEmail())
                 .intro(userData.getIntro())
                 .build();
-        userRepository.update(user);
+        userRepository1.save(user);
         return userData;
     }
     @Override
