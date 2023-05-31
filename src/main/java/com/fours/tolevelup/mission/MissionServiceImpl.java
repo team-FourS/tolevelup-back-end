@@ -55,11 +55,11 @@ public class MissionServiceImpl implements MissionService {
     }
 
     @Override
-    public void changeUserMissionStatus(String missionContent,String user_id){
-        Mission mission = missionRepository.findByContent(missionContent);
+    public void changeUserMissionStatus(MissionDTO.MissionContentData missionContentData,String user_id){
+        Mission mission = missionRepository.findByContent(missionContentData.getContent());
         List<MissionLog> missionLogList = missionLogRepository.findByUser_IdAndStart_date(user_id,Date.valueOf(LocalDate.now()));
         for(MissionLog missionLog : missionLogList){
-            if(missionLog.getMission().getContent().equals(missionContent)){
+            if(missionLog.getMission().getContent().equals(missionContentData.getContent())){
                 missionLogRepository.missionChecked(Date.valueOf(LocalDate.now()),missionLog.getId());
                 break;
             }
