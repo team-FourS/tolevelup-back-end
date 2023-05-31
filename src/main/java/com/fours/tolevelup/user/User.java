@@ -18,7 +18,6 @@ import javax.persistence.Id;
 public class User {
 
     @Id
-    @GeneratedValue(generator = "id")
     @GenericGenerator(name = "id",strategy = "uuid")
     private String id;
     private String password;
