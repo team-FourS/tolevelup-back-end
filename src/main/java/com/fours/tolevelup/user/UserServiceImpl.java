@@ -74,15 +74,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO.UserInformation changeUserInfo(UserDTO.UserInformation userData){
-        User user = userRepository.findById(userData.getId());
-        user.builder()
+        userRepository1.save(userRepository.findById(userData.getId()).builder()
                 .id(userData.getId())
                 .password(userData.getPassword())
                 .name(userData.getName())
                 .email(userData.getEmail())
                 .intro(userData.getIntro())
-                .build();
-        userRepository1.save(user);
+                .build());
         return userData;
     }
     @Override
