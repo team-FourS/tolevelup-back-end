@@ -32,13 +32,12 @@ public class UserDTO {
 
     @Getter
     @Setter
-    @NoArgsConstructor
-    public static class UserData{
+    @Builder
+    public static class UserInformation{
         private String id;
         private String password;
         private String name;
         private String email;
-        private int level;
         private String intro;
     }
 
