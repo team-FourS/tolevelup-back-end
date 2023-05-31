@@ -36,22 +36,22 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserDTO.UserData> userInfo(@PathVariable String id){
-        UserDTO.UserData userData = userService.userData(id);
-        return ResponseEntity.ok(userData);
-    }
-
     @GetMapping("/mypage")
     public ResponseEntity<UserDTO.UserMyPageData> userMyPage(@RequestBody String id){
         return ResponseEntity.ok(userService.findUserMyPageData(id));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<UserDTO.UserData> changeUser(@RequestBody UserDTO.UserData userData, @PathVariable String id){
-        UserDTO.UserData changeData = userService.userDataChange(userData,id);
-        return ResponseEntity.ok().build();
+    @GetMapping("/mypage/{id}")
+    public ResponseEntity<UserDTO.UserInformation> userInfo(@PathVariable String id){
+        return ResponseEntity.ok(userService.findUserInfo(id));
     }
+
+    @PutMapping("/mypage/{id}")
+    public ResponseEntity<UserDTO.UserInformation> changeInfo(@RequestBody UserDTO.UserInformation userData){
+        return ResponseEntity.ok(userService.changeUserInfo(userData));
+    }
+
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable String id){

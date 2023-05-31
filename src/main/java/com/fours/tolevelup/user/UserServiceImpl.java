@@ -38,8 +38,6 @@ public class UserServiceImpl implements UserService {
     public boolean userLoginCheck(UserDTO.LoginData loginData){
         User user = userRepository.findById(loginData.getId());
         if(user.getPassword().equals(loginData.getPassword())){
-            UserDTO.UserData userData = new UserDTO.UserData();
-            BeanUtils.copyProperties(user,userData);
             return true;
         }
         return false;
@@ -48,13 +46,6 @@ public class UserServiceImpl implements UserService {
     public void userDelete(String id){
         userRepository.delete(id);
 
-    }
-    @Override
-    public UserDTO.UserData userData(String id){
-        User user = userRepository.findById(id);
-        UserDTO.UserData userData = new UserDTO.UserData();
-        BeanUtils.copyProperties(user,userData);
-        return userData;
     }
 
     @Override
@@ -67,10 +58,21 @@ public class UserServiceImpl implements UserService {
                 .themeExpList(themeExpService.findUserThemeExps(id))
                 .build();
     }
+    @Override
+    public UserDTO.UserInformation findUserInfo(String id){
+        User user = userRepository.findById(id);
+        return UserDTO.UserInformation.builder()
+                .id(user.getId())
+                .password(user.getPassword())
+                .name(user.getName())
+                .email(user.getEmail())
+                .intro(user.getIntro())
+                .build();
+    }
 
     @Override
-    public UserDTO.UserData userDataChange(UserDTO.UserData userData, String id){
-        User user = userRepository.findById(id);
+    public UserDTO.UserInformation changeUserInfo(UserDTO.UserInformation userData){
+        User user = userRepository.findById(userData.getId());
         user.builder()
                 .id(userData.getId())
                 .password(userData.getPassword())
@@ -79,7 +81,6 @@ public class UserServiceImpl implements UserService {
                 .intro(userData.getIntro())
                 .build();
         userRepository.update(user);
-        BeanUtils.copyProperties(user,userData);
         return userData;
     }
     @Override
