@@ -1,5 +1,8 @@
 package com.fours.tolevelup.themeexp;
 
+import com.fours.tolevelup.theme.Theme;
+import com.fours.tolevelup.theme.ThemeRepositoryImpl;
+import com.fours.tolevelup.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,9 +15,11 @@ import java.util.List;
 public class ThemeExpServiceImpl implements ThemeExpService {
 
     private final ThemeExpRepository themeExpRepository;
+    private final ThemeRepositoryImpl themeRepository;
     @Autowired
-    public ThemeExpServiceImpl(ThemeExpRepository themeExpRepository){
+    public ThemeExpServiceImpl(ThemeExpRepository themeExpRepository,ThemeRepositoryImpl themeRepository){
         this.themeExpRepository = themeExpRepository;
+        this.themeRepository = themeRepository;
     }
     @Override
     public List<ThemeExpDTO.ThemeExp> findUserThemeExps(String id) {
@@ -29,5 +34,20 @@ public class ThemeExpServiceImpl implements ThemeExpService {
             );
         }
         return userThemeExps;
+    }
+
+    @Override
+    public void saveUserThemeExps(User user) {
+        List<Theme> themeList = themeRepository.findAll();
+        for(Theme theme : themeList){
+            themeExpRepository.save(
+                    ThemeExp.builder()
+                            .id(user.getId()+theme.getId())
+                            .user(user)
+                            .theme(theme)
+                            .exp_total(0)
+                            .build()
+            );
+        }
     }
 }

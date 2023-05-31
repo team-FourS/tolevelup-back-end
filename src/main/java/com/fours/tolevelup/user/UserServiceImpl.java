@@ -1,6 +1,8 @@
 package com.fours.tolevelup.user;
 
 import com.fours.tolevelup.security.JwtTokenProvider;
+import com.fours.tolevelup.themeexp.ThemeExpRepositoryImpl;
+import com.fours.tolevelup.themeexp.ThemeExpServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,12 +13,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl implements UserService {
     private final UserRepositoryImpl userRepository;
     private final JwtTokenProvider jwtTokenProvider;
+    private final ThemeExpServiceImpl themeExpService;
     @Autowired
-    public UserServiceImpl(UserRepositoryImpl userRepository,JwtTokenProvider jwtTokenProvider){
+    public UserServiceImpl(UserRepositoryImpl userRepository,ThemeExpServiceImpl themeExpService,JwtTokenProvider jwtTokenProvider){
         this.userRepository = userRepository;
+        this.themeExpService = themeExpService;
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
+    @Override
     public void userJoin(UserDTO.JoinForm joinForm){
         User user = User.builder()
                 .id(joinForm.getId())
@@ -24,29 +29,34 @@ public class UserServiceImpl implements UserService {
                 .name(joinForm.getName())
                 .email(joinForm.getEmail())
                 .level(1)
+                .intro("자신을 한줄로 소개해주세요.")
                 .build();
         userRepository.save(user);
+        themeExpService.saveUserThemeExps(user);
     }
-    @Transactional
-    public String userLogin(String id, String pw){
-        User user = userRepository.findById(id);
-        if(user.getPassword().equals(pw)){
+    @Override
+    public boolean userLoginCheck(UserDTO.LoginData loginData){
+        User user = userRepository.findById(loginData.getId());
+        if(user.getPassword().equals(loginData.getPassword())){
             UserDTO.UserData userData = new UserDTO.UserData();
             BeanUtils.copyProperties(user,userData);
-            return userData.getId();
+            return true;
         }
-        return "";
+        return false;
     }
+    @Override
     public void userDelete(String id){
         userRepository.delete(id);
 
     }
+    @Override
     public UserDTO.UserData userData(String id){
         User user = userRepository.findById(id);
         UserDTO.UserData userData = new UserDTO.UserData();
         BeanUtils.copyProperties(user,userData);
         return userData;
     }
+    @Override
     public UserDTO.UserData userDataChange(UserDTO.UserData userData, String id){
         User user = userRepository.findById(id);
         user.builder()
@@ -60,8 +70,7 @@ public class UserServiceImpl implements UserService {
         BeanUtils.copyProperties(user,userData);
         return userData;
     }
-
-
+    @Override
     public String createToken(UserDTO.LoginData loginData){
         User user = userRepository.findById(loginData.getId());
         return jwtTokenProvider.createToken(user.getId());

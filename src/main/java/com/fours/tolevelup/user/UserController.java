@@ -18,37 +18,37 @@ public class UserController {
     public UserController(UserService userService){
         this.userService = userService;
     }
-    @PostMapping("/users/new")
-    public ResponseEntity<Objects> join(UserDTO.JoinForm joinForm){
+    @PostMapping("/new")
+    public ResponseEntity<String> join(@RequestBody UserDTO.JoinForm joinForm){
+        System.out.println(joinForm.getName());
         userService.userJoin(joinForm);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("가입이 완료되었습니다.");
     }
-    @PostMapping("/users/login")
-    public ResponseEntity<Objects> login(String id, String pw){
-        String userid = userService.userLogin(id,pw); //여기 그냥 바로 미션데이터 전달...
-        if(userid.equals(id)){
-            return ResponseEntity.created(linkTo(ThemeController.class).slash(id).toUri()).build();
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody UserDTO.LoginData loginData){
+        if(userService.userLoginCheck(loginData)){
+            return ResponseEntity.created(linkTo(ThemeController.class).slash("themes").toUri()).body(loginData.getId());
         }
         return ResponseEntity.notFound().build();
     }
-    @PostMapping("/users/logout")
+    @PostMapping("/logout")
     public ResponseEntity<Objects> logout(){
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<UserDTO.UserData> userInfo(@PathVariable String id){
         UserDTO.UserData userData = userService.userData(id);
         return ResponseEntity.ok(userData);
     }
 
-    @PutMapping("/users/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<UserDTO.UserData> changeUser(@RequestBody UserDTO.UserData userData, @PathVariable String id){
         UserDTO.UserData changeData = userService.userDataChange(userData,id);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable String id){
         userService.userDelete(id);
         return ResponseEntity.noContent().build();
