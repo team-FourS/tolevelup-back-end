@@ -5,9 +5,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @NoArgsConstructor
@@ -16,6 +18,8 @@ import javax.persistence.Id;
 public class User {
 
     @Id
+    @GeneratedValue(generator = "id")
+    @GenericGenerator(name = "id",strategy = "uuid")
     private String id;
     private String password;
     private String name;

@@ -1,24 +1,19 @@
 package com.fours.tolevelup.user;
+import com.fours.tolevelup.themeexp.ThemeExpDTO;
 import lombok.*;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.List;
 
 @Setter
 @Getter
 @NoArgsConstructor
 public class UserDTO {
 
-    private String id;
-    private String password;
-    private String name;
-    private String email;
-    private int level;
-    private String intro;
-    private String responseLocation;
 
     @Getter
     @Setter
     @Data
-    @NoArgsConstructor
     public static class JoinForm{
         private String id;
         private String password;
@@ -28,6 +23,7 @@ public class UserDTO {
 
     @Getter
     @Setter
+    @Data
     public static class LoginData{
         private String id;
         private String password;
@@ -46,18 +42,19 @@ public class UserDTO {
         private String intro;
     }
 
-
-
-    public User toEntity(){
-        return User.builder()
-                .id(name)
-                .password(password)
-                .name(name)
-                .email(email)
-                .level(level)
-                .intro(intro)
-                .build();
+    @Getter
+    @Setter
+    @Builder
+    public static class UserMyData{
+        private String id;
+        private String password;
+        private String name;
+        private String email;
+        private int level;
+        private String intro;
+        private List<ThemeExpDTO> themeExpList;
     }
+
 
 
 }

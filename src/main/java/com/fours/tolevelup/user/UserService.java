@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 public interface UserService {
 
     void userJoin(UserDTO.JoinForm joinForm);
-    String userLogin(String id, String pw);
+    boolean userLoginCheck(UserDTO.LoginData loginDat);
     UserDTO.UserData userData(String id);
     UserDTO.UserData userDataChange(UserDTO.UserData userData, String id);
     void userDelete(String id);
