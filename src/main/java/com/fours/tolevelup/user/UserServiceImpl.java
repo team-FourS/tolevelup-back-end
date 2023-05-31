@@ -56,6 +56,18 @@ public class UserServiceImpl implements UserService {
         BeanUtils.copyProperties(user,userData);
         return userData;
     }
+
+    @Override
+    public UserDTO.UserMyPageData findUserMyPageData(String id) {
+        User user = userRepository.findById(id);
+        return UserDTO.UserMyPageData.builder()
+                .name(user.getName())
+                .level(user.getLevel())
+                .intro(user.getIntro())
+                .themeExpList(themeExpService.findUserThemeExps(id))
+                .build();
+    }
+
     @Override
     public UserDTO.UserData userDataChange(UserDTO.UserData userData, String id){
         User user = userRepository.findById(id);
