@@ -13,9 +13,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 public class UserController {
-    private final UserService userService;
+    private final UserServiceImpl userService;
     @Autowired
-    public UserController(UserService userService){
+    public UserController(UserServiceImpl userService){
         this.userService = userService;
     }
     @PostMapping("/new")
@@ -40,6 +40,11 @@ public class UserController {
     public ResponseEntity<UserDTO.UserData> userInfo(@PathVariable String id){
         UserDTO.UserData userData = userService.userData(id);
         return ResponseEntity.ok(userData);
+    }
+
+    @GetMapping("/mypage")
+    public ResponseEntity<UserDTO.UserMyPageData> userMyPage(@RequestBody String id){
+        return ResponseEntity.ok(userService.findUserMyPageData(id));
     }
 
     @PutMapping("/{id}")

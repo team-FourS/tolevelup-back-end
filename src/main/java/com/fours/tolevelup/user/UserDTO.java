@@ -45,14 +45,11 @@ public class UserDTO {
     @Getter
     @Setter
     @Builder
-    public static class UserMyData{
-        private String id;
-        private String password;
+    public static class UserMyPageData{
         private String name;
-        private String email;
         private int level;
         private String intro;
-        private List<ThemeExpDTO> themeExpList;
+        private List<ThemeExpDTO.ThemeExp> themeExpList;
     }
 
 

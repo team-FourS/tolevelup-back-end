@@ -8,6 +8,7 @@ public interface UserService {
     boolean userLoginCheck(UserDTO.LoginData loginDat);
     UserDTO.UserData userData(String id);
     UserDTO.UserData userDataChange(UserDTO.UserData userData, String id);
+    UserDTO.UserMyPageData findUserMyPageData(String id);
     void userDelete(String id);
     String createToken(UserDTO.LoginData loginData);
 }
