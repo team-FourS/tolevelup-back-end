@@ -44,6 +44,6 @@ public class ThemeExpRepositoryImpl implements ThemeExpRepository{
     @Modifying(clearAutomatically = true)
     @Query(value = "update ThemeExp t set t.exp_total =+ :exp_total where t.user.id = :uid and t.theme.id = :tid")
     // exp 값 더해서 저장 메서드
-    public void expPlus(@Param("exp_total") float exp_total, @Param("uid") String user_id, @Param("tid") String theme_id){
+    public void expPlus(@Param("exp_total") float exp_total, @Param("uid") String user_id, @Param("tid") int theme_id){
     }
 }

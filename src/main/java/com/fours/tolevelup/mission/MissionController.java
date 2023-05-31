@@ -18,13 +18,14 @@ public class MissionController {
         this.missionService = missionService;
     }
 
-    @GetMapping("/missions/{theme_name}")
+    @GetMapping("/{theme_name}/missions")
     public ResponseEntity<List<MissionDTO.MissionContentData>> missionList(@PathVariable String theme_name,@RequestBody String user_id){
         return ResponseEntity.ok(missionService.getUserThemeMissionContentList(theme_name,user_id));
     }
 
     @PutMapping("/missions")
-    public ResponseEntity<Object> missionClear(){
+    public ResponseEntity<Object> missionClear(@RequestBody String missionContent,@RequestBody String user_id){
+        missionService.changeUserMissionStatus(missionContent,user_id);
         return ResponseEntity.ok().build();
     }
 
