@@ -3,6 +3,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.*;
 import java.sql.Date;
 import javax.persistence.EntityManager;
 
@@ -47,8 +48,9 @@ public class MissionLogRepositoryImpl implements MissionLogCustomRepository {
     }
 
 /*    @Override
-    public List<MissionLog> findByUser_IdAndStart_date(User user_id, Date start_date) {
-        return null;
+    public List<MissionLog> findByUser_IdAndStatus(String user_id, String missionStatus) {
+        String query =  "select m.id from MissionLog m where m.user.id = :user_id and m.status = :staus";
+        return (List<MissionLog>) em.createQuery(query);
     }*/
 }
 

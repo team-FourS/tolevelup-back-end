@@ -44,7 +44,7 @@ public class ThemeExpServiceImpl implements ThemeExpService {
 
     @Override
     public void minusUserThemeExp(String user_id, Mission mission) {
-
+        themeExpRepository.expMinus(mission.getExp(), user_id, mission.getTheme().getId());
     }
 
     @Override
