@@ -56,18 +56,19 @@ public class MissionServiceImpl implements MissionService {
 
     @Override
     public void changeUserMissionStatus(MissionDTO.MissionContentData missionContentData,String user_id){
+        String missionStatus = missionContentData.getStatus();
         Mission mission = missionRepository.findByContent(missionContentData.getContent());
-        MissionLog missionLog = findUserMissionInMissionLog(mission,user_id);
-        if(missionLog.getStatus().equals("완료")){
+        MissionLog missionLog = findUserMissionInMissionLog(mission,missionStatus,user_id);
+        if(missionStatus.equals("완료")){
             //exp 빼는 레포메소드
         }else {
             themeExpService.plusUserThemeExp(user_id,mission);
+            missionLogRepository.missionChecked(Date.valueOf(LocalDate.now()),missionLog.getId());
         }
-        missionLogRepository.missionChecked(Date.valueOf(LocalDate.now()),missionLog.getId());
     }
 
     @Override
-    public MissionLog findUserMissionInMissionLog(Mission mission,String user_id){
+    public MissionLog findUserMissionInMissionLog(Mission mission,String missionStatus,String user_id){
         List<MissionLog> missionLogList = missionLogRepository.findByUser_IdAndStart_date(user_id,Date.valueOf(LocalDate.now()));
         //이거 날짜로 찾는거 status 로 찾게 변경
         for(MissionLog missionLog : missionLogList){
