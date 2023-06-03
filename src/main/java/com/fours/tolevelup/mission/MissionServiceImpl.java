@@ -61,12 +61,14 @@ public class MissionServiceImpl implements MissionService {
         MissionLog missionLog = findUserMissionInMissionLog(mission,missionStatus,user_id);
         if(missionStatus.equals("완료")){
             themeExpService.minusUserThemeExp(user_id,mission);
-
+            String status = (mission.getTheme().getType().equals("weekly")) ? "주진행중" : "진행중";
+            missionLogRepository.missionNonChecked(status,missionLog.getId());
         }else {
             themeExpService.plusUserThemeExp(user_id,mission);
-            missionLogRepository.missionChecked(Date.valueOf(LocalDate.now()),missionLog.getId());
+            missionLogRepository.missionChecked(Date.valueOf(LocalDate.now()),"완료",missionLog.getId());
         }
     }
+
 
     @Override
     public MissionLog findUserMissionInMissionLog(Mission mission,String missionStatus,String user_id){
