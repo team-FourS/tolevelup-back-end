@@ -18,9 +18,12 @@ public interface MissionLogRepository extends JpaRepository<MissionLog, Long>, M
    List<MissionLog> findByUser_IdAndStart_date(User user_id, Date start_date);
 */
 
+    // user_id랑 status 이용해서 missionLog 리스트로 받기
+    @Query("select m from MissionLog m where m.user.id = :uid AND m.status = :status")
+    List<MissionLog>findByUser_IdAndStatus(@Param("uid") String user_id, @Param("status")String missionStatus);
+
     // user_id랑 start_date 이용해서 missionLog 리스트로 받기
-    @Query("select m from MissionLog m where m.user.id = :uid AND m.start_date = :start")
-    List<MissionLog>findByUser_IdAndStart_date(@Param("uid") String user_id, @Param("start")Date start_date);
-    
+    @Query("select m from MissionLog m where m.user.id = :uid AND m.start_date = :start_date")
+    List<MissionLog>findByUser_IdAndStart_date(@Param("uid") String user_id, @Param("start_date") Date start_date);
 
 }

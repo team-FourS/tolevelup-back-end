@@ -69,8 +69,8 @@ public class MissionServiceImpl implements MissionService {
 
     @Override
     public MissionLog findUserMissionInMissionLog(Mission mission,String missionStatus,String user_id){
-        List<MissionLog> missionLogList = missionLogRepository.findByUser_IdAndStart_date(user_id,Date.valueOf(LocalDate.now()));
-        //이거 날짜로 찾는거 status 로 찾게 변경
+        List<MissionLog> missionLogList = missionLogRepository.findByUser_IdAndStatus(user_id, missionStatus);
+        //이거 날짜로 찾는거 status 로 찾게 변경 -> 완료
         for(MissionLog missionLog : missionLogList){
             if(missionLog.getMission().getId()==mission.getId()){
                 return missionLog;
