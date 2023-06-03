@@ -11,7 +11,9 @@ import java.util.List;
 
 public interface MissionLogCustomRepository{
     void saveMissionLog(MissionLog missionLog);
-    void missionChecked(Date end_date, int id);
+    void missionChecked(Date end_date, String status, int id);
+
+    void missionNonChecked(String status, int id);
     MissionLog findByMissionId(int mission_id);
 
 
