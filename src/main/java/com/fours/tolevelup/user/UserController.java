@@ -36,23 +36,27 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/mypage")
-    public ResponseEntity<UserDTO.UserMyPageData> userMyPage(@RequestBody String id){
-        return ResponseEntity.ok(userService.findUserMyPageData(id));
+    @GetMapping("/users/{user_id}")
+    public ResponseEntity<UserDTO.UserData> userData(@PathVariable String user_id){
+        return ResponseEntity.ok(userService.findUserData(user_id));
     }
-
-    @GetMapping("/mypage/{id}")
-    public ResponseEntity<UserDTO.UserInformation> userInfo(@PathVariable String id){
-        return ResponseEntity.ok(userService.findUserInfo(id));
+    @GetMapping("/users/info")
+    public ResponseEntity<UserDTO.UserPersonalInfo> userInfo(@RequestBody String user_id){
+        return ResponseEntity.ok(userService.findUserPersonalInfo(user_id));
     }
-
-    @PutMapping("/mypage/{id}")
-    public ResponseEntity<UserDTO.UserInformation> changeInfo(@RequestBody UserDTO.UserInformation userData){
-        return ResponseEntity.ok(userService.changeUserInfo(userData));
+    @PutMapping("/users/info")
+    public ResponseEntity<UserDTO.UserPersonalInfo> changeInfo(@RequestBody UserDTO.UserPersonalInfo userData){
+        return ResponseEntity.ok(userService.changeUserPersonalInfo(userData));
     }
-
-
-    @DeleteMapping("/{id}")
+    @GetMapping("/users/profile")
+    public ResponseEntity<UserDTO.UserProfile> userProfile(@RequestBody String user_id){
+        return ResponseEntity.ok(userService.findUserProfile(user_id));
+    }
+    @PostMapping("/users/profile")
+    public ResponseEntity<UserDTO.UserProfile> changeProfile(@RequestBody UserDTO.UserProfile userProfile){
+        return ResponseEntity.ok(userService.changeUserProfile(userProfile));
+    }
+    @DeleteMapping("/users/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable String id){
         userService.userDelete(id);
         return ResponseEntity.noContent().build();

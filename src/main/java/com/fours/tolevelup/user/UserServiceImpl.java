@@ -12,14 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class UserServiceImpl implements UserService {
     private final UserRepositoryImpl userRepository;
-    private final JwtTokenProvider jwtTokenProvider;
+    //private final JwtTokenProvider jwtTokenProvider;
     private final ThemeExpServiceImpl themeExpService;
     private final UserRepository userRepository1;
     @Autowired
-    public UserServiceImpl(UserRepositoryImpl userRepository,ThemeExpServiceImpl themeExpService,JwtTokenProvider jwtTokenProvider, UserRepository userRepository1){
+    public UserServiceImpl(UserRepositoryImpl userRepository,ThemeExpServiceImpl themeExpService, UserRepository userRepository1){
         this.userRepository = userRepository;
         this.themeExpService = themeExpService;
-        this.jwtTokenProvider = jwtTokenProvider;
         this.userRepository1 = userRepository1;
     }
 
@@ -51,9 +50,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO.UserMyPageData findUserMyPageData(String id) {
+    public UserDTO.UserData findUserData(String id) {
         User user = userRepository.findById(id);
-        return UserDTO.UserMyPageData.builder()
+        return UserDTO.UserData.builder()
                 .name(user.getName())
                 .level(user.getLevel())
                 .intro(user.getIntro())
@@ -61,32 +60,46 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
     @Override
-    public UserDTO.UserInformation findUserInfo(String id){
+    public UserDTO.UserPersonalInfo findUserPersonalInfo(String id){
         User user = userRepository.findById(id);
-        return UserDTO.UserInformation.builder()
+        return UserDTO.UserPersonalInfo.builder()
                 .id(user.getId())
                 .password(user.getPassword())
-                .name(user.getName())
                 .email(user.getEmail())
-                .intro(user.getIntro())
                 .build();
     }
 
     @Override
-    public UserDTO.UserInformation changeUserInfo(UserDTO.UserInformation userData){
+    public UserDTO.UserPersonalInfo changeUserPersonalInfo(UserDTO.UserPersonalInfo userData){
         userRepository1.save(userRepository.findById(userData.getId()).builder()
                 .id(userData.getId())
                 .password(userData.getPassword())
-                .name(userData.getName())
                 .email(userData.getEmail())
-                .intro(userData.getIntro())
                 .build());
         return userData;
     }
+
     @Override
+    public UserDTO.UserProfile findUserProfile(String id){
+        User user = userRepository.findById(id);
+        return UserDTO.UserProfile.builder()
+                .name(user.getName())
+                .intro(user.getIntro())
+                .build();
+    }
+    @Override
+    public UserDTO.UserProfile changeUserProfile(UserDTO.UserProfile userProfile) {
+        userRepository1.save(userRepository.findById(userProfile.getId()).builder()
+                .name(userProfile.getName())
+                .intro(userProfile.getIntro())
+                .build());
+        return userProfile;
+    }
+
+    /*@Override
     public String createToken(UserDTO.LoginData loginData){
         User user = userRepository.findById(loginData.getId());
         return jwtTokenProvider.createToken(user.getId());
-    }
+    }*/
 
 }

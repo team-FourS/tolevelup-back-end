@@ -29,22 +29,29 @@ public class UserDTO {
         private String password;
     }
 
-
     @Getter
     @Setter
     @Builder
-    public static class UserInformation{
+    public static class UserProfile{
         private String id;
-        private String password;
         private String name;
-        private String email;
         private String intro;
     }
 
     @Getter
     @Setter
     @Builder
-    public static class UserMyPageData{
+    public static class UserPersonalInfo{
+        private String id;
+        private String password;
+        private String email;
+    }
+
+
+    @Getter
+    @Setter
+    @Builder
+    public static class UserData{
         private String name;
         private int level;
         private String intro;
