@@ -43,6 +43,11 @@ public class ThemeExpServiceImpl implements ThemeExpService {
     }
 
     @Override
+    public void minusUserThemeExp(String user_id, Mission mission) {
+
+    }
+
+    @Override
     public void saveUserThemeExps(User user) {
         List<Theme> themeList = themeRepository.findAll();
         for(Theme theme : themeList){

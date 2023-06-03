@@ -9,5 +9,6 @@ public interface ThemeExpService {
 
     List<ThemeExpDTO.ThemeExp> findUserThemeExps(String id);
     void plusUserThemeExp(String user_id,Mission mission);
+    void minusUserThemeExp(String user_id,Mission mission);
     void saveUserThemeExps(User user);
 }
