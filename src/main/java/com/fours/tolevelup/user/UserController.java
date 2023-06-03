@@ -36,23 +36,23 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/mypage")
+    @GetMapping("/users")
     public ResponseEntity<UserDTO.UserMyPageData> userMyPage(@RequestBody String id){
         return ResponseEntity.ok(userService.findUserMyPageData(id));
     }
 
-    @GetMapping("/mypage/{id}")
+    @GetMapping("/users/{id}")
     public ResponseEntity<UserDTO.UserInformation> userInfo(@PathVariable String id){
         return ResponseEntity.ok(userService.findUserInfo(id));
     }
 
-    @PutMapping("/mypage/{id}")
+    @PutMapping("/users/{id}")
     public ResponseEntity<UserDTO.UserInformation> changeInfo(@RequestBody UserDTO.UserInformation userData){
         return ResponseEntity.ok(userService.changeUserInfo(userData));
     }
 
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/users/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable String id){
         userService.userDelete(id);
         return ResponseEntity.noContent().build();
