@@ -44,7 +44,7 @@ public class MissionLogRepositoryImpl implements MissionLogCustomRepository {
 
     @Override
     @Modifying(clearAutomatically = true)
-    @Query(value  ="update MissionLog m set m.status = :status where m.id = :id")
+    @Query(value  ="update MissionLog m set m.status = :status, m.end_date = null where m.id = :id")
     public void missionNonChecked(@Param("status")String status, @Param("id") int id){
 
     }
