@@ -60,7 +60,7 @@ public class MissionServiceImpl implements MissionService {
         Mission mission = missionRepository.findByContent(missionContentData.getContent());
         MissionLog missionLog = findUserMissionInMissionLog(mission,missionStatus,user_id);
         if(missionStatus.equals("완료")){
-            //exp 빼는 레포메소드
+            themeExpService.minusUserThemeExp(user_id,mission);
         }else {
             themeExpService.plusUserThemeExp(user_id,mission);
             missionLogRepository.missionChecked(Date.valueOf(LocalDate.now()),missionLog.getId());
