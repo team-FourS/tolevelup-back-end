@@ -57,7 +57,7 @@ public class MissionServiceImpl implements MissionService {
     @Override
     public void changeUserMissionStatus(MissionDTO.MissionContentData missionContentData,String user_id){
         String missionStatus = missionContentData.getStatus();
-        Mission mission = missionRepository.findByContent(missionContentData.getContent());
+        Mission mission = missionRepository.findByIdAndContent(missionContentData.getContent());
         MissionLog missionLog = findUserMissionInMissionLog(mission,missionStatus,user_id);
         if(missionStatus.equals("완료")){
             themeExpService.minusUserThemeExp(user_id,mission);
