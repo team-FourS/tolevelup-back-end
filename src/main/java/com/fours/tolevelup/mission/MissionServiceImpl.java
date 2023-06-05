@@ -68,8 +68,9 @@ public class MissionServiceImpl implements MissionService {
             missionLogRepository.missionNonChecked(status,missionLog.getId());
         }else {
             themeExpService.plusUserThemeExp(user_id,mission);
-            missionLogRepository.missionChecked(Date.valueOf(LocalDate.now()),"완료",missionLog.getId());
+            missionLogRepository.updateMissionLog(Date.valueOf(LocalDate.now()),"완료",missionLog.getId());
         }
+        missionLogRepository.save(missionLog);
     }
 
 
