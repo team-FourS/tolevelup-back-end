@@ -66,7 +66,7 @@ public class MissionServiceImpl implements MissionService {
         }else {
             System.out.println(mission.getId()+"//"+user_id);
             themeExpService.plusUserThemeExp(user_id,mission);
-            missionLogRepository.updateMissionLog(Date.valueOf(LocalDate.now()),"완료",missionLog.getId());
+            missionLogRepositoryImpl.missionChecked(Date.valueOf(LocalDate.now()),"완료",missionLog.getId());
             System.out.println(missionLog.getId());
             missionLogRepository.updateMissionLog(Date.valueOf(LocalDate.now()),"완료",missionLog.getId());
         }
