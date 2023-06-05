@@ -3,7 +3,7 @@ package com.fours.tolevelup.themeexp;
 import java.util.*;
 
 public interface ThemeExpCustomRepository {
-    void save(ThemeExp themeExp);
+    void save1(ThemeExp themeExp);
 
 //    List<ThemeExp> findById(String id);
     List<ThemeExp> findByUser_id(String user_id);
