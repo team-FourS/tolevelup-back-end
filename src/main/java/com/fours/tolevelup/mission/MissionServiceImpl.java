@@ -29,11 +29,13 @@ public class MissionServiceImpl implements MissionService {
     private final MissionRepositoryImpl missionRepository;
     private final MissionRepository missionRepository1;
     private final MissionLogRepository missionLogRepository;
+    private final MissionLogRepositoryImpl missionLogRepositoryImpl;
     private final ThemeExpServiceImpl themeExpService;
     @Autowired
     public MissionServiceImpl(
-            MissionRepository missionRepository1,MissionRepositoryImpl missionRepository,MissionLogRepository missionLogRepository,ThemeExpServiceImpl themeExpService){
+            MissionLogRepositoryImpl missionLogRepositoryImpl,MissionRepository missionRepository1,MissionRepositoryImpl missionRepository,MissionLogRepository missionLogRepository,ThemeExpServiceImpl themeExpService){
         this.missionRepository = missionRepository;
+        this.missionLogRepositoryImpl = missionLogRepositoryImpl;
         this.missionRepository1 = missionRepository1;
         this.missionLogRepository = missionLogRepository;
         this.themeExpService = themeExpService;
@@ -58,18 +60,25 @@ public class MissionServiceImpl implements MissionService {
     }
 
     @Override
-    public void changeUserMissionStatus(MissionDTO.MissionContentData missionContentData,String user_id){
-        String missionStatus = missionContentData.getStatus();
-        Mission mission = missionRepository1.findById(missionContentData.getMission_id());
+    public void changeUserMissionStatus(MissionDTO.MissionCheckData missionCheckData){
+        String missionStatus = missionCheckData.getStatus();
+        String user_id = missionCheckData.getUser_id();
+        Mission mission = missionRepository1.findById(missionCheckData.getMission_id());
         MissionLog missionLog = findUserMissionInMissionLog(mission,missionStatus,user_id);
+        System.out.println(missionLog.getStatus()+"//"+mission.getId()+"//"+user_id);
         if(missionStatus.equals("완료")){
             themeExpService.minusUserThemeExp(user_id,mission);
             String status = (mission.getTheme().getType().equals("weekly")) ? "주진행중" : "진행중";
-            missionLogRepository.missionNonChecked(status,missionLog.getId());
+            missionLogRepositoryImpl.missionNonChecked(status,missionLog.getId());
         }else {
+            System.out.println(mission.getId()+"//"+user_id);
             themeExpService.plusUserThemeExp(user_id,mission);
-            missionLogRepository.missionChecked(Date.valueOf(LocalDate.now()),"완료",missionLog.getId());
+            missionLogRepositoryImpl.missionChecked(Date.valueOf(LocalDate.now()),"완료",missionLog.getId());
+            System.out.println(missionLog.getId());
+            missionLogRepository.save(findUserMissionInMissionLog(mission,missionStatus,user_id));
+            missionLogRepositoryImpl.saveMissionLog(findUserMissionInMissionLog(mission,missionStatus,user_id));
         }
+
     }
 
 

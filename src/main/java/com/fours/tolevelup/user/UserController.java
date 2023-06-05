@@ -27,7 +27,8 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody UserDTO.LoginData loginData){
         if(userService.userLoginCheck(loginData)){
-            return ResponseEntity.created(linkTo(ThemeController.class).slash("themes").toUri()).body(loginData.getId());
+            return ResponseEntity.ok(loginData.getId());
+            //ResponseEntity.created(linkTo(ThemeController.class).slash("themes").toUri()).body(loginData.getId());
         }
         return ResponseEntity.notFound().build();
     }
@@ -52,7 +53,7 @@ public class UserController {
     public ResponseEntity<UserDTO.UserProfile> userProfile(@RequestParam String user_id){
         return ResponseEntity.ok(userService.findUserProfile(user_id));
     }
-    @PostMapping("/users/profile")
+    @PutMapping("/users/profile")
     public ResponseEntity<UserDTO.UserProfile> changeProfile(@RequestBody UserDTO.UserProfile userProfile){
         return ResponseEntity.ok(userService.changeUserProfile(userProfile));
     }
