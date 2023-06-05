@@ -15,7 +15,7 @@ public class ThemeExpRepositoryImpl implements ThemeExpCustomRepository {
 
     @Override
     // 정보 저장
-    public void save(ThemeExp themeExp){
+    public void save1(ThemeExp themeExp){
         em.persist(themeExp);
     }
 /*    @Override

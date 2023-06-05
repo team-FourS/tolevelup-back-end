@@ -51,7 +51,7 @@ public class ThemeExpServiceImpl implements ThemeExpService {
     public void saveUserThemeExps(User user) {
         List<Theme> themeList = themeRepository.findAll();
         for(Theme theme : themeList){
-            themeExpRepository.save(
+            themeExpRepository.save1(
                     ThemeExp.builder()
                             .id(user.getId()+theme.getId())
                             .user(user)
