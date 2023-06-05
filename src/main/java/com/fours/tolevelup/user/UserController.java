@@ -41,7 +41,7 @@ public class UserController {
         return ResponseEntity.ok(userService.findUserData(user_id));
     }
     @GetMapping("/users/info")
-    public ResponseEntity<UserDTO.UserPersonalInfo> userInfo(@RequestBody String user_id){
+    public ResponseEntity<UserDTO.UserPersonalInfo> userInfo(@RequestParam String user_id){
         return ResponseEntity.ok(userService.findUserPersonalInfo(user_id));
     }
     @PutMapping("/users/info")
@@ -49,15 +49,15 @@ public class UserController {
         return ResponseEntity.ok(userService.changeUserPersonalInfo(userData));
     }
     @GetMapping("/users/profile")
-    public ResponseEntity<UserDTO.UserProfile> userProfile(@RequestBody String user_id){
+    public ResponseEntity<UserDTO.UserProfile> userProfile(@RequestParam String user_id){
         return ResponseEntity.ok(userService.findUserProfile(user_id));
     }
     @PostMapping("/users/profile")
     public ResponseEntity<UserDTO.UserProfile> changeProfile(@RequestBody UserDTO.UserProfile userProfile){
         return ResponseEntity.ok(userService.changeUserProfile(userProfile));
     }
-    @DeleteMapping("/users/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable String id){
+    @DeleteMapping("/users")
+    public ResponseEntity<String> deleteUser(@RequestParam String id){
         userService.userDelete(id);
         return ResponseEntity.noContent().build();
     }
