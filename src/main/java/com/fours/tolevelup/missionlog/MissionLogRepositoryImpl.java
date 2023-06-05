@@ -39,7 +39,7 @@ public class MissionLogRepositoryImpl implements MissionLogCustomRepository {
     // 미션 수행 후 end_date와 status 업데이트 / 미션로그 id 를 이용
     @Modifying(clearAutomatically = true)
     @Query(value = "UPDATE MissionLog m set m.end_date = :end_date, m.status = :status where m.id = :id")
-    public void missionChecked(@Param("end_date") Date end_date,@Param("status")String status, @Param("id") int id) {
+    public void missionChecked(@Param("end_date") Date end_date,@Param("status") String status, @Param("id") int id) {
     }
 
     @Override
@@ -53,6 +53,7 @@ public class MissionLogRepositoryImpl implements MissionLogCustomRepository {
     public MissionLog findByMissionId(int mission_id) {
         return em.find(MissionLog.class, mission_id);
     }
+
 
 /*    @Override
     public List<MissionLog> findByUser_IdAndStatus(String user_id, String missionStatus) {
