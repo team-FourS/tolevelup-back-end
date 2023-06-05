@@ -18,7 +18,7 @@ public class ThemeExpServiceImpl implements ThemeExpService {
     private final ThemeExpRepository themeExpRepository;
     private final ThemeRepositoryImpl themeRepository;
     @Autowired
-    public ThemeExpServiceImpl(ThemeExpRepository themeExpRepository,ThemeRepositoryImpl themeRepository){
+    public ThemeExpServiceImpl(ThemeExpRepository themeExpRepository, ThemeRepositoryImpl themeRepository){
         this.themeExpRepository = themeExpRepository;
         this.themeRepository = themeRepository;
     }
@@ -39,12 +39,12 @@ public class ThemeExpServiceImpl implements ThemeExpService {
 
     @Override
     public void plusUserThemeExp(String user_id, Mission mission) {
-        themeExpRepository.expPlus(mission.getExp(), user_id,mission.getTheme().getId());
+        themeExpRepository.updateExpPlus(mission.getExp(), user_id,mission.getTheme().getId());
     }
 
     @Override
     public void minusUserThemeExp(String user_id, Mission mission) {
-        themeExpRepository.expMinus(mission.getExp(), user_id, mission.getTheme().getId());
+        themeExpRepository.updateExpMinus(mission.getExp(), user_id, mission.getTheme().getId());
     }
 
     @Override

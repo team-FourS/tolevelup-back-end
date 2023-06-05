@@ -1,7 +1,5 @@
 package com.fours.tolevelup.themeexp;
 
-import com.fours.tolevelup.theme.Theme;
-import com.fours.tolevelup.user.User;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -11,7 +9,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 @Repository
-public class ThemeExpRepositoryImpl implements ThemeExpRepository{
+public class ThemeExpRepositoryImpl implements ThemeExpCustomRepository {
     private final EntityManager em;
     public ThemeExpRepositoryImpl(EntityManager em) { this.em = em; }
 
