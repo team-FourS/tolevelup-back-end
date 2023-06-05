@@ -20,6 +20,15 @@ public class MissionDTO {
         private String status;
     }
 
+    @Getter
+    @Setter
+    @Builder
+    public static class MissionCheckData{
+        private String user_id;
+        private int mission_id;
+        private String status;
+    }
+
 
     @Getter
     @Setter
