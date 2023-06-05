@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 
 @Repository
-public class MissionRepositoryImpl implements MissionCustomRepository {
+public class MissionRepositoryImpl {
     private final EntityManager em;
 
     public MissionRepositoryImpl(EntityManager em){

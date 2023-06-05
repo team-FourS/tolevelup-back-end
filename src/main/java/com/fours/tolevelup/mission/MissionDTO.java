@@ -15,6 +15,7 @@ public class MissionDTO {
     @Setter
     @Builder
     public static class MissionContentData{
+        private int mission_id;
         private String content;
         private String status;
     }

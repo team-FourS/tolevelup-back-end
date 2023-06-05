@@ -27,12 +27,14 @@ import java.util.List;
 public class MissionServiceImpl implements MissionService {
 
     private final MissionRepositoryImpl missionRepository;
+    private final MissionRepository missionRepository1;
     private final MissionLogRepository missionLogRepository;
     private final ThemeExpServiceImpl themeExpService;
     @Autowired
     public MissionServiceImpl(
-            MissionRepositoryImpl missionRepository,MissionLogRepository missionLogRepository,ThemeExpServiceImpl themeExpService){
+            MissionRepository missionRepository1,MissionRepositoryImpl missionRepository,MissionLogRepository missionLogRepository,ThemeExpServiceImpl themeExpService){
         this.missionRepository = missionRepository;
+        this.missionRepository1 = missionRepository1;
         this.missionLogRepository = missionLogRepository;
         this.themeExpService = themeExpService;
     }
@@ -45,6 +47,7 @@ public class MissionServiceImpl implements MissionService {
             if(missionLog.getMission().getTheme().getName().equals(theme_name)){
                 missionContentDataList.add(
                         MissionDTO.MissionContentData.builder()
+                                .mission_id(missionLog.getMission().getId())
                                 .content(missionLog.getMission().getContent())
                                 .status(missionLog.getStatus())
                                 .build()
@@ -57,7 +60,7 @@ public class MissionServiceImpl implements MissionService {
     @Override
     public void changeUserMissionStatus(MissionDTO.MissionContentData missionContentData,String user_id){
         String missionStatus = missionContentData.getStatus();
-        Mission mission = missionRepository.findByIdAndContent(missionContentData.getContent());
+        Mission mission = missionRepository1.findById(missionContentData.getMission_id());
         MissionLog missionLog = findUserMissionInMissionLog(mission,missionStatus,user_id);
         if(missionStatus.equals("완료")){
             themeExpService.minusUserThemeExp(user_id,mission);
