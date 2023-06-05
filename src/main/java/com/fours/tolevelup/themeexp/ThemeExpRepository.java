@@ -1,16 +1,16 @@
 package com.fours.tolevelup.themeexp;
 
-import com.fours.tolevelup.theme.Theme;
-import com.fours.tolevelup.user.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
-import java.util.*;
+public interface ThemeExpRepository extends JpaRepository<ThemeExp, Long>, ThemeExpCustomRepository {
 
-public interface ThemeExpRepository {
-    void save(ThemeExp themeExp);
+    @Modifying(clearAutomatically = true)
+    @Query("update ThemeExp t set t.exp_total =+ :exp_total where t.user.id = :uid and t.theme.id = :tid")
+    int updateExpPlus(float exp_total, String user_id, int theme_id);
 
-//    List<ThemeExp> findById(String id);
-    List<ThemeExp> findByUser_id(String user_id);
-    void expPlus(float exp_total, String user_id, int theme_id);
-    void expMinus(float exp_total, String user_id, int theme_id);
-
+    @Modifying(clearAutomatically = true)
+    @Query("update ThemeExp t set t.exp_total =- :exp_total where t.user.id = :uid and t.theme.id = :tid")
+    int updateExpMinus(float exp_total, String user_id, int theme_id);
 }

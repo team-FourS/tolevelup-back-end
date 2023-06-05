@@ -27,7 +27,7 @@ public interface MissionLogRepository extends JpaRepository<MissionLog, Long>, M
     @Query("select m from MissionLog m where m.user.id = :uid AND m.start_date = :start_date")
     List<MissionLog>findByUser_IdAndStart_date(@Param("uid") String user_id, @Param("start_date") Date start_date);
 
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Query("UPDATE MissionLog m set m.end_date = :end_date, m.status=:status where m.id = :id")
     int updateMissionLog(Date end_date, String status, int id);
 
