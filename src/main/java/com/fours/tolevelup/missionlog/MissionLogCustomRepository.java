@@ -17,4 +17,5 @@ public interface MissionLogCustomRepository{
     MissionLog findByMissionId(int mission_id);
 
 
+
 }
