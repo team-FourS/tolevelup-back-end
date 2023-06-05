@@ -47,6 +47,7 @@ public class MissionServiceImpl implements MissionService {
             if(missionLog.getMission().getTheme().getName().equals(theme_name)){
                 missionContentDataList.add(
                         MissionDTO.MissionContentData.builder()
+                                .mission_id(missionLog.getMission().getId())
                                 .content(missionLog.getMission().getContent())
                                 .status(missionLog.getStatus())
                                 .build()
@@ -59,7 +60,7 @@ public class MissionServiceImpl implements MissionService {
     @Override
     public void changeUserMissionStatus(MissionDTO.MissionContentData missionContentData,String user_id){
         String missionStatus = missionContentData.getStatus();
-        Mission mission = missionRepository1.findById(1);
+        Mission mission = missionRepository1.findById(missionContentData.getMission_id());
         MissionLog missionLog = findUserMissionInMissionLog(mission,missionStatus,user_id);
         if(missionStatus.equals("완료")){
             themeExpService.minusUserThemeExp(user_id,mission);
