@@ -28,8 +28,8 @@ public class MissionServiceImpl implements MissionService {
     public MissionServiceImpl(
             MissionLogRepositoryImpl missionLogRepositoryImpl,MissionRepository missionRepository1,MissionRepositoryImpl missionRepository,MissionLogRepository missionLogRepository,ThemeExpServiceImpl themeExpService){
         this.missionRepository = missionRepository;
-        this.missionLogRepositoryImpl = missionLogRepositoryImpl;
         this.missionRepository1 = missionRepository1;
+        this.missionLogRepositoryImpl = missionLogRepositoryImpl;
         this.missionLogRepository = missionLogRepository;
         this.themeExpService = themeExpService;
     }
@@ -58,7 +58,6 @@ public class MissionServiceImpl implements MissionService {
         String user_id = missionCheckData.getUser_id();
         Mission mission = missionRepository1.findById(missionCheckData.getMission_id());
         MissionLog missionLog = findUserMissionInMissionLog(mission,missionStatus,user_id);
-        System.out.println(missionLog.getStatus()+"//"+mission.getId()+"//"+user_id);
         if(missionStatus.equals("완료")){
             themeExpService.minusUserThemeExp(user_id,mission);
             String status = (mission.getTheme().getType().equals("weekly")) ? "주진행중" : "진행중";

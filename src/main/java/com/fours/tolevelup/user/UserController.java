@@ -27,7 +27,7 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody UserDTO.LoginData loginData){
         if(userService.userLoginCheck(loginData)){
-            return ResponseEntity.ok(loginData.getId());
+            return ResponseEntity.ok(userService.findUserProfile(loginData.getId()).getName());
             //ResponseEntity.created(linkTo(ThemeController.class).slash("themes").toUri()).body(loginData.getId());
         }
         return ResponseEntity.notFound().build();
