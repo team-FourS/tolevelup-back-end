@@ -2,13 +2,13 @@ package com.fours.tolevelup.missionlog;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.sql.Date;
 import javax.persistence.EntityManager;
 
-
-
+@Repository
 public class MissionLogRepositoryImpl implements MissionLogCustomRepository {
 
     private final EntityManager em;
