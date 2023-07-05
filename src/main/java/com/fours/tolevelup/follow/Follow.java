@@ -1,4 +1,4 @@
-package com.fours.tolevelup.user;
+package com.fours.tolevelup.follow;
 
 import lombok.Builder;
 import lombok.Getter;
