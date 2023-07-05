@@ -11,7 +11,7 @@ import java.sql.Date;
 @NoArgsConstructor
 @Getter
 @Entity
-public class follow {
+public class Follow {
 
     @Id
     private int id;
@@ -20,7 +20,7 @@ public class follow {
     private Date start_date;
 
     @Builder
-    public follow(int id, String follower_id, String following_id, Date start_date){
+    public Follow(int id, String follower_id, String following_id, Date start_date){
         this.id = id;
         this.follower_id = follower_id;
         this.following_id = following_id;
