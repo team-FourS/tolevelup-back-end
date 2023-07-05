@@ -17,7 +17,6 @@ import javax.sql.rowset.serial.SerialBlob;
 public class Character {
     @Id
     private String id;
-    private String name;
     private String info;
     private SerialBlob img;
 
@@ -26,9 +25,8 @@ public class Character {
     private Theme theme;
 
     @Builder
-    public Character(String id, String name, String info, SerialBlob img){
+    public Character(String id, String info, SerialBlob img){
         this.id = id;
-        this.name = name;
         this.info = info;
         this.img = img;
     }
