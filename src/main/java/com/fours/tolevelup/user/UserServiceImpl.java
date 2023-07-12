@@ -1,9 +1,6 @@
 package com.fours.tolevelup.user;
 
-import com.fours.tolevelup.security.JwtTokenProvider;
-import com.fours.tolevelup.themeexp.ThemeExpRepositoryImpl;
 import com.fours.tolevelup.themeexp.ThemeExpServiceImpl;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
