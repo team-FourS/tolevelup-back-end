@@ -6,6 +6,8 @@ import com.fours.tolevelup.mission.MissionRepositoryImpl;
 import com.fours.tolevelup.theme.Theme;
 import com.fours.tolevelup.theme.ThemeRepositoryImpl;
 import com.fours.tolevelup.user.User;
+import com.fours.tolevelup.user.UserCustomRepository;
+import com.fours.tolevelup.user.UserRepository;
 import com.fours.tolevelup.user.UserRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -26,10 +28,10 @@ public class MissionLogService {
     private final MissionLogRepository missionLogRepository;
     private final MissionRepositoryImpl missionRepository;
     private final ThemeRepositoryImpl themeRepository;
-    private final UserRepositoryImpl userRepository;
+    private final UserRepository userRepository;
     @Autowired
     public MissionLogService(MissionLogRepository missionLogRepository, MissionRepositoryImpl missionRepository,
-                             ThemeRepositoryImpl themeRepository, UserRepositoryImpl userRepository){
+                             ThemeRepositoryImpl themeRepository, UserRepository userRepository){
         this.missionLogRepository = missionLogRepository;
         this.missionRepository = missionRepository;
         this.themeRepository = themeRepository;
@@ -43,7 +45,7 @@ public class MissionLogService {
         insertLog("daily");
     }
 
-    @Scheduled(cron = "0 0 0 * * 1")
+    @Scheduled(cron = "1 0 0 * * 1")
     public void weeklyMissionLogControl(){
         deleteLog("주진행중");
         this.weekly_date = Date.valueOf(LocalDate.now());
@@ -51,40 +53,35 @@ public class MissionLogService {
     }
 
     public void deleteLog(String status){
-        //date, status 활용해 미션로그들 리스트로 반환(레포 메소드)
-        //찾은 리스트에서 하나씩 id 빼서 delete(레포 메소드)
+        List<MissionLog> missionLogList = missionLogRepository.findByStatus(status);
+        missionLogRepository.deleteAll(missionLogList);
     }
 
     public void insertLog(String type){
-        //전체 유저 리스트 받음(레포 메소드)
-        List<User> userList = new ArrayList<>();
+        List<User> userList = userRepository.findAll();
         for(User user : userList){
-            List<Mission> missionList = new ArrayList<>();
-            missionList = randomMission(user,type);
+            List<Mission> missionList = randomMission(type);
             for(Mission m : missionList){
-                MissionLog.builder()
-                        .user(user)
-                        .mission(m)
-                        .start_date(this.daily_date)
-                        .status((type.equals("daily")?"진행중":"주진행중"))
-                        .build();
+                missionLogRepository.saveMissionLog(
+                        MissionLog.builder()
+                            .user(user)
+                            .mission(m)
+                            .start_date(this.daily_date)
+                            .status(type.equals("daily")?"진행중":"주진행중")
+                            .build()
+                );
             }
         }
     }
-    public List<Mission> randomMission(User user, String type){
+
+    public List<Mission> randomMission(String type){
         List<Theme> themeList = themeRepository.findByType(type);
         List<Mission> randomMissionList = new ArrayList<>();
         for(Theme theme : themeList){
             List<Mission> missionList = missionRepository.findByTheme(theme.getId());
             Collections.shuffle(missionList);
-            if(type.equals("daily")){
-                missionList = missionList.subList(0,2);
-            }else{
-                missionList = missionList.subList(0,1);
-            }
-            for(Mission m : missionList){
-                randomMissionList.add(m);
-            }
+            missionList = missionList.subList(0,type.equals("daily")?2:1);
+            randomMissionList.addAll(missionList);
         }
         return randomMissionList;
     }
