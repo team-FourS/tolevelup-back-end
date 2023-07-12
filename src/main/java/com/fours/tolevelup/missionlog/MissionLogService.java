@@ -45,7 +45,7 @@ public class MissionLogService {
         insertLog("daily");
     }
 
-    @Scheduled(cron = "0 0 0 * * 1")
+    @Scheduled(cron = "1 0 0 * * 1")
     public void weeklyMissionLogControl(){
         deleteLog("주진행중");
         this.weekly_date = Date.valueOf(LocalDate.now());
@@ -53,9 +53,8 @@ public class MissionLogService {
     }
 
     public void deleteLog(String status){
-        //date, status 활용해 미션로그들 리스트로 반환(레포 메소드)
-
-        //찾은 리스트에서 하나씩 id 빼서 delete(레포 메소드)
+        List<MissionLog> missionLogList = missionLogRepository.findByStatus(status);
+        missionLogRepository.deleteAll(missionLogList);
     }
 
     public void insertLog(String type){

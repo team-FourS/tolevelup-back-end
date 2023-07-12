@@ -1,4 +1,5 @@
 package com.fours.tolevelup.missionlog;
+import com.fours.tolevelup.mission.Mission;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -32,6 +33,13 @@ public class MissionLogRepositoryImpl implements MissionLogCustomRepository {
     // 미션 수행 전 상태 저장
     public void saveMissionLog(MissionLog missionLog) {
         em.persist(missionLog);
+    }
+
+    @Override
+    public List<MissionLog> findByStatus(String status){
+        return em.createQuery("select m from MissionLog m where m.status = :status", MissionLog.class)
+                .setParameter("status", status)
+                .getResultList();
     }
 
 
