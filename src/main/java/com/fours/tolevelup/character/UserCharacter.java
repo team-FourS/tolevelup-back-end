@@ -15,7 +15,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class UserCharacter {
     @Id
-    private int id;
+    private String id;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -28,7 +28,7 @@ public class UserCharacter {
     private String character_name;
 
     @Builder
-    public UserCharacter(int id, User user, Character character, String character_name){
+    public UserCharacter(String id, User user, Character character, String character_name){
         this.id = id;
         this.user = user;
         this.character = character;
