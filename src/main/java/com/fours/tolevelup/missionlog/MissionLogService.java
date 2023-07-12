@@ -1,5 +1,10 @@
 package com.fours.tolevelup.missionlog;
 
+import com.fours.tolevelup.mission.Mission;
+import com.fours.tolevelup.mission.MissionRepository;
+import com.fours.tolevelup.mission.MissionRepositoryImpl;
+import com.fours.tolevelup.theme.Theme;
+import com.fours.tolevelup.theme.ThemeRepositoryImpl;
 import com.fours.tolevelup.user.User;
 import com.fours.tolevelup.user.UserRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -18,10 +24,15 @@ public class MissionLogService {
     private Date daily_date;
     private Date weekly_date;
     private final MissionLogRepository missionLogRepository;
+    private final MissionRepositoryImpl missionRepository;
+    private final ThemeRepositoryImpl themeRepository;
     private final UserRepositoryImpl userRepository;
     @Autowired
-    public MissionLogService(MissionLogRepository missionLogRepository, UserRepositoryImpl userRepository){
+    public MissionLogService(MissionLogRepository missionLogRepository, MissionRepositoryImpl missionRepository,
+                             ThemeRepositoryImpl themeRepository, UserRepositoryImpl userRepository){
         this.missionLogRepository = missionLogRepository;
+        this.missionRepository = missionRepository;
+        this.themeRepository = themeRepository;
         this.userRepository = userRepository;
     }
 
@@ -29,14 +40,14 @@ public class MissionLogService {
     public void dailyMissionLogControl(){
         deleteLog("진행중");
         this.daily_date = Date.valueOf(LocalDate.now());
-        insertLog();
+        insertLog("daily");
     }
 
     @Scheduled(cron = "0 0 0 * * 1")
     public void weeklyMissionLogControl(){
         deleteLog("주진행중");
         this.weekly_date = Date.valueOf(LocalDate.now());
-        insertLog();
+        insertLog("weekly");
     }
 
     public void deleteLog(String status){
@@ -44,12 +55,39 @@ public class MissionLogService {
         //찾은 리스트에서 하나씩 id 빼서 delete(레포 메소드)
     }
 
-    public void insertLog(){
+    public void insertLog(String type){
         //전체 유저 리스트 받음(레포 메소드)
         List<User> userList = new ArrayList<>();
-
+        for(User user : userList){
+            List<Mission> missionList = new ArrayList<>();
+            missionList = randomMission(user,type);
+            for(Mission m : missionList){
+                MissionLog.builder()
+                        .user(user)
+                        .mission(m)
+                        .start_date(this.daily_date)
+                        .status((type.equals("daily")?"진행중":"주진행중"))
+                        .build();
+            }
+        }
     }
-
+    public List<Mission> randomMission(User user, String type){
+        List<Theme> themeList = themeRepository.findByType(type);
+        List<Mission> randomMissionList = new ArrayList<>();
+        for(Theme theme : themeList){
+            List<Mission> missionList = missionRepository.findByTheme(theme.getId());
+            Collections.shuffle(missionList);
+            if(type.equals("daily")){
+                missionList = missionList.subList(0,2);
+            }else{
+                missionList = missionList.subList(0,1);
+            }
+            for(Mission m : missionList){
+                randomMissionList.add(m);
+            }
+        }
+        return randomMissionList;
+    }
 
 
 }
