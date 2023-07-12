@@ -1,5 +1,6 @@
 package com.fours.tolevelup.theme;
 
+import com.fours.tolevelup.mission.Mission;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -15,11 +16,18 @@ public class ThemeRepositoryImpl implements ThemeCustomRepository {
     }
 
     @Override
-    // theme의 모든 필드를 담은 리스트
+    // theme 의 모든 필드를 담은 리스트
     public List<Theme> findAll(){
         return em.createQuery("select distinct t from Theme t", Theme.class)
                 .getResultList();
 
+    }
+
+    @Override
+    public List<Theme> findByType(String type){
+        return em.createQuery("select t from Theme t where t.type = :type", Theme.class)
+                .setParameter("type", type)
+                .getResultList();
     }
 
 
