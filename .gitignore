@@ -12,6 +12,9 @@
 .idea/**/dictionaries
 .idea/**/shelf
 
+## IntelliJ IDEA
+application-aws.properties
+
 # AWS User-specific
 .idea/**/aws.xml
 

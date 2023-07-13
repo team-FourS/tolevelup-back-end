@@ -7,4 +7,6 @@ import java.util.List;
 public interface UserCharacterRepository extends JpaRepository<UserCharacter, Long> {
     @Query("SELECT c FROM Character c WHERE c.level = 1")
     List<Character> findBylevel();
+
+
 }

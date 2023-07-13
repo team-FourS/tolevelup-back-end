@@ -33,4 +33,9 @@ public class CharacterDTO {
         private String info;
         private float exp;
     }
+
+    @Getter
+    public static class CharacterNameUpdate{
+        private String character_name;
+    }
 }
