@@ -148,7 +148,7 @@ fabric.properties
 # File-based project format
 
 # IntelliJ
-
+application-aws.properties
 # mpeltonen/sbt-idea plugin
 
 # JIRA plugin
