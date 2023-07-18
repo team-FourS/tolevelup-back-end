@@ -35,4 +35,8 @@ public class UserCharacter {
         this.character_name = character_name;
     }
 
+    public void update(String character_name){
+        this.character_name = character_name;
+    }
+
 }
