@@ -1,5 +1,6 @@
 package com.fours.tolevelup.character;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,6 +36,8 @@ public class CharacterDTO {
     }
 
     @Getter
+    @Setter
+    @Builder
     public static class CharacterNameUpdate{
         private String character_name;
     }
