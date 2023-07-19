@@ -1,7 +1,12 @@
 package com.fours.tolevelup.user;
 
 
+import com.fours.tolevelup.Controller.Request.UserRequest;
+import com.fours.tolevelup.Controller.Response.Response;
+import com.fours.tolevelup.Controller.Response.UserResponse;
+import com.fours.tolevelup.model.UserVO;
 import com.fours.tolevelup.theme.ThemeController;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,26 +17,33 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
+@RequestMapping("/api/v1/users")
 public class UserController {
     private final UserServiceImpl userService;
     @Autowired
     public UserController(UserServiceImpl userService){
         this.userService = userService;
     }
-    @PostMapping("/new")
-    public ResponseEntity<String> join(@RequestBody UserDTO.JoinForm joinForm){
-        System.out.println(joinForm.getName());
-        userService.userJoin(joinForm);
-        return ResponseEntity.ok("가입이 완료되었습니다.");
+
+    @PostMapping("/join")
+    public Response<String> join(@RequestBody UserRequest.JoinForm request){
+        userService.userJoin(request.getId(),request.getPassword(),request.getName(), request.getEmail());
+        return Response.success("성공");
     }
+
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody UserDTO.LoginData loginData){
-        if(userService.userLoginCheck(loginData)){
-            return ResponseEntity.ok(userService.findUserProfile(loginData.getId()).getName());
-            //ResponseEntity.created(linkTo(ThemeController.class).slash("themes").toUri()).body(loginData.getId());
-        }
-        return ResponseEntity.notFound().build();
+    public Response<UserResponse.LoginData> login(@RequestBody UserRequest.LoginForm request){
+        System.out.println(request.getId());
+        String token = userService.login(request.getId(),request.getPassword());
+        return Response.success((new UserResponse.LoginData(token)));
     }
+    @GetMapping("/test")
+    public String test(@RequestBody UserRequest.LoginForm request){
+        return request.getId();
+    }
+
+    //TODO: 수정
+/*
     @PostMapping("/logout")
     public ResponseEntity<Objects> logout(){
         return ResponseEntity.ok().build();
@@ -63,11 +75,8 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    /*@PostMapping("/login")
-    public ResponseEntity<UserDTO.TokenResponse> login(@RequestBody UserDTO.LoginData loginData){
-        String token = userService.createToken(loginData);
-        return ResponseEntity.ok(new UserDTO.TokenResponse(token,"bearer"));
-    }*/
+
+ */
 
 
 

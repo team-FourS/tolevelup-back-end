@@ -4,6 +4,8 @@ import com.fours.tolevelup.mission.Mission;
 import com.fours.tolevelup.theme.Theme;
 import com.fours.tolevelup.theme.ThemeRepositoryImpl;
 import com.fours.tolevelup.user.User;
+import com.fours.tolevelup.user.UserRepositoryImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,16 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class ThemeExpServiceImpl implements ThemeExpService {
 
     private final ThemeExpRepository themeExpRepository;
     private final ThemeRepositoryImpl themeRepository;
-    @Autowired
-    public ThemeExpServiceImpl(ThemeExpRepository themeExpRepository, ThemeRepositoryImpl themeRepository){
-        this.themeExpRepository = themeExpRepository;
-        this.themeRepository = themeRepository;
-    }
+    private final UserRepositoryImpl userRepository;
+
     @Override
     public List<ThemeExpDTO.ThemeExp> findUserThemeExps(String id) {
         List<ThemeExpDTO.ThemeExp> userThemeExps = new ArrayList<>();
@@ -48,15 +48,15 @@ public class ThemeExpServiceImpl implements ThemeExpService {
     }
 
     @Override
-    public void saveUserThemeExps(User user) {
+    public void saveUserThemeExps(String id) {
         List<Theme> themeList = themeRepository.findAll();
+        User user = userRepository.findById(id).get();
         for(Theme theme : themeList){
             themeExpRepository.save1(
                     ThemeExp.builder()
                             .id(user.getId()+theme.getId())
                             .user(user)
                             .theme(theme)
-                            .exp_total(0)
                             .build()
             );
         }

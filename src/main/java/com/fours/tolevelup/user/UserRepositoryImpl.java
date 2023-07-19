@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Repository
 public class UserRepositoryImpl implements UserCustomRepository {
@@ -22,8 +23,8 @@ public class UserRepositoryImpl implements UserCustomRepository {
 
     @Override
     // 유저 id 찾기
-    public User findById(String id){
-        return em.find(User.class, id);
+    public Optional<User> findById(String id){
+        return Optional.ofNullable(em.find(User.class, id));
     }
 
 

@@ -6,10 +6,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.sql.Date;
+import java.time.LocalDate;
 
 @NoArgsConstructor
 @Getter
@@ -28,6 +27,11 @@ public class ThemeExp {
     private Theme theme;
 
     private float exp_total;
+
+    @PrePersist
+    void registeredAt(){
+        this.exp_total = 0;
+    }
 
     @Builder
     public ThemeExp(String id, User user, Theme theme, float exp_total){
