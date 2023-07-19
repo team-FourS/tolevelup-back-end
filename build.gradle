@@ -29,7 +29,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation ("org.springframework.boot:spring-boot-starter-hateoas")
-	implementation 'org.springframework.boot:spring-boot-starter-security' //spring security
+	/*implementation 'org.springframework.boot:spring-boot-starter-security' //spring security*/
 	implementation 'com.querydsl:querydsl-jpa' // queryDSL 을 사용하기 위한 라이브러리
 	implementation 'com.querydsl:querydsl-apt' // QClass를 생성하기 위한 라이브러리
 
