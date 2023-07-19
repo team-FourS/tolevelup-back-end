@@ -2,10 +2,14 @@ package com.fours.tolevelup.character;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.sql.rowset.serial.SerialBlob;
 
+@Setter
+@Getter
+@NoArgsConstructor
 public class CharacterDTO {
 
     @Getter
@@ -15,6 +19,14 @@ public class CharacterDTO {
         private String info;
         private SerialBlob img;
         private String theme_id;
+    }
+
+
+    @Builder
+    public static class CharacterData{
+        private String id;
+        private int level;
+        private String info;
     }
 
     @Getter

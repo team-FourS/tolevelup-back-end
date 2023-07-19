@@ -5,10 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.sql.rowset.serial.SerialBlob;
 
 @NoArgsConstructor
@@ -18,19 +15,20 @@ public class Character {
     @Id
     private String id;
     private int level;
-    private String info;
     private SerialBlob img;
+    private String info;
 
     @ManyToOne
     @JoinColumn(name = "theme_id")
     private Theme theme;
 
     @Builder
-    public Character(String id, int level, String info, SerialBlob img){
+    public Character(String id, int level, String info, SerialBlob img, Theme theme){
         this.id = id;
         this.level= level;
-        this.info = info;
         this.img = img;
+        this.info = info;
+        this.theme = theme;
     }
 
 }
