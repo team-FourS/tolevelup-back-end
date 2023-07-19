@@ -1,16 +1,16 @@
 package com.fours.tolevelup.user;
 
 
+import com.fours.tolevelup.model.UserRole;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.sql.Date;
+import java.time.LocalDate;
 
 @NoArgsConstructor
 @Getter
@@ -26,6 +26,20 @@ public class User {
     private int level;
     private String intro;
 
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    private UserRole role = UserRole.USER;
+
+    @Column(name = "register_at")
+    private Date registeredAt;
+
+    @PrePersist
+    void registeredAt(){
+        this.level = 1;
+        this.intro = "자신을 한줄로 소개해주세요.";
+        this.registeredAt = Date.valueOf(LocalDate.now());
+    }
+
     @Builder
     public User(String id,String password,String name,String email,int level,String intro){
         this.id = id;
@@ -35,6 +49,5 @@ public class User {
         this.level = level;
         this.intro = intro;
     }
-
 
 }

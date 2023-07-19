@@ -4,6 +4,9 @@ import org.springframework.http.ResponseEntity;
 
 public interface UserService {
 
+    void userJoin(String id,String password,String name,String email);
+    String login(String id,String password);
+    /*
     void userJoin(UserDTO.JoinForm joinForm);
     boolean userLoginCheck(UserDTO.LoginData loginDat);
     UserDTO.UserPersonalInfo findUserPersonalInfo(String id);
@@ -14,5 +17,8 @@ public interface UserService {
 
     UserDTO.UserData findUserData(String id);
     void userDelete(String id);
-    //String createToken(UserDTO.LoginData loginData);
+
+    String login(String id,String password);
+
+     */
 }
