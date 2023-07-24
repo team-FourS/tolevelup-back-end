@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.sql.rowset.serial.SerialBlob;
 
@@ -50,6 +51,7 @@ public class CharacterDTO {
     @Getter
     @Setter
     @Builder
+    @ResponseBody
     public static class CharacterNameUpdate{
         private String character_name;
     }
