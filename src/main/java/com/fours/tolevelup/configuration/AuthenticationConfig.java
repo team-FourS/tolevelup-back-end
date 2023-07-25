@@ -1,6 +1,7 @@
 package com.fours.tolevelup.configuration;
 
 
+
 import com.fours.tolevelup.configuration.filter.JwtTokenFilter;
 import com.fours.tolevelup.exception.CustomAuthenticationEntryPoint;
 import com.fours.tolevelup.service.user.UserServiceImpl;
