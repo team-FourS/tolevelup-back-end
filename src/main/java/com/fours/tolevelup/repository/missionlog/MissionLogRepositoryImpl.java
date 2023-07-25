@@ -1,4 +1,5 @@
 package com.fours.tolevelup.repository.missionlog;
+import com.fours.tolevelup.model.MissionStatus;
 import com.fours.tolevelup.model.entity.MissionLog;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -36,7 +37,7 @@ public class MissionLogRepositoryImpl implements MissionLogCustomRepository {
     }
 
     @Override
-    public List<MissionLog> findByStatus(String status){
+    public List<MissionLog> findByStatus(MissionStatus status){
         return em.createQuery("select m from MissionLog m where m.status = :status", MissionLog.class)
                 .setParameter("status", status)
                 .getResultList();
@@ -47,13 +48,13 @@ public class MissionLogRepositoryImpl implements MissionLogCustomRepository {
     // 미션 수행 후 end_date와 status 업데이트 / 미션로그 id 를 이용
     @Modifying(clearAutomatically = true)
     @Query(value = "UPDATE MissionLog m set m.end_date = :end_date, m.status = :status where m.id = :id")
-    public void missionChecked(@Param("end_date") Date end_date,@Param("status") String status, @Param("id") int id) {
+    public void missionChecked(@Param("end_date") Date end_date,@Param("status") MissionStatus status, @Param("id") int id) {
     }
 
     @Override
     @Modifying(clearAutomatically = true)
     @Query(value  ="update MissionLog m set m.status = :status, m.end_date = null where m.id = :id")
-    public void missionNonChecked(@Param("status")String status, @Param("id") int id){
+    public void missionNonChecked(@Param("status")MissionStatus status, @Param("id") int id){
 
     }
 

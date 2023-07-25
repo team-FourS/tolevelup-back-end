@@ -1,5 +1,6 @@
 package com.fours.tolevelup.repository.missionlog;
 
+import com.fours.tolevelup.model.MissionStatus;
 import com.fours.tolevelup.model.entity.MissionLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -27,6 +28,6 @@ public interface MissionLogRepository extends JpaRepository<MissionLog, Long>, M
 
     @Modifying(clearAutomatically = true)
     @Query("UPDATE MissionLog m set m.end_date = :end_date, m.status=:status where m.id = :id")
-    int updateMissionLog(Date end_date, String status, int id);
+    int updateMissionLog(Date end_date, MissionStatus status, int id);
 
 }

@@ -1,5 +1,6 @@
 package com.fours.tolevelup.model.entity;
 
+import com.fours.tolevelup.model.MissionStatus;
 import com.fours.tolevelup.model.entity.Mission;
 import com.fours.tolevelup.model.entity.User;
 import lombok.Builder;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.time.LocalDate;
 
 @NoArgsConstructor
 @Getter
@@ -19,7 +21,10 @@ public class MissionLog {
     private int id;
     private Date start_date;
     private Date end_date;
-    private String status;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private MissionStatus status;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -29,8 +34,13 @@ public class MissionLog {
     @JoinColumn(name = "mission_id")
     private Mission mission;
 
+    @PrePersist
+    void registeredAt(){
+        this.start_date = Date.valueOf(LocalDate.now());
+    }
+
     @Builder
-    public MissionLog(int id, User user, Mission mission, Date start_date, Date end_date, String status){
+    public MissionLog(int id, User user, Mission mission, Date start_date, Date end_date, MissionStatus status){
         this.id = id;
         this.user = user;
         this.mission = mission;

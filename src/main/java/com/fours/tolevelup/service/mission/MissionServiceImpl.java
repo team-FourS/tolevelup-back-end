@@ -1,6 +1,7 @@
 package com.fours.tolevelup.service.mission;
 
 
+import com.fours.tolevelup.model.MissionStatus;
 import com.fours.tolevelup.repository.mission.MissionRepository;
 import com.fours.tolevelup.repository.mission.MissionRepositoryImpl;
 import com.fours.tolevelup.model.entity.MissionLog;
@@ -37,6 +38,8 @@ public class MissionServiceImpl implements MissionService {
         this.themeExpService = themeExpService;
     }
 
+    //TODO:수정
+    /**
     @Override
     public List<MissionDTO.MissionContentData> getUserThemeMissionContentList(String theme_name, String user_id) {
         List<MissionDTO.MissionContentData> missionContentDataList = new ArrayList<>();
@@ -57,28 +60,28 @@ public class MissionServiceImpl implements MissionService {
 
     @Override
     public void changeUserMissionStatus(MissionDTO.MissionCheckData missionCheckData){
-        String missionStatus = missionCheckData.getStatus();
+        MissionStatus missionStatus = missionCheckData.getStatus();
         String user_id = missionCheckData.getUser_id();
         Mission mission = missionRepository1.findById(missionCheckData.getMission_id());
         MissionLog missionLog = findUserMissionInMissionLog(mission,missionStatus,user_id);
         if(missionStatus.equals("완료")){
             themeExpService.minusUserThemeExp(user_id,mission);
-            String status = (mission.getTheme().getType().equals("weekly")) ? "주진행중" : "진행중";
+            MissionStatus status = (mission.getTheme().getType().equals("weekly")) ? MissionStatus.WEEKLY_ONGOING : MissionStatus.DAILY_ONGOING;
             missionLogRepositoryImpl.missionNonChecked(status,missionLog.getId());
         }else {
             System.out.println(mission.getId()+"//"+user_id);
             themeExpService.plusUserThemeExp(user_id,mission);
-            missionLogRepositoryImpl.missionChecked(Date.valueOf(LocalDate.now()),"완료",missionLog.getId());
+            missionLogRepositoryImpl.missionChecked(Date.valueOf(LocalDate.now()),MissionStatus.DAILY_COMPLETE,missionLog.getId());
             System.out.println(missionLog.getId());
-            missionLogRepository.updateMissionLog(Date.valueOf(LocalDate.now()),"완료",missionLog.getId());
+            missionLogRepository.updateMissionLog(Date.valueOf(LocalDate.now()),MissionStatus.DAILY_COMPLETE,missionLog.getId());
         }
         missionLogRepository.save(missionLog);
     }
 
 
     @Override
-    public MissionLog findUserMissionInMissionLog(Mission mission,String missionStatus,String user_id){
-        List<MissionLog> missionLogList = missionLogRepository.findByUser_IdAndStatus(user_id, missionStatus);
+    public MissionLog findUserMissionInMissionLog(Mission mission,MissionStatus missionStatus,String user_id){
+        List<MissionLog> missionLogList = missionLogRepository.findByUser_IdAndStatus(user_id, String.valueOf(missionStatus));
         //이거 날짜로 찾는거 status 로 찾게 변경 -> 완료
         for(MissionLog missionLog : missionLogList){
             if(missionLog.getMission().getId()==mission.getId()){
@@ -87,4 +90,5 @@ public class MissionServiceImpl implements MissionService {
         }
         return null;
     }
+    **/
 }

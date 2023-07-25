@@ -1,6 +1,5 @@
 package com.fours.tolevelup.service.character;
 
-import com.fours.tolevelup.character.*;
 import com.fours.tolevelup.model.entity.Character;
 import com.fours.tolevelup.model.entity.User;
 import com.fours.tolevelup.model.entity.UserCharacter;

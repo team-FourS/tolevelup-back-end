@@ -1,5 +1,6 @@
 package com.fours.tolevelup.service.missionlog;
 
+import com.fours.tolevelup.model.MissionStatus;
 import com.fours.tolevelup.repository.missionlog.MissionLogRepository;
 import com.fours.tolevelup.model.entity.Mission;
 import com.fours.tolevelup.repository.mission.MissionRepositoryImpl;
@@ -8,6 +9,7 @@ import com.fours.tolevelup.model.entity.Theme;
 import com.fours.tolevelup.repository.theme.ThemeRepositoryImpl;
 import com.fours.tolevelup.model.entity.User;
 import com.fours.tolevelup.repository.user.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -21,37 +23,27 @@ import java.util.List;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class MissionLogService {
-    private Date daily_date;
-    private Date weekly_date;
+
     private final MissionLogRepository missionLogRepository;
     private final MissionRepositoryImpl missionRepository;
     private final ThemeRepositoryImpl themeRepository;
     private final UserRepository userRepository;
-    @Autowired
-    public MissionLogService(MissionLogRepository missionLogRepository, MissionRepositoryImpl missionRepository,
-                             ThemeRepositoryImpl themeRepository, UserRepository userRepository){
-        this.missionLogRepository = missionLogRepository;
-        this.missionRepository = missionRepository;
-        this.themeRepository = themeRepository;
-        this.userRepository = userRepository;
-    }
 
     @Scheduled(cron = "0 0 0 * * *")
     public void dailyMissionLogControl(){
-        deleteLog("진행중");
-        this.daily_date = Date.valueOf(LocalDate.now());
+        //deleteLog(MissionStatus.DAILY_ONGOING);
         insertLog("daily");
     }
 
     @Scheduled(cron = "1 0 0 * * 1")
     public void weeklyMissionLogControl(){
-        deleteLog("주진행중");
-        this.weekly_date = Date.valueOf(LocalDate.now());
+        deleteLog(MissionStatus.WEEKLY_ONGOING);
         insertLog("weekly");
     }
 
-    public void deleteLog(String status){
+    public void deleteLog(MissionStatus status){
         List<MissionLog> missionLogList = missionLogRepository.findByStatus(status);
         missionLogRepository.deleteAll(missionLogList);
     }
@@ -61,14 +53,14 @@ public class MissionLogService {
         for(User user : userList){
             List<Mission> missionList = randomMission(type);
             for(Mission m : missionList){
-                missionLogRepository.saveMissionLog(
-                        MissionLog.builder()
-                            .user(user)
-                            .mission(m)
-                            .start_date(this.daily_date)
-                            .status(type.equals("daily")?"진행중":"주진행중")
-                            .build()
-                );
+                System.out.println(m.getId());
+                MissionLog log = MissionLog.builder()
+                        .user(user)
+                        .mission(m)
+                        .status(type.equals("daily")?MissionStatus.DAILY_ONGOING:MissionStatus.WEEKLY_ONGOING)
+                        .build();
+                System.out.println(m.getId()+"완료");
+                missionLogRepository.saveMissionLog(log);
             }
         }
     }
