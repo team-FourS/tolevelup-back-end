@@ -1,5 +1,6 @@
 package com.fours.tolevelup.service.character;
 
+import com.fours.tolevelup.model.entity.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -51,7 +52,6 @@ public class CharacterDTO {
     @Getter
     @Setter
     @Builder
-    @ResponseBody
     public static class CharacterNameUpdate{
         private String character_name;
     }

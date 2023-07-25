@@ -34,6 +34,7 @@ public class CharacterService {
 
         userCharacter.update(characterNameUpdate.getCharacter_name());
 
+        userCharacterRepository.save(userCharacter);
         return id;
     }
 
