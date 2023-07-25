@@ -6,6 +6,7 @@ import com.fours.tolevelup.Controller.Response.Response;
 import com.fours.tolevelup.Controller.Response.UserResponse;
 import com.fours.tolevelup.service.user.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -31,10 +32,13 @@ public class UserController {
         String token = userService.login(request.getId(),request.getPassword());
         return Response.success((new UserResponse.LoginData(token)));
     }
-    @GetMapping("/test")
-    public String test(@RequestBody UserRequest.LoginForm request){
-        return request.getId();
+
+    @GetMapping("/my")
+    public Response<UserResponse.Data> myData(Authentication authentication){
+        System.out.println("controller "+authentication.getName());
+        return Response.success(userService.findUserData(authentication.getName()));
     }
+
 
     //TODO: 수정
 /*

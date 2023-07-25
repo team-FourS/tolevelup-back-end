@@ -11,13 +11,26 @@ import java.util.Date;
 
 public class JwtTokenUtils {
 
-    public static String generateToken(String userName,String key,long expiredTimeMs){
+    public static String getUserId(String token,String key){
+        System.out.println("getUserId"+extractClaims(token,key).get("userId",String.class));
+        return extractClaims(token,key).get("userId",String.class);
+    }
+    public static boolean isExpired(String token,String key){
+        Date expiredDate = extractClaims(token,key).getExpiration();
+        return expiredDate.before(new Date()); //현재보다 더 이전인지
+    }
+    private static Claims extractClaims(String token,String key){
+        return Jwts.parserBuilder().setSigningKey(getKey(key))
+                .build().parseClaimsJws(token).getBody();
+    }
+
+    public static String generateToken(String userId,String key,long expiredTimeMs){
         Claims claims = Jwts.claims();
-        claims.put("userName",userName);
+        claims.put("userId",userId);
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis()+expiredTimeMs))
                 .signWith(getKey(key), SignatureAlgorithm.HS256)
                 .compact();
     }

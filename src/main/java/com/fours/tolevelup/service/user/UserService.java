@@ -1,11 +1,14 @@
 package com.fours.tolevelup.service.user;
 
+import com.fours.tolevelup.Controller.Response.UserResponse;
+import com.fours.tolevelup.model.UserVO;
 import org.springframework.http.ResponseEntity;
 
 public interface UserService {
 
     void userJoin(String id,String password,String name,String email);
     String login(String id,String password);
+    UserResponse.Data findUserData(String id);
     /*
     void userJoin(UserDTO.JoinForm joinForm);
     boolean userLoginCheck(UserDTO.LoginData loginDat);
