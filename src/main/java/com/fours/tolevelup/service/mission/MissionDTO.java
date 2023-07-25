@@ -1,6 +1,7 @@
 package com.fours.tolevelup.service.mission;
 
 
+import com.fours.tolevelup.model.MissionStatus;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,7 @@ public class MissionDTO {
     public static class MissionContentData{
         private int mission_id;
         private String content;
-        private String status;
+        private MissionStatus status;
     }
 
     @Getter
@@ -26,7 +27,7 @@ public class MissionDTO {
     public static class MissionCheckData{
         private String user_id;
         private int mission_id;
-        private String status;
+        private MissionStatus status;
     }
 
 

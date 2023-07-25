@@ -19,6 +19,7 @@ public class MissionController {
         this.missionService = missionService;
     }
 
+    /*
     @GetMapping("/missions/{theme_name}")
     public ResponseEntity<List<MissionDTO.MissionContentData>> missionList(@PathVariable String theme_name, @RequestParam String user_id){
         return ResponseEntity.ok(missionService.getUserThemeMissionContentList(theme_name,user_id));
@@ -29,6 +30,6 @@ public class MissionController {
         missionService.changeUserMissionStatus(missionCheckData);
         return ResponseEntity.ok(missionService.getUserThemeMissionContentList(theme_name,missionCheckData.getUser_id()));
     }
-
+*/
 
 }
