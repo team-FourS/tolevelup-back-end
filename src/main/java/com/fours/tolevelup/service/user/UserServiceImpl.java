@@ -73,7 +73,6 @@ public class UserServiceImpl implements UserService {
         UserVO vo = loadUserVoByUserId(id);
         return UserResponse.Data.builder()
                 .id(vo.getId())
-                .password(vo.getPassword())
                 .name(vo.getName())
                 .email(vo.getEmail())
                 .level(vo.getLevel())

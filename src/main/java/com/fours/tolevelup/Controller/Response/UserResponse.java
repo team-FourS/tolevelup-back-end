@@ -34,7 +34,6 @@ public class UserResponse {
     @AllArgsConstructor
     public static class Data{
         private String id;
-        private String password;
         private String name;
         private String email;
         private int level;
