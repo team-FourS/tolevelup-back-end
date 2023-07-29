@@ -3,14 +3,13 @@ package com.fours.tolevelup.service.user;
 import com.fours.tolevelup.Controller.Response.UserResponse;
 import com.fours.tolevelup.exception.ErrorCode;
 import com.fours.tolevelup.exception.TluApplicationException;
-import com.fours.tolevelup.model.UserVO;
+import com.fours.tolevelup.model.UserDTO;
 import com.fours.tolevelup.service.themeexp.ThemeExpServiceImpl;
 import com.fours.tolevelup.model.entity.User;
 import com.fours.tolevelup.repository.user.UserRepository;
 import com.fours.tolevelup.repository.user.UserRepositoryImpl;
 import com.fours.tolevelup.util.JwtTokenUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,8 +29,8 @@ public class UserServiceImpl implements UserService {
     private long expiredTimeMs;
 
 
-    public UserVO loadUserVoByUserId(String id){
-            return userRepository.findById(id).map(UserVO::fromEntity).orElseThrow(()->
+    public UserDTO loadUserVoByUserId(String id){
+            return userRepository.findById(id).map(UserDTO::fromEntity).orElseThrow(()->
                     new TluApplicationException(ErrorCode.USER_NOT_FOUND,String.format("%s not founded",id)));
     }
 
@@ -70,7 +69,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse.Data findUserData(String id) {
-        UserVO vo = loadUserVoByUserId(id);
+        UserDTO vo = loadUserVoByUserId(id);
         return UserResponse.Data.builder()
                 .id(vo.getId())
                 .name(vo.getName())

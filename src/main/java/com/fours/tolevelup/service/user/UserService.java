@@ -1,8 +1,6 @@
 package com.fours.tolevelup.service.user;
 
 import com.fours.tolevelup.Controller.Response.UserResponse;
-import com.fours.tolevelup.model.UserVO;
-import org.springframework.http.ResponseEntity;
 
 public interface UserService {
 

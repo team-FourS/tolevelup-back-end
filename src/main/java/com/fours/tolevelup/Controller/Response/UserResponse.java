@@ -2,11 +2,9 @@ package com.fours.tolevelup.Controller.Response;
 
 
 import com.fours.tolevelup.model.UserRole;
-import com.fours.tolevelup.model.UserVO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.sql.Date;
 
