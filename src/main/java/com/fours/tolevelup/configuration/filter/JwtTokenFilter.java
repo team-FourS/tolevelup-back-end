@@ -44,7 +44,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 return;
             }
             String userId = JwtTokenUtils.getUserId(token,key);
-            System.out.println(userId);
             UserDTO user = userService.loadUserVoByUserId(userId);
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                     user,null,user.getAuthorities()
