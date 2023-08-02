@@ -1,8 +1,7 @@
 package com.fours.tolevelup.configuration.filter;
 
 
-import com.fours.tolevelup.model.UserVO;
-import com.fours.tolevelup.service.user.UserService;
+import com.fours.tolevelup.model.UserDTO;
 import com.fours.tolevelup.service.user.UserServiceImpl;
 import com.fours.tolevelup.util.JwtTokenUtils;
 import lombok.RequiredArgsConstructor;
@@ -45,8 +44,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 return;
             }
             String userId = JwtTokenUtils.getUserId(token,key);
-            System.out.println(userId);
-            UserVO user = userService.loadUserVoByUserId(userId);
+            UserDTO user = userService.loadUserVoByUserId(userId);
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                     user,null,user.getAuthorities()
             );

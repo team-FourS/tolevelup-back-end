@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @Builder
 @AllArgsConstructor
-public class UserVO implements UserDetails {
+public class UserDTO implements UserDetails {
     private String id;
     private String password;
     private String name;
@@ -25,8 +25,8 @@ public class UserVO implements UserDetails {
     private UserRole role;
     private Date registeredAt;
 
-    public static UserVO fromEntity(User entity){
-        return new UserVO(
+    public static UserDTO fromEntity(User entity){
+        return new UserDTO(
                 entity.getId(),
                 entity.getPassword(),
                 entity.getName(),

@@ -10,5 +10,5 @@ public interface ThemeExpService {
 
     void plusUserThemeExp(String user_id,Mission mission);
     void minusUserThemeExp(String user_id,Mission mission);
-    void saveUserThemeExps(String id);
+    //void saveUserThemeExps(String id);
 }

@@ -3,6 +3,7 @@ package com.fours.tolevelup.model.entity;
 import com.fours.tolevelup.model.MissionStatus;
 import com.fours.tolevelup.model.entity.Mission;
 import com.fours.tolevelup.model.entity.User;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,11 +15,12 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Getter
 @Entity
-
+@AllArgsConstructor
 @Table(name = "mission_log")
 public class MissionLog {
     @Id
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private Date start_date;
     private Date end_date;
 
@@ -40,11 +42,9 @@ public class MissionLog {
     }
 
     @Builder
-    public MissionLog(int id, User user, Mission mission, Date start_date, Date end_date, MissionStatus status){
-        this.id = id;
+    public MissionLog(User user, Mission mission, Date end_date, MissionStatus status){
         this.user = user;
         this.mission = mission;
-        this.start_date = start_date;
         this.end_date = end_date;
         this.status = status;
     }

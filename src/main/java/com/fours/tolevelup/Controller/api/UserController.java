@@ -28,14 +28,12 @@ public class UserController {
 
     @PostMapping("/login")
     public Response<UserResponse.LoginData> login(@RequestBody UserRequest.LoginForm request){
-        System.out.println(request.getId());
         String token = userService.login(request.getId(),request.getPassword());
         return Response.success((new UserResponse.LoginData(token)));
     }
 
     @GetMapping("/my")
     public Response<UserResponse.Data> myData(Authentication authentication){
-        System.out.println("controller "+authentication.getName());
         return Response.success(userService.findUserData(authentication.getName()));
     }
 

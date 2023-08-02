@@ -12,7 +12,6 @@ import java.util.Date;
 public class JwtTokenUtils {
 
     public static String getUserId(String token,String key){
-        System.out.println("getUserId"+extractClaims(token,key).get("userId",String.class));
         return extractClaims(token,key).get("userId",String.class);
     }
     public static boolean isExpired(String token,String key){

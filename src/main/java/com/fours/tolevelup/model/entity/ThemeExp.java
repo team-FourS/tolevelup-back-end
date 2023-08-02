@@ -1,5 +1,6 @@
 package com.fours.tolevelup.model.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,7 +31,7 @@ public class ThemeExp {
     }
 
     @Builder
-    public ThemeExp(String id, User user, Theme theme, float exp_total){
+    public ThemeExp(String id,User user, Theme theme, float exp_total){
         this.id = id;
         this.user = user;
         this.theme = theme;
