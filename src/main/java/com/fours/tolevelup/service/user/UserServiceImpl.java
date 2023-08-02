@@ -1,18 +1,13 @@
 package com.fours.tolevelup.service.user;
 
-import com.fours.tolevelup.Controller.Response.UserResponse;
+import com.fours.tolevelup.controller.Response.UserResponse;
 import com.fours.tolevelup.exception.ErrorCode;
 import com.fours.tolevelup.exception.TluApplicationException;
-import com.fours.tolevelup.model.MissionStatus;
 import com.fours.tolevelup.model.UserDTO;
 import com.fours.tolevelup.model.entity.*;
-import com.fours.tolevelup.repository.mission.MissionRepositoryImpl;
-import com.fours.tolevelup.repository.missionlog.MissionLogRepository;
 import com.fours.tolevelup.repository.theme.ThemeRepository;
 import com.fours.tolevelup.repository.themeexp.ThemeExpRepository;
 import com.fours.tolevelup.service.missionlog.MissionLogService;
-import com.fours.tolevelup.service.themeexp.ThemeExpServiceImpl;
-import com.fours.tolevelup.repository.user.UserRepository;
 import com.fours.tolevelup.repository.user.UserRepositoryImpl;
 import com.fours.tolevelup.util.JwtTokenUtils;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +16,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service

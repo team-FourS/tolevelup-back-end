@@ -1,4 +1,4 @@
-package com.fours.tolevelup.Controller.Request;
+package com.fours.tolevelup.controller.Request;
 
 
 import lombok.AllArgsConstructor;

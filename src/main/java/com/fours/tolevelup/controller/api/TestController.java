@@ -1,6 +1,6 @@
-package com.fours.tolevelup.Controller.api;
+package com.fours.tolevelup.controller.api;
 
-import com.fours.tolevelup.Controller.Response.Response;
+import com.fours.tolevelup.controller.Response.Response;
 import com.fours.tolevelup.service.missionlog.MissionLogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
