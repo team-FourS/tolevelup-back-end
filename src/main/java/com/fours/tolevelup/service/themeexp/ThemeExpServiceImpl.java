@@ -47,8 +47,9 @@ public class ThemeExpServiceImpl implements ThemeExpService {
     public void minusUserThemeExp(String user_id, Mission mission) {
         themeExpRepository.updateExpMinus(mission.getExp(), user_id, mission.getTheme().getId());
     }
-
+    /* UserService 에 위치
     @Override
+    @Transactional
     public void saveUserThemeExps(String id) {
         List<Theme> themeList = themeRepository.findAll();
         User user = userRepository.findById(id).get();
@@ -62,4 +63,5 @@ public class ThemeExpServiceImpl implements ThemeExpService {
             );
         }
     }
+    */
 }

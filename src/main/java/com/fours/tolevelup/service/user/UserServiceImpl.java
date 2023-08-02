@@ -3,9 +3,15 @@ package com.fours.tolevelup.service.user;
 import com.fours.tolevelup.Controller.Response.UserResponse;
 import com.fours.tolevelup.exception.ErrorCode;
 import com.fours.tolevelup.exception.TluApplicationException;
+import com.fours.tolevelup.model.MissionStatus;
 import com.fours.tolevelup.model.UserDTO;
+import com.fours.tolevelup.model.entity.*;
+import com.fours.tolevelup.repository.mission.MissionRepositoryImpl;
+import com.fours.tolevelup.repository.missionlog.MissionLogRepository;
+import com.fours.tolevelup.repository.theme.ThemeRepository;
+import com.fours.tolevelup.repository.themeexp.ThemeExpRepository;
+import com.fours.tolevelup.service.missionlog.MissionLogService;
 import com.fours.tolevelup.service.themeexp.ThemeExpServiceImpl;
-import com.fours.tolevelup.model.entity.User;
 import com.fours.tolevelup.repository.user.UserRepository;
 import com.fours.tolevelup.repository.user.UserRepositoryImpl;
 import com.fours.tolevelup.util.JwtTokenUtils;
@@ -15,12 +21,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepositoryImpl userRepository;
-    private final ThemeExpServiceImpl themeExpService;
-    private final UserRepository userRepository1;
+    private final ThemeExpRepository themeExpRepository;
+    private final ThemeRepository themeRepository;
+    private final MissionLogService missionLogService;
     private final BCryptPasswordEncoder encoder;
 
     @Value("${jwt.secret-key}")
@@ -37,32 +47,26 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void userJoin(String id,String password,String name,String email){
-        //id가 이미 있는지
         userRepository.findById(id).ifPresent(it -> {
             throw new TluApplicationException(ErrorCode.DUPLICATED_USER_ID,String.format("%s is duplicated",id));
         });
-        //없으면 회원가입
         userRepository.saveUser(
-                User.builder()
-                        .id(id)
-                        .password(encoder.encode(password))
-                        .name(name)
-                        .email(email)
-                        .build()
-        );
-        themeExpService.saveUserThemeExps(id);
+                User.builder().id(id).password(encoder.encode(password)).name(name).email(email).build());
+        List<Theme> themeList = themeRepository.findAll();
+        User user = getUserOrException(id);
+        for(Theme theme : themeList){
+            themeExpRepository.save(
+                    ThemeExp.builder().id(user.getId()+theme.getName()).user(user).theme(theme).build());
+        }
+        missionLogService.createMissionLog(user);
     }
 
     @Override
     public String login(String id,String password){
-        //일치하는 id 찾기
-        User user = userRepository.findById(id)
-                .orElseThrow(()->new TluApplicationException(ErrorCode.USER_NOT_FOUND,String.format("%s is duplicated",id)));
-        //일치하는 pw 찾기
+        User user = getUserOrException(id);
         if(!encoder.matches(password, user.getPassword())){
             throw new TluApplicationException(ErrorCode.INVALID_PASSWORD);
         }
-        //토큰 생성
         String token = JwtTokenUtils.generateToken(id, secretKey,expiredTimeMs);
         return token;
     }
@@ -81,6 +85,10 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
+    private User getUserOrException(String id){
+        return userRepository.findById(id).orElseThrow(()->
+                new TluApplicationException(ErrorCode.USER_NOT_FOUND,String.format("%s is duplicated",id)));
+    }
 
 //TODO:에러코드 넣어서 수정
 /*
