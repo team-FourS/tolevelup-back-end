@@ -16,8 +16,8 @@ public class CharacterController {
     private CharacterService characterService;
 
 
-    @GetMapping("/characters")
-    public ResponseEntity<List<CharacterDTO.CharacterData>> characterData(){
+    @GetMapping("/character")
+    public ResponseEntity<List<CharacterDTO.Character>> characterData(){
         return ResponseEntity.ok(characterService.getCharacterData());
     }
     public ResponseEntity<Object> characterList(){
