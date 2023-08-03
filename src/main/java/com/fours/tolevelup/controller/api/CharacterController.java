@@ -13,11 +13,11 @@ import java.util.List;
 @RestController
 public class CharacterController {
 
-    private CharacterService characterService;
+    private final CharacterService characterService;
 
 
     @GetMapping("/character")
-    public ResponseEntity<List<CharacterDTO.Character>> characterData(){
+    public ResponseEntity<List<CharacterDTO.CharacterData>> characterData(){
         return ResponseEntity.ok(characterService.getCharacterData());
     }
     public ResponseEntity<Object> characterList(){

@@ -11,5 +11,5 @@ public interface CharacterRepository extends JpaRepository<Character, String> {
 /*    @Query("select c from Character c")
     List<Character> findAll();*/
     @Query("select c.id, c.level, c.info from Character c")
-    List<Object> getCharacters();
+    List<Object[]> getCharacters();
 }

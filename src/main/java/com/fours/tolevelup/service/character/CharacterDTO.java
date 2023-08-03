@@ -27,6 +27,7 @@ public class CharacterDTO {
 
     @NoArgsConstructor
     @Getter
+    @Setter
     public static class CharacterData{
         private String id;
         private int level;

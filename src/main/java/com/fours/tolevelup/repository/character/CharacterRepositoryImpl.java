@@ -22,7 +22,7 @@ public class CharacterRepositoryImpl implements CharacterCustomRepository{
 
     @Override
     public List<Character> findData(){
-        return em.createQuery("select c from Character c", Character.class)
+        return em.createQuery("select c.id, c.info,c.info,c.theme from Character c", Character.class)
                 .getResultList();
     }
 }

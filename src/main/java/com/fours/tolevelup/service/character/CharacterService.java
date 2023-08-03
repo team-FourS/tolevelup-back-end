@@ -39,15 +39,18 @@ public class CharacterService {
         return id;
     }
 
-    public List<CharacterDTO.Character> getCharacterData(){
-        List<Character> characterList =characterCustomRepository.findData();
-        List<CharacterDTO.Character> characterDTOList = new ArrayList<>();
-        BeanUtils.copyProperties(characterList, characterDTOList);
-        for(Character characterData:characterList){
-            CharacterDTO.Character characterDTO = new CharacterDTO.Character();
-            BeanUtils.copyProperties(characterData, characterDTO);
+    public List<CharacterDTO.CharacterData> getCharacterData(){
+        List<Object[]> characterDataList = characterRepository.getCharacters();
+        List<CharacterDTO.CharacterData> characterDTOList = new ArrayList<>();
+
+        for(Object[] characterData : characterDataList){
+            CharacterDTO.CharacterData characterDTO = new CharacterDTO.CharacterData();
+            characterDTO.setId((String) characterData[0]);
+            characterDTO.setLevel((int) characterData[1]);
+            characterDTO.setInfo((String) characterData[2]);
             characterDTOList.add(characterDTO);
         }
+
         return characterDTOList;
     }
 
