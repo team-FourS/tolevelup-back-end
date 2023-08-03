@@ -1,8 +1,9 @@
 package com.fours.tolevelup.service.user;
 
-import com.fours.tolevelup.controller.Response.UserResponse;
+import com.fours.tolevelup.controller.response.UserResponse;
 import com.fours.tolevelup.exception.ErrorCode;
 import com.fours.tolevelup.exception.TluApplicationException;
+import com.fours.tolevelup.model.ThemeExpDTO;
 import com.fours.tolevelup.model.UserDTO;
 import com.fours.tolevelup.model.entity.*;
 import com.fours.tolevelup.repository.theme.ThemeRepository;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -68,6 +70,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse.Data findUserData(String id) {
         UserDTO vo = loadUserVoByUserId(id);
+        List<ThemeExp> userExpList = themeExpRepository.findByUser_id(id);
+        List<ThemeExpDTO.user> userThemeExp = new ArrayList<>();
+        for(ThemeExp t : userExpList){
+            ThemeExpDTO.user dto = ThemeExpDTO.user.builder().theme_name(t.getTheme().getName()).exp_total(t.getExp_total()).build();
+            userThemeExp.add(dto);
+        }
         return UserResponse.Data.builder()
                 .id(vo.getId())
                 .name(vo.getName())
@@ -76,6 +84,7 @@ public class UserServiceImpl implements UserService {
                 .intro(vo.getIntro())
                 .role(vo.getRole())
                 .registeredAt(vo.getRegisteredAt())
+                .themeExp(userThemeExp)
                 .build();
     }
 
@@ -83,6 +92,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id).orElseThrow(()->
                 new TluApplicationException(ErrorCode.USER_NOT_FOUND,String.format("%s is duplicated",id)));
     }
+
 
 //TODO:에러코드 넣어서 수정
 /*

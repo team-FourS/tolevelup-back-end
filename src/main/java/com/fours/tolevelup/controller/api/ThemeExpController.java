@@ -1,7 +1,7 @@
 package com.fours.tolevelup.controller.api;
 
 
-import com.fours.tolevelup.service.themeexp.ThemeExpDTO;
+import com.fours.tolevelup.model.ThemeExpDTO;
 import com.fours.tolevelup.service.themeexp.ThemeExpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +21,10 @@ public class ThemeExpController {
     public ThemeExpController(ThemeExpService themeExpService){
         this.themeExpService = themeExpService;
     }
-
+/*
     @GetMapping("/themeexp/{id}")
     public ResponseEntity<List<ThemeExpDTO.ThemeExp>> userExp(@PathVariable String id){
         return ResponseEntity.ok(themeExpService.findUserThemeExps(id));
     }
-
+*/
 }
