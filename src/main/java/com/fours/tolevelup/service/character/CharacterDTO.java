@@ -18,13 +18,16 @@ public class CharacterDTO {
     @Setter
     public static class Character{
         private String id;
+        private int level;
         private String info;
         private SerialBlob img;
         private String theme_id;
     }
 
 
-    @Builder
+    @NoArgsConstructor
+    @Getter
+    @Setter
     public static class CharacterData{
         private String id;
         private int level;

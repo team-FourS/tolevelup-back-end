@@ -8,6 +8,7 @@ import com.fours.tolevelup.repository.character.CharacterRepository;
 import com.fours.tolevelup.repository.character.UserCharacterCustomRepository;
 import com.fours.tolevelup.repository.character.UserCharacterRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -39,17 +40,17 @@ public class CharacterService {
     }
 
     public List<CharacterDTO.CharacterData> getCharacterData(){
-        List<Character> characterList =characterCustomRepository.findData();
+        List<Object[]> characterDataList = characterRepository.getCharacters();
         List<CharacterDTO.CharacterData> characterDTOList = new ArrayList<>();
-        for(Character character:characterList){
-            characterDTOList.add(
-                    CharacterDTO.CharacterData.builder()
-                    .id(character.getId())
-                    .level(character.getLevel())
-                    .info(character.getInfo())
-                    .build()
-            );
+
+        for(Object[] characterData : characterDataList){
+            CharacterDTO.CharacterData characterDTO = new CharacterDTO.CharacterData();
+            characterDTO.setId((String) characterData[0]);
+            characterDTO.setLevel((int) characterData[1]);
+            characterDTO.setInfo((String) characterData[2]);
+            characterDTOList.add(characterDTO);
         }
+
         return characterDTOList;
     }
 

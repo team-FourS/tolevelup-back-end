@@ -11,6 +11,7 @@ import javax.sql.rowset.serial.SerialBlob;
 @NoArgsConstructor
 @Getter
 @Entity
+@Table(name = "\"character\"")
 public class Character {
     @Id
     private String id;
@@ -30,5 +31,6 @@ public class Character {
         this.info = info;
         this.theme = theme;
     }
+
 
 }
