@@ -1,10 +1,9 @@
 package com.fours.tolevelup.service.themeexp;
 
+import com.fours.tolevelup.model.ThemeExpDTO;
 import com.fours.tolevelup.model.entity.Mission;
 import com.fours.tolevelup.model.entity.ThemeExp;
-import com.fours.tolevelup.model.entity.Theme;
 import com.fours.tolevelup.repository.theme.ThemeRepositoryImpl;
-import com.fours.tolevelup.model.entity.User;
 import com.fours.tolevelup.repository.themeexp.ThemeExpRepository;
 import com.fours.tolevelup.repository.user.UserRepositoryImpl;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +21,7 @@ public class ThemeExpServiceImpl implements ThemeExpService {
     private final ThemeExpRepository themeExpRepository;
     private final ThemeRepositoryImpl themeRepository;
     private final UserRepositoryImpl userRepository;
-
+/*
     @Override
     public List<ThemeExpDTO.ThemeExp> findUserThemeExps(String id) {
         List<ThemeExpDTO.ThemeExp> userThemeExps = new ArrayList<>();
@@ -37,7 +36,7 @@ public class ThemeExpServiceImpl implements ThemeExpService {
         }
         return userThemeExps;
     }
-
+*/
     @Override
     public void plusUserThemeExp(String user_id, Mission mission) {
         themeExpRepository.updateExpPlus(mission.getExp(), user_id,mission.getTheme().getId());

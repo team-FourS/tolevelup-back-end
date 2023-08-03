@@ -1,6 +1,6 @@
 package com.fours.tolevelup.service.user;
 
-import com.fours.tolevelup.controller.Response.UserResponse;
+import com.fours.tolevelup.controller.response.UserResponse;
 
 public interface UserService {
 

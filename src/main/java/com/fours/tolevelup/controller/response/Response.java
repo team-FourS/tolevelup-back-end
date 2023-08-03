@@ -1,4 +1,4 @@
-package com.fours.tolevelup.controller.Response;
+package com.fours.tolevelup.controller.response;
 
 
 import lombok.AllArgsConstructor;

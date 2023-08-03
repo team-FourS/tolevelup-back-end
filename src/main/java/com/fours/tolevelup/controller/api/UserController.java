@@ -1,9 +1,10 @@
 package com.fours.tolevelup.controller.api;
 
 
-import com.fours.tolevelup.controller.Request.UserRequest;
-import com.fours.tolevelup.controller.Response.Response;
-import com.fours.tolevelup.controller.Response.UserResponse;
+import com.fours.tolevelup.controller.request.UserRequest;
+
+import com.fours.tolevelup.controller.response.Response;
+import com.fours.tolevelup.controller.response.UserResponse;
 import com.fours.tolevelup.service.user.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
