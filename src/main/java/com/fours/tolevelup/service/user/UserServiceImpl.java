@@ -8,8 +8,8 @@ import com.fours.tolevelup.model.UserDTO;
 import com.fours.tolevelup.model.entity.*;
 import com.fours.tolevelup.repository.theme.ThemeRepository;
 import com.fours.tolevelup.repository.themeexp.ThemeExpRepository;
+import com.fours.tolevelup.repository.user.UserRepository;
 import com.fours.tolevelup.service.missionlog.MissionLogService;
-import com.fours.tolevelup.repository.user.UserRepositoryImpl;
 import com.fours.tolevelup.util.JwtTokenUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,7 +23,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    private final UserRepositoryImpl userRepository;
+    private final UserRepository userRepository;
     private final ThemeExpRepository themeExpRepository;
     private final ThemeRepository themeRepository;
     private final MissionLogService missionLogService;
@@ -46,7 +46,10 @@ public class UserServiceImpl implements UserService {
         userRepository.findById(id).ifPresent(it -> {
             throw new TluApplicationException(ErrorCode.DUPLICATED_USER_ID,String.format("%s is duplicated",id));
         });
-        userRepository.saveUser(
+        userRepository.findByEmail(email).ifPresent(it->{
+            throw new TluApplicationException(ErrorCode.DUPLICATED_USER_EMAIL,String.format("%s is duplicated",email));
+        });
+        userRepository.save(
                 User.builder().id(id).password(encoder.encode(password)).name(name).email(email).build());
         List<Theme> themeList = themeRepository.findAll();
         User user = getUserOrException(id);

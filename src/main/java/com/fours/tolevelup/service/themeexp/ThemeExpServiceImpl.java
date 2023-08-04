@@ -5,7 +5,7 @@ import com.fours.tolevelup.model.entity.Mission;
 import com.fours.tolevelup.model.entity.ThemeExp;
 import com.fours.tolevelup.repository.theme.ThemeRepositoryImpl;
 import com.fours.tolevelup.repository.themeexp.ThemeExpRepository;
-import com.fours.tolevelup.repository.user.UserRepositoryImpl;
+import com.fours.tolevelup.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +20,7 @@ public class ThemeExpServiceImpl implements ThemeExpService {
 
     private final ThemeExpRepository themeExpRepository;
     private final ThemeRepositoryImpl themeRepository;
-    private final UserRepositoryImpl userRepository;
+    private final UserRepository userRepository;
 /*
     @Override
     public List<ThemeExpDTO.ThemeExp> findUserThemeExps(String id) {

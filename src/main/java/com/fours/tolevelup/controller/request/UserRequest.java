@@ -4,6 +4,7 @@ package com.fours.tolevelup.controller.request;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @Getter
 @NoArgsConstructor
@@ -11,6 +12,7 @@ public class UserRequest {
 
 
     @Getter
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class JoinForm{
         private String id;
@@ -20,6 +22,7 @@ public class UserRequest {
     }
 
     @Getter
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class LoginForm{
         private String id;

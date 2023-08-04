@@ -2,24 +2,19 @@ package com.fours.tolevelup.controller.api;
 
 
 import com.fours.tolevelup.controller.request.UserRequest;
-
 import com.fours.tolevelup.controller.response.Response;
 import com.fours.tolevelup.controller.response.UserResponse;
 import com.fours.tolevelup.service.user.UserServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/users")
 public class UserController {
     private final UserServiceImpl userService;
-    @Autowired
-    public UserController(UserServiceImpl userService){
-        this.userService = userService;
-    }
 
     @PostMapping("/join")
     public Response<String> join(@RequestBody UserRequest.JoinForm request){
