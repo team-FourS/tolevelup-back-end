@@ -13,6 +13,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalControllerAdvice {
 
+    @ExceptionHandler(TluApplicationException.class)
+    public ResponseEntity<?> applicationHandler(TluApplicationException e){
+        log.error("Error occurs {}", e.toString());
+        return ResponseEntity.status(e.getErrorCode().getStatus())
+                .body(Response.error(e.getErrorCode().name()));
+    }
+
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<?> applicationHandler(RuntimeException e){
         log.error("Error occurs {}", e.toString());
