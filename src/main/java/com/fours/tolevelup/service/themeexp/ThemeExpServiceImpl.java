@@ -37,6 +37,7 @@ public class ThemeExpServiceImpl implements ThemeExpService {
         return userThemeExps;
     }
 */
+    /*
     @Override
     public void plusUserThemeExp(String user_id, Mission mission) {
         themeExpRepository.updateExpPlus(mission.getExp(), user_id,mission.getTheme().getId());
@@ -46,6 +47,8 @@ public class ThemeExpServiceImpl implements ThemeExpService {
     public void minusUserThemeExp(String user_id, Mission mission) {
         themeExpRepository.updateExpMinus(mission.getExp(), user_id, mission.getTheme().getId());
     }
+    */
+
     /* UserService 에 위치
     @Override
     @Transactional
