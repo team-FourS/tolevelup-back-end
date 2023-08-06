@@ -6,6 +6,8 @@ import com.fours.tolevelup.exception.TluApplicationException;
 import com.fours.tolevelup.model.ThemeExpDTO;
 import com.fours.tolevelup.model.UserDTO;
 import com.fours.tolevelup.model.entity.*;
+import com.fours.tolevelup.repository.character.UserCharacterRepository;
+import com.fours.tolevelup.repository.missionlog.MissionLogRepository;
 import com.fours.tolevelup.repository.theme.ThemeRepository;
 import com.fours.tolevelup.repository.themeexp.ThemeExpRepository;
 import com.fours.tolevelup.repository.user.UserRepository;
@@ -27,6 +29,8 @@ public class UserServiceImpl implements UserService {
     private final ThemeExpRepository themeExpRepository;
     private final ThemeRepository themeRepository;
     private final MissionLogService missionLogService;
+    private final MissionLogRepository missionLogRepository;
+    private final UserCharacterRepository userCharacterRepository;
     private final BCryptPasswordEncoder encoder;
 
     @Value("${jwt.secret-key}")
@@ -68,6 +72,16 @@ public class UserServiceImpl implements UserService {
         }
         String token = JwtTokenUtils.generateToken(id, secretKey,expiredTimeMs);
         return token;
+    }
+
+    @Transactional
+    public void delete(String userId){
+        User user = getUserOrException(userId);
+        themeExpRepository.deleteAllByUser(user);
+        missionLogRepository.deleteAllByUser(user);
+        userCharacterRepository.deleteAllByUser(user);
+        userRepository.delete(user);
+
     }
 
     @Override
