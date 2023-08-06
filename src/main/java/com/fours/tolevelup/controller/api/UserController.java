@@ -28,6 +28,12 @@ public class UserController {
         return Response.success((new UserResponse.LoginData(token)));
     }
 
+    @DeleteMapping()
+    public Response<Void> delete(Authentication authentication){
+        userService.delete(authentication.getName());
+        return Response.success();
+    }
+
     @GetMapping("/my")
     public Response<UserResponse.Data> myData(Authentication authentication){
         return Response.success(userService.findUserData(authentication.getName()));
