@@ -30,4 +30,9 @@ public class CharacterController {
         return characterService.changeCharacterName(id, characterNameUpdate);
     }
 
+    @GetMapping("/userCharacter")
+    public ResponseEntity<List<CharacterDTO.UserCharacter>> userCharacterData(@RequestParam String user_id){
+        return ResponseEntity.ok(characterService.getUserCharacterData(user_id));
+    }
+
 }
