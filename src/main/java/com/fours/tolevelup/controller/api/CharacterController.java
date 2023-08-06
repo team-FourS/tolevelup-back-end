@@ -31,8 +31,8 @@ public class CharacterController {
     }
 
     @GetMapping("/userCharacter")
-    public ResponseEntity<List<CharacterDTO.UserCharacter>> userCharacterData(@RequestParam String user_id){
-        return ResponseEntity.ok(characterService.getUserCharacterData(user_id));
+    public ResponseEntity<List<CharacterDTO.UserCharacter>> userCharacterData(Authentication authentication){
+        return ResponseEntity.ok(characterService.getUserCharacterData(authentication.getName()));
     }
 
 }
