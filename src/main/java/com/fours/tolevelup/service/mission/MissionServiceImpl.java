@@ -38,21 +38,17 @@ public class MissionServiceImpl implements MissionService {
 
 
     public MissionResponse.all userMissionList(String userId){
-        List<MissionLog> dailyMissionList = missionLogRepository.findAllByUserIdAndStatus(userId,MissionStatus.DAILY_ONGOING);
-        List<MissionLog> weeklyMissionList = missionLogRepository.findAllByUserIdAndStatus(userId,MissionStatus.WEEKLY_ONGOING);
+        List<MissionLog> dailyMissionList = findUserMissionByTypeOrException(userId,"daily");
+        List<MissionLog> weeklyMissionList = findUserMissionByTypeOrException(userId,"weekly");
         return MissionResponse.all.builder()
-                .dailyMissions(createMissionList(dailyMissionList)).weeklyMission(createMissionList(weeklyMissionList)).build();
+                .dailyMissions(createMissionList(dailyMissionList)).weeklyMissions(createMissionList(weeklyMissionList)).build();
     }
 
-    public MissionResponse.daily getUserDailyMissions(String userId){
-        List<MissionLog> dailyMissionList = findUserMissionLogByStatus(userId,MissionStatus.DAILY_ONGOING);
-        return MissionResponse.daily.builder().dailyMissions(createMissionList(dailyMissionList)).build();
+    public MissionResponse.type getUserTypeMissions(String userId, String type){
+        List<MissionLog> missionLogList = findUserMissionByTypeOrException(userId,type);
+        return MissionResponse.type.builder().missions(createMissionList(missionLogList)).build();
     }
 
-    public MissionResponse.weekly getUserWeeklyMissions(String userId){
-        List<MissionLog> weeklyMissionList = findUserMissionLogByStatus(userId,MissionStatus.WEEKLY_ONGOING);
-        return MissionResponse.weekly.builder().weeklyMissions(createMissionList(weeklyMissionList)).build();
-    }
 
     public void userCompleteList(String userId){
         //Page<MissionLog>
@@ -82,12 +78,18 @@ public class MissionServiceImpl implements MissionService {
         return missionLogRepository.findAllByUserIdAndStatus(userId,status);
     }
 
+    private List<MissionLog> findUserMissionByTypeOrException(String userId,String type){
+        return missionLogRepository.findAllByUserIdAndType(userId,type).orElseThrow(()->
+                new TluApplicationException(ErrorCode.MISSION_LOG_NOT_FOUND,String.format("%s type mission not found",type)));
+    }
+
     private List<MissionDTO.mission> createMissionList(List<MissionLog> logList){
         List<MissionDTO.mission> missionList = new ArrayList<>();
         for(MissionLog ml : logList){
             MissionDTO.mission mission = MissionDTO.mission.builder().themeName(ml.getMission().getTheme().getName())
                     .missionId(ml.getMission().getId())
                     .content(ml.getMission().getContent())
+                    .checked(ml.getStatus().toString().split("_")[1].equals("COMPLETE"))
                     .exp(ml.getMission().getExp())
                     .build();
             missionList.add(mission);

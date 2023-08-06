@@ -21,28 +21,15 @@ public class MissionController {
         this.missionService = missionService;
     }
 
-    /*
-    @GetMapping
-    public Response<MissionResponse.all> userMissions(Authentication authentication){
-        //로그인 된 유저의 미션 데일리/위클리 미션 리스트
-        //테마{미션들} 로 구성된 DTO 추가해야될듯
-        missionService.userMissionList(authentication.getName());
-        return Response.success(new MissionResponse.all());
-    }
-*/
+
     @GetMapping
     public Response<MissionResponse.all> userMissions(Authentication authentication){
         return Response.success(missionService.userMissionList(authentication.getName()));
     }
 
-    @GetMapping("/daily")
-    public Response<MissionResponse.daily> userDailyMissions(Authentication authentication){
-        return Response.success(missionService.getUserDailyMissions(authentication.getName()));
-    }
-
-    @GetMapping("/weekly")
-    public Response<MissionResponse.weekly> userWeeklyMissions(Authentication authentication){
-        return Response.success(missionService.getUserWeeklyMissions(authentication.getName()));
+    @GetMapping("/{type}")
+    public Response<MissionResponse.type> userMissions(@PathVariable String type, Authentication authentication){
+        return Response.success(missionService.getUserTypeMissions(authentication.getName(),type));
     }
 
 

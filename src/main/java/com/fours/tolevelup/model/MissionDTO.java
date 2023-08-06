@@ -26,6 +26,7 @@ public class MissionDTO {
         private String themeName;
         private int missionId;
         private String content;
+        private boolean checked;
         private float exp;
     }
 
