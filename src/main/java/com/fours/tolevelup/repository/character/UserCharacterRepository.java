@@ -7,12 +7,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-public interface UserCharacterRepository extends JpaRepository<UserCharacter, Long> {
+@Repository
+public interface UserCharacterRepository extends JpaRepository<UserCharacter, String> {
     @Query("SELECT c FROM Character c WHERE c.level = 1")
     List<Character> findBylevel();
 
+    @Query("SELECT uc.id, uc.user.id, uc.character.id, uc.character_name FROM UserCharacter uc WHERE uc.user.id = :id")
+    List<Object[]> getUserCharacter(@Param("id") String user_id);
 
     @Modifying
     @Query("delete from UserCharacter u where u.user = :uid")

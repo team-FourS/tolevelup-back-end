@@ -12,6 +12,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -52,6 +53,23 @@ public class CharacterService {
         }
 
         return characterDTOList;
+    }
+
+    public List<CharacterDTO.UserCharacter> getUserCharacterData(String user_id){
+       List<Object[]> userCharacterList = userCharacterRepository.getUserCharacter(user_id);
+       List<CharacterDTO.UserCharacter> userCharacters = new ArrayList<>();
+
+       for (Object[] usercharacter : userCharacterList){
+           CharacterDTO.UserCharacter userCharacterDTO = new CharacterDTO.UserCharacter();
+           userCharacterDTO.setId((String) usercharacter[0]);
+           userCharacterDTO.setUser_id((String) usercharacter[1]);
+           userCharacterDTO.setCharacter_id((String) usercharacter[2]);
+           userCharacterDTO.setCharacter_name((String) usercharacter[3]);
+           userCharacters.add(userCharacterDTO);
+           System.out.println("UserCharacter: " + Arrays.toString(usercharacter));
+       }
+
+       return userCharacters;
     }
 
     public void levelUpUserCharacter(User user){

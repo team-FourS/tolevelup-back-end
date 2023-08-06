@@ -17,14 +17,14 @@ public class UserCharacterRepositoryImpl implements UserCharacterCustomRepositor
     @Override
     // user id로 UserCharacter 리스트 찾기
     public List<UserCharacter> findByUserId(String user_id){
-        return em.createQuery("select uc from UserCharacter uc where uc.user.id = :uid", UserCharacter.class)
-                .setParameter("uid", user_id)
+        return em.createQuery("select uc from UserCharacter uc where uc.user.id = :user_id", UserCharacter.class)
+                .setParameter("user_id", user_id)
                 .getResultList();
     }
 
     @Override
     // userCharacter id로 usercharacter class 리턴받기
-    public UserCharacter findById(String id){
-        return em.find(UserCharacter.class, id);
+    public UserCharacter findById(String user_id){
+        return em.find(UserCharacter.class, user_id);
     }
 }

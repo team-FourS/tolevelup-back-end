@@ -1,10 +1,7 @@
 package com.fours.tolevelup.service.character;
 
 import com.fours.tolevelup.model.entity.User;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.sql.rowset.serial.SerialBlob;
@@ -36,6 +33,7 @@ public class CharacterDTO {
 
     @Getter
     @Setter
+    @NoArgsConstructor
     public static class UserCharacter{
         private String id;
         private String user_id;
