@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 
 @NoArgsConstructor
 @Getter
+@DynamicUpdate
 @Entity
 @AllArgsConstructor
 @Table(name = "mission_log")

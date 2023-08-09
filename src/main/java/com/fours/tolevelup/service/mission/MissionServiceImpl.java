@@ -1,6 +1,10 @@
 package com.fours.tolevelup.service.mission;
 
 
+import com.fours.tolevelup.controller.response.MissionResponse;
+import com.fours.tolevelup.exception.ErrorCode;
+import com.fours.tolevelup.exception.TluApplicationException;
+import com.fours.tolevelup.model.MissionDTO;
 import com.fours.tolevelup.model.MissionStatus;
 import com.fours.tolevelup.repository.mission.MissionRepository;
 import com.fours.tolevelup.repository.mission.MissionRepositoryImpl;
@@ -8,8 +12,12 @@ import com.fours.tolevelup.model.entity.MissionLog;
 import com.fours.tolevelup.repository.missionlog.MissionLogRepository;
 import com.fours.tolevelup.repository.missionlog.MissionLogRepositoryImpl;
 import com.fours.tolevelup.model.entity.Mission;
+import com.fours.tolevelup.repository.themeexp.ThemeExpRepository;
 import com.fours.tolevelup.service.themeexp.ThemeExpServiceImpl;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,22 +28,84 @@ import java.util.List;
 
 
 @Service
-@Transactional
+@Slf4j
+@RequiredArgsConstructor
 public class MissionServiceImpl implements MissionService {
 
-    private final MissionRepositoryImpl missionRepository;
-    private final MissionRepository missionRepository1;
     private final MissionLogRepository missionLogRepository;
-    private final MissionLogRepositoryImpl missionLogRepositoryImpl;
-    private final ThemeExpServiceImpl themeExpService;
-    @Autowired
-    public MissionServiceImpl(
-            MissionLogRepositoryImpl missionLogRepositoryImpl,MissionRepository missionRepository1,MissionRepositoryImpl missionRepository,MissionLogRepository missionLogRepository,ThemeExpServiceImpl themeExpService){
-        this.missionRepository = missionRepository;
-        this.missionRepository1 = missionRepository1;
-        this.missionLogRepositoryImpl = missionLogRepositoryImpl;
-        this.missionLogRepository = missionLogRepository;
-        this.themeExpService = themeExpService;
+    private final ThemeExpRepository themeExpRepository;
+
+
+
+    public MissionResponse.all userMissionList(String userId){
+        List<MissionLog> dailyMissionList = findUserMissionByTypeOrException(userId,"daily");
+        List<MissionLog> weeklyMissionList = findUserMissionByTypeOrException(userId,"weekly");
+        return MissionResponse.all.builder()
+                .dailyMissions(createMissionList(dailyMissionList)).weeklyMissions(createMissionList(weeklyMissionList)).build();
+    }
+
+    public MissionResponse.type getUserTypeMissions(String userId, String type){
+        List<MissionLog> missionLogList = findUserMissionByTypeOrException(userId,type);
+        return MissionResponse.type.builder().missions(createMissionList(missionLogList)).build();
+    }
+
+
+    @Transactional
+    public void changeMissionStatus(int missionId,String userId){
+        MissionLog missionLog = getMissionLogOrException(missionId,userId);
+        System.out.println("mission id "+missionLog.getMission().getId());
+        float exp = missionLog.getMission().getExp();
+        missionLogRepository.updateMissionLogStatus(missionLog.getId(), checkMissionStatus(missionLog.getStatus()));
+        if(missionLog.getStatus().toString().split("_")[1].equals("COMPLETE")){
+            exp*=-1;
+        }
+        System.out.println("exp "+exp);
+        themeExpRepository.updateExp(exp, userId, missionLog.getMission().getTheme());
+        //TODO: 미션 로그의 상태 변경에 따른 피드(예정) 변동
+    }
+
+
+    public void userCompleteList(String userId){
+        //Page<MissionLog>
+    }
+
+
+    private MissionLog getMissionLogOrException(int mission_id,String user_id){
+        return missionLogRepository.findByUserAndMission(user_id,mission_id,Date.valueOf(LocalDate.now())).orElseThrow(()->
+                new TluApplicationException(ErrorCode.MISSION_NOT_FOUND,String.format("%s not found",mission_id)));
+    }
+
+    private List<MissionLog> findUserMissionByTypeOrException(String userId,String type){
+        return missionLogRepository.findAllByUserIdAndType(userId,type).orElseThrow(()->
+                new TluApplicationException(ErrorCode.MISSION_LOG_NOT_FOUND,String.format("%s type mission not found",type)));
+    }
+
+    private List<MissionDTO.mission> createMissionList(List<MissionLog> logList){
+        List<MissionDTO.mission> missionList = new ArrayList<>();
+        for(MissionLog ml : logList){
+            MissionDTO.mission mission = MissionDTO.mission.builder().themeName(ml.getMission().getTheme().getName())
+                    .missionId(ml.getMission().getId())
+                    .content(ml.getMission().getContent())
+                    .checked(ml.getStatus().toString().split("_")[1].equals("COMPLETE"))
+                    .exp(ml.getMission().getExp())
+                    .build();
+            missionList.add(mission);
+        }
+        return missionList;
+    }
+
+    private MissionStatus checkMissionStatus(MissionStatus missionStatus){
+        switch (missionStatus){
+            case DAILY_COMPLETE:
+                return MissionStatus.DAILY_ONGOING;
+            case WEEKLY_COMPLETE:
+                return MissionStatus.WEEKLY_ONGOING;
+            case DAILY_ONGOING:
+                return MissionStatus.DAILY_COMPLETE;
+            case WEEKLY_ONGOING:
+                return MissionStatus.WEEKLY_COMPLETE;
+        }
+        throw new TluApplicationException(ErrorCode.INTERNAL_SERVER_ERROR,"mission status error");
     }
 
     //TODO:수정

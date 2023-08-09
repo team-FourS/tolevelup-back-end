@@ -8,8 +8,8 @@ import java.util.List;
 public interface ThemeExpService {
 
     //List<ThemeExpDTO.ThemeExp> findUserThemeExps(String id);
-
+/*
     void plusUserThemeExp(String user_id,Mission mission);
     void minusUserThemeExp(String user_id,Mission mission);
-    //void saveUserThemeExps(String id);
+    //void saveUserThemeExps(String id);*/
 }
