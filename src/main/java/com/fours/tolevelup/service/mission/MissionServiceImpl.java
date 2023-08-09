@@ -50,32 +50,29 @@ public class MissionServiceImpl implements MissionService {
     }
 
 
+    @Transactional
+    public void changeMissionStatus(int missionId,String userId){
+        MissionLog missionLog = getMissionLogOrException(missionId,userId);
+        System.out.println("mission id "+missionLog.getMission().getId());
+        float exp = missionLog.getMission().getExp();
+        missionLogRepository.updateMissionLogStatus(missionLog.getId(), checkMissionStatus(missionLog.getStatus()));
+        if(missionLog.getStatus().toString().split("_")[1].equals("COMPLETE")){
+            exp*=-1;
+        }
+        System.out.println("exp "+exp);
+        themeExpRepository.updateExp(exp, userId, missionLog.getMission().getTheme());
+        //TODO: 미션 로그의 상태 변경에 따른 피드(예정) 변동
+    }
+
+
     public void userCompleteList(String userId){
         //Page<MissionLog>
     }
 
-    @Transactional
-    public void changeMissionStatus(int missionId,String userId){
-        //TODO : 미션 상태 체크
-        MissionLog missionLog = getMissionLogOrException(missionId,userId);
-        float exp = missionLog.getMission().getExp();
-        missionLogRepository.updateMissionLogStatus(missionLog.getId(), checkMissionStatus(missionLog.getStatus()));
-        if(missionLog.getStatus().equals(MissionStatus.DAILY_ONGOING)||missionLog.getStatus().equals(MissionStatus.WEEKLY_ONGOING)){
-            exp*=-1;
-        }
-        themeExpRepository.updateExp(exp, userId, missionLog.getMission().getTheme());
-        //TODO: 미션 로그의 상태 변경에 따른 피드(예정) 변동
-
-        //리턴은 ... 수정된 미션 + 상태가 될 듯
-    }
 
     private MissionLog getMissionLogOrException(int mission_id,String user_id){
         return missionLogRepository.findByUserAndMission(user_id,mission_id,Date.valueOf(LocalDate.now())).orElseThrow(()->
                 new TluApplicationException(ErrorCode.MISSION_NOT_FOUND,String.format("%s not found",mission_id)));
-    }
-
-    private List<MissionLog> findUserMissionLogByStatus(String userId,MissionStatus status){
-        return missionLogRepository.findAllByUserIdAndStatus(userId,status);
     }
 
     private List<MissionLog> findUserMissionByTypeOrException(String userId,String type){

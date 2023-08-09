@@ -32,11 +32,11 @@ public class MissionController {
         return Response.success(missionService.getUserTypeMissions(authentication.getName(),type));
     }
 
-
-    //TODO : 미션 클릭에 따른 exp 변화
-    @PostMapping("/{missionId}")
-    public void missionCheck(@PathVariable int missionId, Authentication authentication){
+    @PutMapping("/{missionId}")
+    public Response<Void> missionCheck(@PathVariable int missionId, Authentication authentication){
+        System.out.println("들어옴");
         missionService.changeMissionStatus(missionId,authentication.getName());
+        return Response.success();
         //return 은 유저 미션과 동일하게 ... 반영된 DTO
     }
 
