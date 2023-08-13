@@ -6,10 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @NoArgsConstructor
 @Getter
@@ -27,6 +24,11 @@ public class UserCharacter {
     private Character character;
 
     private String character_name;
+
+    @PrePersist
+    void persistSetting(){
+        this.character_name = "character_name";
+    }
 
     @Builder
     public UserCharacter(String id, User user, Character character, String character_name){
