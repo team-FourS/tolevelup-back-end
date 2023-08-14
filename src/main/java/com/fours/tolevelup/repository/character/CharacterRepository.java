@@ -6,10 +6,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
+
 @Repository
 public interface CharacterRepository extends JpaRepository<Character, String> {
 /*    @Query("select c from Character c")
     List<Character> findAll();*/
     @Query("select c.id, c.level, c.info from Character c")
     List<Object[]> getCharacters();
+
+    @Query("select c from Character c where c.level = 1")
+    List<Character> findByLevel();
 }

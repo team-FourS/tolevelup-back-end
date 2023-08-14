@@ -6,6 +6,8 @@ import com.fours.tolevelup.exception.TluApplicationException;
 import com.fours.tolevelup.model.ThemeExpDTO;
 import com.fours.tolevelup.model.UserDTO;
 import com.fours.tolevelup.model.entity.*;
+import com.fours.tolevelup.model.entity.Character;
+import com.fours.tolevelup.repository.character.CharacterRepository;
 import com.fours.tolevelup.repository.character.UserCharacterRepository;
 import com.fours.tolevelup.repository.missionlog.MissionLogRepository;
 import com.fours.tolevelup.repository.theme.ThemeRepository;
@@ -31,6 +33,7 @@ public class UserServiceImpl implements UserService {
     private final MissionLogService missionLogService;
     private final MissionLogRepository missionLogRepository;
     private final UserCharacterRepository userCharacterRepository;
+    private final CharacterRepository characterRepository;
     private final BCryptPasswordEncoder encoder;
 
     @Value("${jwt.secret-key}")
@@ -60,6 +63,16 @@ public class UserServiceImpl implements UserService {
         for(Theme theme : themeList){
             themeExpRepository.save(
                     ThemeExp.builder().id(user.getId()+theme.getName()).user(user).theme(theme).build());
+        }
+        List<Character> characterList = characterRepository.findByLevel();
+        for(Character character : characterList){
+            userCharacterRepository.save(
+                    UserCharacter.builder()
+                            .id(user.getId()+character.getId())
+                            .user(user)
+                            .character(character)
+                            .build()
+            );
         }
         missionLogService.createMissionLog(user);
     }

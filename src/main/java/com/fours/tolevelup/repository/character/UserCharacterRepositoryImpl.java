@@ -27,4 +27,9 @@ public class UserCharacterRepositoryImpl implements UserCharacterCustomRepositor
     public UserCharacter findById(String user_id){
         return em.find(UserCharacter.class, user_id);
     }
+
+    @Override
+    public void saveUserCharacter(UserCharacter userCharacter){
+        em.persist(userCharacter);
+    }
 }
