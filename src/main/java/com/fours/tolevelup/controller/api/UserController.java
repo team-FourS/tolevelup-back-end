@@ -5,10 +5,12 @@ package com.fours.tolevelup.controller.api;
 import com.fours.tolevelup.controller.request.UserRequest;
 import com.fours.tolevelup.controller.response.Response;
 import com.fours.tolevelup.controller.response.UserResponse;
+import com.fours.tolevelup.service.follow.FollowService;
 import com.fours.tolevelup.service.character.CharacterService;
 import com.fours.tolevelup.service.user.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/users")
 public class UserController {
     private final UserServiceImpl userService;
+    private final FollowService followService;
     private final CharacterService characterService;
 
     @PostMapping("/join")
@@ -31,7 +34,7 @@ public class UserController {
         return Response.success((new UserResponse.LoginData(token)));
     }
 
-    @DeleteMapping()
+    @DeleteMapping
     public Response<Void> delete(Authentication authentication){
         userService.delete(authentication.getName());
         return Response.success();
@@ -42,42 +45,12 @@ public class UserController {
         return Response.success(userService.findUserData(authentication.getName()));
     }
 
-
-    //TODO: 수정
-/*
-    @PostMapping("/logout")
-    public ResponseEntity<Objects> logout(){
-        return ResponseEntity.ok().build();
+    @PostMapping("/follow")
+    public Response<Void> followUser(Authentication authentication, @RequestParam("id") String followId){
+        followService.following(authentication.getName(), followId);
+        return Response.success();
     }
 
-    @GetMapping("/users/{user_id}")
-    public ResponseEntity<UserDTO.UserData> userData(@PathVariable String user_id){
-        return ResponseEntity.ok(userService.findUserData(user_id));
-    }
-    @GetMapping("/users/info")
-    public ResponseEntity<UserDTO.UserPersonalInfo> userInfo(@RequestParam String user_id){
-        return ResponseEntity.ok(userService.findUserPersonalInfo(user_id));
-    }
-    @PutMapping("/users/info")
-    public ResponseEntity<UserDTO.UserPersonalInfo> changeInfo(@RequestBody UserDTO.UserPersonalInfo userData){
-        return ResponseEntity.ok(userService.changeUserPersonalInfo(userData));
-    }
-    @GetMapping("/users/profile")
-    public ResponseEntity<UserDTO.UserProfile> userProfile(@RequestParam String user_id){
-        return ResponseEntity.ok(userService.findUserProfile(user_id));
-    }
-    @PutMapping("/users/profile")
-    public ResponseEntity<UserDTO.UserProfile> changeProfile(@RequestBody UserDTO.UserProfile userProfile){
-        return ResponseEntity.ok(userService.changeUserProfile(userProfile));
-    }
-    @DeleteMapping("/users")
-    public ResponseEntity<String> deleteUser(@RequestParam String id){
-        userService.userDelete(id);
-        return ResponseEntity.noContent().build();
-    }
-
-
- */
 
 
 
