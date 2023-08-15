@@ -8,4 +8,6 @@ public interface UserCharacterCustomRepository {
     List<UserCharacter> findByUserId(String user_id);
 
     UserCharacter findById(String id);
+
+    void saveUserCharacter(UserCharacter userCharacter);
 }

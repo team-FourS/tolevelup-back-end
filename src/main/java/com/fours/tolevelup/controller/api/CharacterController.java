@@ -1,6 +1,8 @@
 package com.fours.tolevelup.controller.api;
 
 
+import com.fours.tolevelup.controller.response.Response;
+import com.fours.tolevelup.model.entity.Character;
 import com.fours.tolevelup.service.character.CharacterDTO;
 import com.fours.tolevelup.service.character.CharacterService;
 import lombok.RequiredArgsConstructor;
@@ -35,5 +37,6 @@ public class CharacterController {
     public ResponseEntity<List<CharacterDTO.UserCharacter>> userCharacterData(Authentication authentication){
         return ResponseEntity.ok(characterService.getUserCharacterData(authentication.getName()));
     }
+
 
 }

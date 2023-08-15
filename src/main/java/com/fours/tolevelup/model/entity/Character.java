@@ -16,7 +16,7 @@ public class Character {
     @Id
     private String id;
     private int level;
-    private SerialBlob img;
+    private String img;
     private String info;
 
     @ManyToOne
@@ -24,7 +24,7 @@ public class Character {
     private Theme theme;
 
     @Builder
-    public Character(String id, int level, String info, SerialBlob img, Theme theme){
+    public Character(String id, int level, String info, String img, Theme theme){
         this.id = id;
         this.level= level;
         this.img = img;
