@@ -1,12 +1,15 @@
 package com.fours.tolevelup.model.entity;
 
+import com.fours.tolevelup.model.FollowStatus;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Getter
@@ -14,16 +17,39 @@ import java.sql.Date;
 public class Follow {
 
     @Id
-    private int id;
-    private String follower_id;
-    private String following_id;
-    private Date start_date;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "following_id")
+    private User following;
+
+    @Column(name = "update_time")
+    private Timestamp update_date;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private FollowStatus status;
+
+    @PrePersist
+    void registeredAt(){
+        this.update_date = java.sql.Timestamp.valueOf(LocalDateTime.now());
+        this.status = FollowStatus.FOLLOW;
+    }
+
+    @PreUpdate
+    void updateAt(){
+        this.update_date = java.sql.Timestamp.valueOf(LocalDateTime.now());
+    }
+
 
     @Builder
-    public Follow(int id, String follower_id, String following_id, Date start_date){
-        this.id = id;
-        this.follower_id = follower_id;
-        this.following_id = following_id;
-        this.start_date = start_date;
+    public Follow(User user, User following, FollowStatus status){
+        this.user = user;
+        this.following = following;
     }
 }
