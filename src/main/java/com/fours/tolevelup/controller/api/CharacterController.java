@@ -5,6 +5,7 @@ import com.fours.tolevelup.service.character.CharacterDTO;
 import com.fours.tolevelup.service.character.CharacterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
