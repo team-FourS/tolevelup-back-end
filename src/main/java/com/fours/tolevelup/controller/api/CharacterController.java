@@ -28,9 +28,9 @@ public class CharacterController {
     }
 
 
-    @PostMapping("/character/{id}")
-    public String update(@PathVariable String id, @RequestBody CharacterDTO.CharacterNameUpdate characterNameUpdate){
-        return characterService.changeCharacterName(id, characterNameUpdate);
+    @PutMapping("/characterName")
+    public ResponseEntity<CharacterDTO.UserCharacter> update(Authentication authentication, @RequestParam String character_id, @RequestBody CharacterDTO.UserCharacter userCharacter){
+        return ResponseEntity.ok(characterService.changeCharacterName(authentication.getName(), character_id, userCharacter));
     }
 
     @GetMapping("/userCharacter")

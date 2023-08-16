@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -34,13 +35,18 @@ public class CharacterService {
         return userCharacterList;
     }
 
-    public String changeCharacterName(String id, CharacterDTO.CharacterNameUpdate characterNameUpdate){
-        UserCharacter userCharacter = userCharacterCustomRepository.findById(id);
+    public CharacterDTO.UserCharacter changeCharacterName(String user_id, String character_id, CharacterDTO.UserCharacter userCharacterDTO){
+        UserCharacter userCharacter = userCharacterRepository.findByUserIdandCharacterId(user_id, character_id);
+        Optional<User> user = userRepository.findById(user_id);
+        Optional<Character> character = characterRepository.findById(character_id);
+        userCharacterRepository.save(userCharacter.builder()
+                        .id(userCharacterDTO.getId())
+                        .user(user.get())
+                        .character(character.get())
+                        .character_name(userCharacterDTO.getCharacter_name())
+                .build());
+        return userCharacterDTO;
 
-        userCharacter.update(characterNameUpdate.getCharacter_name());
-
-        userCharacterRepository.save(userCharacter);
-        return id;
     }
 
     public List<CharacterDTO.CharacterData> getCharacterData(){

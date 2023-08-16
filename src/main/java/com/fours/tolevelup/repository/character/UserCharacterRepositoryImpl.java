@@ -4,6 +4,7 @@ import com.fours.tolevelup.model.entity.UserCharacter;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
@@ -22,11 +23,14 @@ public class UserCharacterRepositoryImpl implements UserCharacterCustomRepositor
                 .getResultList();
     }
 
-    @Override
-    // userCharacter id로 usercharacter class 리턴받기
-    public UserCharacter findById(String user_id){
-        return em.find(UserCharacter.class, user_id);
-    }
+    /*@Override
+    // user id와 캐릭터 id로 usercharacter class 리턴받기
+    public List<UserCharacter> findByUser_IdAndCharacter_Id(String user_id, String character_id){
+        List<UserCharacter> query = em.createQuery("select uc from UserCharacter uc where uc.user.id=:user_id and uc.character.id=:character_id", UserCharacter.class)
+                .setParameter("user_id", user_id)
+                .setParameter("character_id", character_id)
+                .getResultList();
+    }*/
 
     @Override
     public void saveUserCharacter(UserCharacter userCharacter){

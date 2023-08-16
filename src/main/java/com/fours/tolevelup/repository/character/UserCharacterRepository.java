@@ -21,4 +21,7 @@ public interface UserCharacterRepository extends JpaRepository<UserCharacter, St
     @Modifying
     @Query("delete from UserCharacter u where u.user = :uid")
     void deleteAllByUser(@Param("uid") User user);
+
+    @Query ("select uc from UserCharacter uc where uc.user.id=:user_id and uc.character.id=:character_id")
+    UserCharacter findByUserIdandCharacterId(@Param("user_id") String user_id, @Param("character_id") String character_id);
 }
