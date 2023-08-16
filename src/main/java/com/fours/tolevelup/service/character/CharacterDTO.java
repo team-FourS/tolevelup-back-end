@@ -1,5 +1,6 @@
 package com.fours.tolevelup.service.character;
 
+import com.fours.tolevelup.model.entity.Character;
 import com.fours.tolevelup.model.entity.User;
 import lombok.*;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -40,6 +41,7 @@ public class CharacterDTO {
         private String character_id;
         private String character_name;
     }
+
 
     @Getter
     @Setter

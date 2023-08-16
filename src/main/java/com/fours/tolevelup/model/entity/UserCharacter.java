@@ -13,6 +13,7 @@ import javax.persistence.*;
 @Entity
 public class UserCharacter {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     @ManyToOne
