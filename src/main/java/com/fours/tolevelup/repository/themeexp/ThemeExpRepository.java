@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
 
 public interface ThemeExpRepository extends JpaRepository<ThemeExp, String>, ThemeExpCustomRepository {
 
@@ -19,4 +20,10 @@ public interface ThemeExpRepository extends JpaRepository<ThemeExp, String>, The
     @Modifying
     @Query("delete from ThemeExp t where t.user = :uid")
     void deleteAllByUser(@Param("uid") User user);
+
+    @Query("select t from ThemeExp t where t.user.id=:uid")
+    List<ThemeExp> getThemeExp(@Param("uid") String user_id);
+
+    @Query("select sum(t.exp_total) from ThemeExp t where t.user.id=:uid")
+    int expTotal(@Param("uid") String user_id);
 }

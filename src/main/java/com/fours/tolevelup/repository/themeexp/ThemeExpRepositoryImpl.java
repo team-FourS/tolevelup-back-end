@@ -32,6 +32,13 @@ public class ThemeExpRepositoryImpl implements ThemeExpCustomRepository {
                 .setParameter("uid", id)
                 .getResultList();
     }
+
+    @Override
+    public List<ThemeExp> findThemeExp(String id){
+        return em.createQuery("select t.exp_total from ThemeExp t where t.user.id=:uid", ThemeExp.class)
+                .setParameter("uid", id)
+                .getResultList();
+    }
 /*    @Override //요거 부탁해요♥
     public List<ThemeExp> findById(String user_id) {
         return em.createQuery("select t from ThemeExp t where t.user = :id")

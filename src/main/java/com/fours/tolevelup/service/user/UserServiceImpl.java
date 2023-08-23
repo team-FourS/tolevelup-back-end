@@ -22,7 +22,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.IntSummaryStatistics;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
@@ -121,6 +123,20 @@ public class UserServiceImpl implements UserService {
     private User getUserOrException(String id){
         return userRepository.findById(id).orElseThrow(()->
                 new TluApplicationException(ErrorCode.USER_NOT_FOUND,String.format("%s is duplicated",id)));
+    }
+
+    @Override
+    public void userLevelUp(String id){
+        int total = themeExpRepository.expTotal(id);
+        if(total >= 10){
+            userRepository.levelUp(id);
+        } else if (total >= 20) {
+            userRepository.levelUp(id);
+        } else if (total >= 30) {
+            userRepository.levelUp(id);
+        } else if (total >= 40) {
+            userRepository.levelUp(id);
+        }
     }
 
 
