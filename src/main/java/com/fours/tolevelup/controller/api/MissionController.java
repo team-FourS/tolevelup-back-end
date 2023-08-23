@@ -4,6 +4,7 @@ package com.fours.tolevelup.controller.api;
 import com.fours.tolevelup.controller.response.MissionResponse;
 import com.fours.tolevelup.controller.response.Response;
 import com.fours.tolevelup.service.mission.MissionServiceImpl;
+import com.fours.tolevelup.service.user.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -16,9 +17,12 @@ public class MissionController {
 
     private final MissionServiceImpl missionService;
 
+    private final UserServiceImpl userService;
+
     @Autowired
-    public MissionController(MissionServiceImpl missionService){
+    public MissionController(MissionServiceImpl missionService, UserServiceImpl userService){
         this.missionService = missionService;
+        this.userService = userService;
     }
 
 
@@ -36,6 +40,7 @@ public class MissionController {
     public Response<Void> missionCheck(@PathVariable int missionId, Authentication authentication){
         System.out.println("들어옴");
         missionService.changeMissionStatus(missionId,authentication.getName());
+        userService.userLevelUp(authentication.getName());
         return Response.success();
         //return 은 유저 미션과 동일하게 ... 반영된 DTO
     }
