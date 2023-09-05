@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 
 @NoArgsConstructor
 @Getter
+@Table(name = "`like`")
 @Entity
 public class Like {
 
