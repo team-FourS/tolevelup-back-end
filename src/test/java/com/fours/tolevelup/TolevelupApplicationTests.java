@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.persistence.EntityManager;
 
-//@SpringBootTest
+@SpringBootTest
 class TolevelupApplicationTests {
 
 
