@@ -3,6 +3,7 @@ package com.fours.tolevelup.service.character;
 import com.fours.tolevelup.exception.ErrorCode;
 import com.fours.tolevelup.exception.TluApplicationException;
 import com.fours.tolevelup.model.entity.Character;
+import com.fours.tolevelup.model.entity.ThemeExp;
 import com.fours.tolevelup.model.entity.User;
 import com.fours.tolevelup.model.entity.UserCharacter;
 import com.fours.tolevelup.repository.character.CharacterCustomRepository;
@@ -28,7 +29,6 @@ public class CharacterService {
     private final UserCharacterCustomRepository userCharacterCustomRepository;
     private final CharacterCustomRepository characterCustomRepository;
     private final CharacterRepository characterRepository;
-
 
     public List<CharacterDTO.UserCharacterInfo> findUserCharacterList(User user){
         List<CharacterDTO.UserCharacterInfo> userCharacterList = new ArrayList<>();
@@ -83,7 +83,7 @@ public class CharacterService {
 
 
 
-    public void levelUpUserCharacter(User user){
+    public void levelUpUserCharacter(String id){
 
     }
 }
