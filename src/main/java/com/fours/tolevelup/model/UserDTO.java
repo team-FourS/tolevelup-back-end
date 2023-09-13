@@ -38,6 +38,7 @@ public class UserDTO implements UserDetails {
         );
     }
 
+    @Getter
     @Builder
     @AllArgsConstructor
     public static class publicUserData{
