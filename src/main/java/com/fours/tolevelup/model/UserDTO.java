@@ -38,6 +38,13 @@ public class UserDTO implements UserDetails {
         );
     }
 
+    @Builder
+    @AllArgsConstructor
+    public static class publicUserData{
+        private String userId;
+        private String name;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(this.getRole().name()));

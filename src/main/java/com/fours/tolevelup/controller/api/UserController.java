@@ -5,12 +5,10 @@ package com.fours.tolevelup.controller.api;
 import com.fours.tolevelup.controller.request.UserRequest;
 import com.fours.tolevelup.controller.response.Response;
 import com.fours.tolevelup.controller.response.UserResponse;
-import com.fours.tolevelup.service.follow.FollowService;
+import com.fours.tolevelup.service.FollowService;
 import com.fours.tolevelup.service.character.CharacterService;
 import com.fours.tolevelup.service.user.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,11 +45,24 @@ public class UserController {
 
     @PostMapping("/follow")
     public Response<Void> followUser(Authentication authentication, @RequestParam("id") String followId){
-        followService.following(authentication.getName(), followId);
+        followService.follow(authentication.getName(), followId);
         return Response.success();
     }
 
+    @DeleteMapping("/follow")
+    public Response<Void> unfollowUser(Authentication authentication, @RequestParam("id") String followId){
+        followService.unfollow(authentication.getName(), followId);
+        return Response.success();
+    }
 
+    @GetMapping("/following")
+    public Response<UserResponse.FollowUserData> followingList(Authentication authentication){ //내가 하는 리스트
+        return Response.success(new UserResponse.FollowUserData(followService.getFollowingList(authentication.getName())));
+    }
 
+    @GetMapping("/follower")
+    public Response<UserResponse.FollowUserData> followerList(Authentication authentication){ //나를 하는 리스트
+        return Response.success(new UserResponse.FollowUserData(followService.getFollowerList(authentication.getName())));
+    }
 
 }
