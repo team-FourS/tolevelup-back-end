@@ -1,5 +1,6 @@
 package com.fours.tolevelup.repository.themeexp;
 
+import com.fours.tolevelup.model.ThemeExpDTO;
 import com.fours.tolevelup.model.entity.Theme;
 import com.fours.tolevelup.model.entity.ThemeExp;
 import com.fours.tolevelup.model.entity.User;
@@ -22,8 +23,9 @@ public interface ThemeExpRepository extends JpaRepository<ThemeExp, String>, The
     void deleteAllByUser(@Param("uid") User user);
 
     @Query("select t from ThemeExp t where t.user.id=:uid")
-    List<ThemeExp> getThemeExp(@Param("uid") String user_id);
+    ThemeExpDTO getThemeExp(@Param("uid") String user_id);
 
     @Query("select sum(t.exp_total) from ThemeExp t where t.user.id=:uid")
     int expTotal(@Param("uid") String user_id);
+
 }
