@@ -1,14 +1,11 @@
 package com.fours.tolevelup.model.entity;
 
-import com.fours.tolevelup.model.FollowStatus;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -26,19 +23,15 @@ public class Follow {
 
     @ManyToOne
     @JoinColumn(name = "following_id")
-    private User following;
+    private User followingUser;
 
-    @Column(name = "update_time")
+    @Column(name = "start_time")
     private Timestamp update_date;
 
-    @Column(name = "status")
-    @Enumerated(EnumType.STRING)
-    private FollowStatus status;
 
     @PrePersist
     void registeredAt(){
         this.update_date = java.sql.Timestamp.valueOf(LocalDateTime.now());
-        this.status = FollowStatus.FOLLOW;
     }
 
     @PreUpdate
@@ -48,8 +41,8 @@ public class Follow {
 
 
     @Builder
-    public Follow(User user, User following, FollowStatus status){
+    public Follow(User user, User following_id){
         this.user = user;
-        this.following = following;
+        this.followingUser = following_id;
     }
 }

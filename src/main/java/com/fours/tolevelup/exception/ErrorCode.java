@@ -16,7 +16,8 @@ public enum ErrorCode {
     MISSION_NOT_FOUND(HttpStatus.NOT_FOUND,"Mission Not Found"),
     MISSION_LOG_NOT_FOUND(HttpStatus.NOT_FOUND,"MissionLog Not Found"),
     INVALID_PASSWORD(HttpStatus.UNAUTHORIZED,"Password Is Invalid"),
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,"Internal Server Error")
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,"Internal Server Error"),
+    ALREADY_FOLLOW(HttpStatus.CONFLICT,"Already follow")
     ;
     private HttpStatus status;
     private String message;
