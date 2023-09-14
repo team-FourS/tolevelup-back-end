@@ -43,15 +43,15 @@ public class UserController {
         return Response.success(userService.findUserData(authentication.getName()));
     }
 
-    @PostMapping("/follow")
-    public Response<Void> followUser(Authentication authentication, @RequestParam("id") String followId){
-        followService.follow(authentication.getName(), followId);
+    @PostMapping("/follow/{userId}")
+    public Response<Void> followUser(Authentication authentication, @PathVariable String userId){
+        followService.follow(authentication.getName(), userId);
         return Response.success();
     }
 
-    @DeleteMapping("/follow")
-    public Response<Void> unfollowUser(Authentication authentication, @RequestParam("id") String followId){
-        followService.unfollow(authentication.getName(), followId);
+    @DeleteMapping("/follow/{userId}")
+    public Response<Void> unfollowUser(Authentication authentication, @PathVariable String userId){
+        followService.unfollow(authentication.getName(), userId);
         return Response.success();
     }
 
