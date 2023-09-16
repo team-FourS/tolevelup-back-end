@@ -33,30 +33,30 @@ public class CharacterService {
     private final CharacterRepository characterRepository;
     private final ThemeExpRepository themeExpRepository;
 
-    public List<CharacterDTO.UserCharacterInfo> findUserCharacterList(User user){
+    public List<CharacterDTO.UserCharacterInfo> findUserCharacterList(User user) {
         List<CharacterDTO.UserCharacterInfo> userCharacterList = new ArrayList<>();
         return userCharacterList;
     }
 
-    public CharacterDTO.UserCharacter changeCharacterName(String user_id, String character_id, CharacterDTO.UserCharacter userCharacterDTO){
+    public CharacterDTO.UserCharacter changeCharacterName(String user_id, String character_id, CharacterDTO.UserCharacter userCharacterDTO) {
         UserCharacter userCharacter = userCharacterRepository.findByUserIdandCharacterId(user_id, character_id);
         Optional<User> user = userRepository.findById(user_id);
         Optional<Character> character = characterRepository.findById(character_id);
         userCharacterRepository.save(userCharacter.builder()
-                        .id(userCharacterDTO.getId())
-                        .user(user.get())
-                        .character(character.get())
-                        .character_name(userCharacterDTO.getCharacter_name())
+                .id(userCharacterDTO.getId())
+                .user(user.get())
+                .character(character.get())
+                .character_name(userCharacterDTO.getCharacter_name())
                 .build());
         return userCharacterDTO;
 
     }
 
-    public List<CharacterDTO.CharacterData> getCharacterData(){
+    public List<CharacterDTO.CharacterData> getCharacterData() {
         List<Object[]> characterDataList = characterRepository.getCharacters();
         List<CharacterDTO.CharacterData> characterDTOList = new ArrayList<>();
 
-        for(Object[] characterData : characterDataList){
+        for (Object[] characterData : characterDataList) {
             CharacterDTO.CharacterData characterDTO = new CharacterDTO.CharacterData();
             characterDTO.setId((String) characterData[0]);
             characterDTO.setLevel((int) characterData[1]);
@@ -67,29 +67,32 @@ public class CharacterService {
         return characterDTOList;
     }
 
-    public List<CharacterDTO.UserCharacter> getUserCharacterData(String user_id){
-       List<Object[]> userCharacterList = userCharacterRepository.getUserCharacter(user_id);
-       List<CharacterDTO.UserCharacter> userCharacters = new ArrayList<>();
+    public List<CharacterDTO.UserCharacter> getUserCharacterData(String user_id) {
+        List<Object[]> userCharacterList = userCharacterRepository.getUserCharacter(user_id);
+        List<CharacterDTO.UserCharacter> userCharacters = new ArrayList<>();
 
-       for (Object[] usercharacter : userCharacterList){
-           CharacterDTO.UserCharacter userCharacterDTO = new CharacterDTO.UserCharacter();
-           userCharacterDTO.setId((String) usercharacter[0]);
-           userCharacterDTO.setUser_id((String) usercharacter[1]);
-           userCharacterDTO.setCharacter_id((String) usercharacter[2]);
-           userCharacterDTO.setCharacter_name((String) usercharacter[3]);
-           userCharacters.add(userCharacterDTO);
-           System.out.println("UserCharacter: " + Arrays.toString(usercharacter));
-       }
+        for (Object[] usercharacter : userCharacterList) {
+            CharacterDTO.UserCharacter userCharacterDTO = new CharacterDTO.UserCharacter();
+            userCharacterDTO.setId((String) usercharacter[0]);
+            userCharacterDTO.setUser_id((String) usercharacter[1]);
+            userCharacterDTO.setCharacter_id((String) usercharacter[2]);
+            userCharacterDTO.setCharacter_name((String) usercharacter[3]);
+            userCharacters.add(userCharacterDTO);
+            System.out.println("UserCharacter: " + Arrays.toString(usercharacter));
+        }
 
-       return userCharacters;
+        return userCharacters;
     }
 
 
-
-    public void levelUpUserCharacter(String user_id, String character_id){
-        ThemeExpDTO themeExpDTO = themeExpRepository.getThemeExp(user_id);
-        String findCharacter = themeExpDTO.getId();
-        UserCharacter userCharacter = userCharacterRepository.findUserCharacterById(findCharacter);
-        userCharacterRepository.updateCharacter(user_id, character_id);
+    public void levelUpUserCharacter(String id) {
+        List<ThemeExp> themeExpList = themeExpRepository.getThemeExp(id);
+        for (ThemeExp t : themeExpList) {
+            if (t.getExp_total() > 10) {
+                String findCharacter = t.getId();
+                UserCharacter userCharacter = userCharacterRepository.findUserCharacterById(findCharacter);
+                userCharacterRepository.updateCharacter(userCharacter.getId());
+            }
+        }
     }
 }

@@ -23,7 +23,7 @@ public interface ThemeExpRepository extends JpaRepository<ThemeExp, String>, The
     void deleteAllByUser(@Param("uid") User user);
 
     @Query("select t from ThemeExp t where t.user.id=:uid")
-    ThemeExpDTO getThemeExp(@Param("uid") String user_id);
+    List<ThemeExp> getThemeExp(@Param("uid") String user_id);
 
     @Query("select sum(t.exp_total) from ThemeExp t where t.user.id=:uid")
     int expTotal(@Param("uid") String user_id);

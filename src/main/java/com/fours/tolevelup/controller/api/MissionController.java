@@ -3,6 +3,7 @@ package com.fours.tolevelup.controller.api;
 
 import com.fours.tolevelup.controller.response.MissionResponse;
 import com.fours.tolevelup.controller.response.Response;
+import com.fours.tolevelup.service.character.CharacterService;
 import com.fours.tolevelup.service.mission.MissionServiceImpl;
 import com.fours.tolevelup.service.user.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -19,10 +20,13 @@ public class MissionController {
 
     private final UserServiceImpl userService;
 
+    private final CharacterService characterService;
+
     @Autowired
-    public MissionController(MissionServiceImpl missionService, UserServiceImpl userService){
+    public MissionController(MissionServiceImpl missionService, UserServiceImpl userService, CharacterService characterService){
         this.missionService = missionService;
         this.userService = userService;
+        this.characterService = characterService;
     }
 
 
@@ -41,6 +45,7 @@ public class MissionController {
         System.out.println("들어옴");
         missionService.changeMissionStatus(missionId,authentication.getName());
         userService.userLevelUp(authentication.getName());
+        characterService.levelUpUserCharacter(authentication.getName());
         return Response.success();
         //return 은 유저 미션과 동일하게 ... 반영된 DTO
     }

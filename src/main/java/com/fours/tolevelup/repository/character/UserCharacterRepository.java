@@ -31,7 +31,7 @@ public interface UserCharacterRepository extends JpaRepository<UserCharacter, St
 
     @Transactional
     @Modifying(clearAutomatically = true)
-    @Query("update UserCharacter uc set uc.character = '운동2' where uc.user.id=:uid and uc.character.id = :cid")
-    UserCharacter updateCharacter(@Param("uid") String user_id, @Param("cid") String character_id);
+    @Query("update UserCharacter uc set uc.character.id = '식습관2'  where uc.id=:id")
+    void updateCharacter(@Param("id") String id);
 
 }
