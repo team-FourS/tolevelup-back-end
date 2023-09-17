@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 @Repository
@@ -24,4 +25,13 @@ public interface UserCharacterRepository extends JpaRepository<UserCharacter, St
 
     @Query ("select uc from UserCharacter uc where uc.user.id=:user_id and uc.character.id=:character_id")
     UserCharacter findByUserIdandCharacterId(@Param("user_id") String user_id, @Param("character_id") String character_id);
+
+    @Query("select uc from UserCharacter uc where uc.id LIKE %:findCharacter%")
+    UserCharacter findUserCharacterById(@Param("findCharacter") String findCharacter);
+
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query("update UserCharacter uc set uc.character.id = '식습관2'  where uc.id=:id")
+    void updateCharacter(@Param("id") String id);
+
 }

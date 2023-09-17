@@ -1,5 +1,6 @@
 package com.fours.tolevelup.repository.themeexp;
 
+import com.fours.tolevelup.model.ThemeExpDTO;
 import com.fours.tolevelup.model.entity.Theme;
 import com.fours.tolevelup.model.entity.ThemeExp;
 import com.fours.tolevelup.model.entity.User;
@@ -26,4 +27,5 @@ public interface ThemeExpRepository extends JpaRepository<ThemeExp, String>, The
 
     @Query("select sum(t.exp_total) from ThemeExp t where t.user.id=:uid")
     int expTotal(@Param("uid") String user_id);
+
 }
