@@ -1,6 +1,7 @@
 package com.fours.tolevelup.controller.response;
 
 
+import com.fours.tolevelup.model.AlarmDTO;
 import com.fours.tolevelup.model.ThemeExpDTO;
 import com.fours.tolevelup.model.UserDTO;
 import com.fours.tolevelup.model.UserRole;
@@ -8,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Slice;
 
 import javax.inject.Inject;
 import java.sql.Date;
@@ -45,6 +47,11 @@ public class UserResponse {
         private List<UserDTO.publicUserData> userData;
     }
 
-
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    public static class UserAlarmList{
+        private Slice<AlarmDTO> alarmList;
+    }
 
 }

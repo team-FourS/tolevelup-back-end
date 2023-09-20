@@ -4,9 +4,12 @@ package com.fours.tolevelup.service;
 import com.fours.tolevelup.controller.response.UserResponse;
 import com.fours.tolevelup.exception.ErrorCode;
 import com.fours.tolevelup.exception.TluApplicationException;
+import com.fours.tolevelup.model.AlarmType;
 import com.fours.tolevelup.model.UserDTO;
+import com.fours.tolevelup.model.entity.Alarm;
 import com.fours.tolevelup.model.entity.Follow;
 import com.fours.tolevelup.model.entity.User;
+import com.fours.tolevelup.repository.AlarmRepository;
 import com.fours.tolevelup.repository.FollowRepository;
 import com.fours.tolevelup.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +24,7 @@ import java.util.List;
 public class FollowService {
 
     private final FollowRepository followRepository;
+    private final AlarmRepository alarmRepository;
     private final UserRepository userRepository;
 
     @Transactional
@@ -32,7 +36,9 @@ public class FollowService {
                 }
         );
         Follow follow = Follow.builder().user(getUserOrException(userId)).following_id(getUserOrException(followingId)).build();
+        Alarm alarm = Alarm.builder().toUser(followingUser).fromUser(user).alarmType(AlarmType.FOLLOW).build();
         followRepository.save(follow);
+        alarmRepository.save(alarm);
     }
 
     @Transactional

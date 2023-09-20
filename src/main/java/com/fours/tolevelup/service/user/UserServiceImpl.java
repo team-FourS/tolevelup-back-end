@@ -3,10 +3,12 @@ package com.fours.tolevelup.service.user;
 import com.fours.tolevelup.controller.response.UserResponse;
 import com.fours.tolevelup.exception.ErrorCode;
 import com.fours.tolevelup.exception.TluApplicationException;
+import com.fours.tolevelup.model.AlarmDTO;
 import com.fours.tolevelup.model.ThemeExpDTO;
 import com.fours.tolevelup.model.UserDTO;
 import com.fours.tolevelup.model.entity.*;
 import com.fours.tolevelup.model.entity.Character;
+import com.fours.tolevelup.repository.AlarmRepository;
 import com.fours.tolevelup.repository.character.CharacterRepository;
 import com.fours.tolevelup.repository.character.UserCharacterRepository;
 import com.fours.tolevelup.repository.missionlog.MissionLogRepository;
@@ -17,11 +19,15 @@ import com.fours.tolevelup.service.missionlog.MissionLogService;
 import com.fours.tolevelup.util.JwtTokenUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -30,6 +36,7 @@ import java.util.stream.IntStream;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final AlarmRepository alarmRepository;
     private final ThemeExpRepository themeExpRepository;
     private final ThemeRepository themeRepository;
     private final MissionLogService missionLogService;
@@ -120,6 +127,13 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
+
+    public Slice<AlarmDTO> findUserAlarmList(String id, Pageable pageable){
+        Slice<Alarm> alarmList = alarmRepository.findAllByToUser(id,pageable);
+        Slice<AlarmDTO> alarmDTOList = alarmList.map(AlarmDTO::fromEntity);
+        return alarmDTOList;
+    }
+
     private User getUserOrException(String id){
         return userRepository.findById(id).orElseThrow(()->
                 new TluApplicationException(ErrorCode.USER_NOT_FOUND,String.format("%s is duplicated",id)));
@@ -139,77 +153,5 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-
-//TODO:에러코드 넣어서 수정
-/*
-    @Override
-    public boolean userLoginCheck(UserDTO.LoginData loginData){
-        User user = userRepository.findById(loginData.getId());
-        if(user.getPassword().equals(loginData.getPassword())){
-            return true;
-        }
-        return false;
-    }
-    @Override
-    public void userDelete(String id){
-        userRepository.delete(id);
-
-    }
-
-    @Override
-    public UserDTO.UserData findUserData(String id) {
-        User user = userRepository.findById(id);
-        return UserDTO.UserData.builder()
-                .name(user.getName())
-                .level(user.getLevel())
-                .intro(user.getIntro())
-                .themeExpList(themeExpService.findUserThemeExps(id))
-                .build();
-    }
-    @Override
-    public UserDTO.UserPersonalInfo findUserPersonalInfo(String id){
-        User user = userRepository.findById(id);
-        return UserDTO.UserPersonalInfo.builder()
-                .id(user.getId())
-                .password(user.getPassword())
-                .email(user.getEmail())
-                .build();
-    }
-
-    @Override
-    public UserDTO.UserPersonalInfo changeUserPersonalInfo(UserDTO.UserPersonalInfo userData){
-        User user = userRepository.findById(userData.getId());
-        userRepository1.save(user.builder()
-                .id(userData.getId())
-                .name(user.getName())
-                .password(userData.getPassword())
-                .email(userData.getEmail())
-                .intro(user.getIntro())
-                .build());
-        return userData;
-    }
-
-    @Override
-    public UserDTO.UserProfile findUserProfile(String id){
-        User user = userRepository.findById(id);
-        return UserDTO.UserProfile.builder()
-                .id(user.getId())
-                .name(user.getName())
-                .intro(user.getIntro())
-                .build();
-    }
-    @Override
-    public UserDTO.UserProfile changeUserProfile(UserDTO.UserProfile userProfile) {
-        User user = userRepository.findById(userProfile.getId());
-        userRepository1.save(user.builder()
-                .id(userProfile.getId())
-                .password(user.getPassword())
-                .name(userProfile.getName())
-                .email(user.getEmail())
-                .intro(userProfile.getIntro())
-                .build());
-        return userProfile;
-    }
-*/
 
 }
