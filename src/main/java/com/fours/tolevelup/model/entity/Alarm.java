@@ -2,11 +2,15 @@ package com.fours.tolevelup.model.entity;
 
 
 import com.fours.tolevelup.model.AlarmType;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Getter
@@ -18,8 +22,12 @@ public class Alarm {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "from_user_id")
+    private User fromUser;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "to_user_id")
+    private User toUser;
 
     @Enumerated(EnumType.STRING)
     private AlarmType alarmType;
@@ -27,7 +35,15 @@ public class Alarm {
     @Column(name = "registeredAt")
     private Timestamp registeredAt;
 
-    @Column(name = "deletedAt")
-    private Timestamp deletedAt;
+    @PrePersist
+    void registeredAt(){
+        this.registeredAt = java.sql.Timestamp.valueOf(LocalDateTime.now());
+    }
 
+    @Builder
+    public Alarm(User fromUser, User toUser, AlarmType alarmType){
+        this.fromUser = fromUser;
+        this.toUser = toUser;
+        this.alarmType = alarmType;
+    }
 }
