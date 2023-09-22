@@ -9,5 +9,7 @@ public interface UserCharacterCustomRepository {
 
     void saveUserCharacter(UserCharacter userCharacter);
 
+
+
 /*    List<UserCharacter> findByUser_IdAndCharacter_Id(String user_id, String character_id);*/
 }
