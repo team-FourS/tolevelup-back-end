@@ -44,6 +44,8 @@ public class UserDTO implements UserDetails {
     public static class publicUserData{
         private String userId;
         private String name;
+        private int level;
+        private String intro;
     }
 
     @Override
