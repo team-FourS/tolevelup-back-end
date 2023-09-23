@@ -44,6 +44,15 @@ public class MissionServiceImpl implements MissionService {
                 .dailyMissions(createMissionList(dailyMissionList)).weeklyMissions(createMissionList(weeklyMissionList)).build();
     }
 
+    public List<MissionDTO.mission> userToDayCompleteList(String userId){
+        List<MissionLog> completeMissionLogs = missionLogRepository.findAllByUserAndEnd_date(userId,Date.valueOf(LocalDate.now()));
+        List<MissionDTO.mission> completeMissions = new ArrayList<>();
+        for(MissionLog ml : completeMissionLogs){
+            completeMissions.add(MissionDTO.mission.fromMissionLog(ml));
+        }
+        return completeMissions;
+    }
+
     public MissionResponse.type getUserTypeMissions(String userId, String type){
         List<MissionLog> missionLogList = findUserMissionByTypeOrException(userId,type);
         return MissionResponse.type.builder().missions(createMissionList(missionLogList)).build();
