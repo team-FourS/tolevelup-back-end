@@ -62,13 +62,15 @@ public class MissionServiceImpl implements MissionService {
     @Transactional
     public void changeMissionStatus(int missionId,String userId){
         MissionLog missionLog = getMissionLogOrException(missionId,userId);
-        System.out.println("mission id "+missionLog.getMission().getId());
         float exp = missionLog.getMission().getExp();
-        missionLogRepository.updateMissionLogStatus(missionLog.getId(), checkMissionStatus(missionLog.getStatus()));
+        Date endDate = Date.valueOf(LocalDate.now());
+        if(missionLog.getEnd_date()!=null){
+            endDate = null;
+        }
+        missionLogRepository.updateMissionLogStatus(missionLog.getId(), checkMissionStatus(missionLog.getStatus()),endDate);
         if(missionLog.getStatus().toString().split("_")[1].equals("COMPLETE")){
             exp*=-1;
         }
-        System.out.println("exp "+exp);
         themeExpRepository.updateExp(exp, userId, missionLog.getMission().getTheme());
         //TODO: 미션 로그의 상태 변경에 따른 피드(예정) 변동
     }
