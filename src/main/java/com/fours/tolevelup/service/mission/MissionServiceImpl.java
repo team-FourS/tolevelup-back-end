@@ -44,6 +44,15 @@ public class MissionServiceImpl implements MissionService {
                 .dailyMissions(createMissionList(dailyMissionList)).weeklyMissions(createMissionList(weeklyMissionList)).build();
     }
 
+    public List<MissionDTO.mission> userToDayCompleteList(String userId){
+        List<MissionLog> completeMissionLogs = missionLogRepository.findAllByUserAndEnd_date(userId,Date.valueOf(LocalDate.now()));
+        List<MissionDTO.mission> completeMissions = new ArrayList<>();
+        for(MissionLog ml : completeMissionLogs){
+            completeMissions.add(MissionDTO.mission.fromMissionLog(ml));
+        }
+        return completeMissions;
+    }
+
     public MissionResponse.type getUserTypeMissions(String userId, String type){
         List<MissionLog> missionLogList = findUserMissionByTypeOrException(userId,type);
         return MissionResponse.type.builder().missions(createMissionList(missionLogList)).build();
@@ -53,13 +62,15 @@ public class MissionServiceImpl implements MissionService {
     @Transactional
     public void changeMissionStatus(int missionId,String userId){
         MissionLog missionLog = getMissionLogOrException(missionId,userId);
-        System.out.println("mission id "+missionLog.getMission().getId());
         float exp = missionLog.getMission().getExp();
-        missionLogRepository.updateMissionLogStatus(missionLog.getId(), checkMissionStatus(missionLog.getStatus()));
+        Date endDate = Date.valueOf(LocalDate.now());
+        if(missionLog.getEnd_date()!=null){
+            endDate = null;
+        }
+        missionLogRepository.updateMissionLogStatus(missionLog.getId(), checkMissionStatus(missionLog.getStatus()),endDate);
         if(missionLog.getStatus().toString().split("_")[1].equals("COMPLETE")){
             exp*=-1;
         }
-        System.out.println("exp "+exp);
         themeExpRepository.updateExp(exp, userId, missionLog.getMission().getTheme());
         //TODO: 미션 로그의 상태 변경에 따른 피드(예정) 변동
     }

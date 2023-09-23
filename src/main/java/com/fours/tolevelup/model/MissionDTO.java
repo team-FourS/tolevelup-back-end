@@ -1,6 +1,7 @@
 package com.fours.tolevelup.model;
 
 import com.fours.tolevelup.model.entity.Mission;
+import com.fours.tolevelup.model.entity.MissionLog;
 import com.fours.tolevelup.model.entity.Theme;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,11 +14,6 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class MissionDTO {
-    private int id;
-    private String content;
-    private float exp;
-    private Theme theme;
-
 
     @Getter
     @Builder
@@ -28,6 +24,16 @@ public class MissionDTO {
         private String content;
         private boolean checked;
         private float exp;
+
+        public static MissionDTO.mission fromMissionLog(MissionLog missionLog){
+            return new MissionDTO.mission(
+                    missionLog.getMission().getTheme().getName(),
+                    missionLog.getMission().getId(),
+                    missionLog.getMission().getContent(),
+                    true,
+                    missionLog.getMission().getExp()
+            );
+        }
     }
 
 
