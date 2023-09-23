@@ -49,7 +49,8 @@ public class FollowService {
         List<UserDTO.publicUserData> followingUserDataList = new ArrayList<>();
         for(User user : followingList){
             followingUserDataList.add(
-                    UserDTO.publicUserData.builder().userId(user.getId()).name(user.getName()).build()
+                    UserDTO.publicUserData.builder().userId(user.getId()).name(user.getName())
+                            .intro(user.getIntro()).level(user.getLevel()).build()
             );
         }
         return followingUserDataList;
@@ -60,7 +61,8 @@ public class FollowService {
         List<UserDTO.publicUserData> followerUserDataList = new ArrayList<>();
         for(User user : followerList){
             followerUserDataList.add(
-                    UserDTO.publicUserData.builder().userId(user.getId()).name(user.getName()).build()
+                    UserDTO.publicUserData.builder().userId(user.getId()).name(user.getName())
+                            .intro(user.getIntro()).level(user.getLevel()).build()
             );
         }
         return followerUserDataList;
