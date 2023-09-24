@@ -1,12 +1,14 @@
 package com.fours.tolevelup.model.entity;
 
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 
 @NoArgsConstructor
 @Getter
@@ -29,9 +31,14 @@ public class Like {
     @Column(name = "feed_date")
     private Date date;
 
-    @Column(name = "register_at")
-    private Timestamp registeredAt;
+    @PrePersist
+    void registeredAt(){
+        this.date = Date.valueOf(LocalDate.now());
+    }
 
-    @Column(name = "deleted_at")
-    private Timestamp deletedAt;
+    @Builder
+    public Like(User fromUser, User toUser){
+        this.user = fromUser;
+        this.other_user = toUser;
+    }
 }
