@@ -14,6 +14,7 @@ import com.fours.tolevelup.service.user.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -41,6 +42,7 @@ public class FeedService {
         return feedList;
     }
 
+    @Transactional
     public void checkLike(String fromId, String toId){
         User fromUser = getUserOrException(fromId);
         User toUser = getUserOrException(toId);
@@ -52,8 +54,14 @@ public class FeedService {
         }
     }
 
-    public void getLikeCount(String fromId, String toId){
+    public long getALLLikeCount(String userId){
+        User user = getUserOrException(userId);
+        return likeRepository.countByToUser(user);
+    }
 
+    public long getDateLikeCount(String userId,Date date){
+        User user = getUserOrException(userId);
+        return likeRepository.countByDateAndToUser(date,user);
     }
 
     private User getUserOrException(String id){
