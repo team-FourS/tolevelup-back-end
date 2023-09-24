@@ -5,8 +5,10 @@ import com.fours.tolevelup.exception.ErrorCode;
 import com.fours.tolevelup.exception.TluApplicationException;
 import com.fours.tolevelup.model.FeedDTO;
 import com.fours.tolevelup.model.UserDTO;
+import com.fours.tolevelup.model.entity.Comment;
 import com.fours.tolevelup.model.entity.Like;
 import com.fours.tolevelup.model.entity.User;
+import com.fours.tolevelup.repository.CommentRepository;
 import com.fours.tolevelup.repository.LikeRepository;
 import com.fours.tolevelup.repository.user.UserRepository;
 import com.fours.tolevelup.service.mission.MissionServiceImpl;
@@ -30,6 +32,7 @@ public class FeedService {
     private final UserRepository userRepository;
     private final MissionServiceImpl missionService;
     private final LikeRepository likeRepository;
+    private final CommentRepository commentRepository;
 
     public List<FeedDTO.feedData> getFollowingFeedList(String userId, Pageable pageable){
         List<UserDTO.publicUserData> followUserList = followService.getFollowingList(userId);
@@ -62,6 +65,13 @@ public class FeedService {
     public long getDateLikeCount(String userId,Date date){
         User user = getUserOrException(userId);
         return likeRepository.countByDateAndToUser(date,user);
+    }
+
+    @Transactional
+    public void sendComment(String fromId, String toId, String comment){
+        User fromUser = getUserOrException(fromId);
+        User toUser = getUserOrException(toId);
+        commentRepository.save(Comment.builder().fromUser(fromUser).toUser(toUser).comment(comment).build());
     }
 
     private User getUserOrException(String id){
