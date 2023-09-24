@@ -24,10 +24,17 @@ public class FeedController {
                 feedService.getFollowingFeedList(authentication.getName(),pageable)));
     }
 
-    @GetMapping("/{id}/likes")
-    public void likeCount(Authentication authentication,@PathVariable("id")String userId,@RequestParam("date") Date date){
-        return;
+
+    @GetMapping("/{user_id}/likes")
+    public Response<Long> likeCount(@PathVariable("user_id")String userId){
+        return Response.success(feedService.getALLLikeCount(userId));
     }
+
+    @GetMapping("/{user_id}/likes/{date}")
+    public Response<Long> likeCount(@PathVariable("user_id")String userId,@PathVariable("date")Date date){
+        return Response.success(feedService.getDateLikeCount(userId,date));
+    }
+
     @PostMapping("/{id}/likes")
     public Response<Void> likeCheck(Authentication authentication, @PathVariable("id")String userId){
         feedService.checkLike(authentication.getName(),userId);
