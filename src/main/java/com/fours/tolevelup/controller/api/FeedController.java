@@ -1,5 +1,6 @@
 package com.fours.tolevelup.controller.api;
 
+import com.fours.tolevelup.controller.request.CommentRequest;
 import com.fours.tolevelup.controller.response.FeedResponse;
 import com.fours.tolevelup.controller.response.Response;
 import com.fours.tolevelup.service.FeedService;
@@ -41,5 +42,39 @@ public class FeedController {
         return Response.success();
     }
 
+    @GetMapping("/comments/count")
+    public void commentCount(Authentication authentication){
+        return;
+    }
+
+    @GetMapping("/{userId}/comments/count")
+    public void commentCount(Authentication authentication,@PathVariable("userId")String userID){
+        return;
+    }
+    @GetMapping("/comments")
+    public void commentList(Authentication authentication){
+        return;
+    }
+    @GetMapping("/comments/{date}")
+    public void commentList(Authentication authentication,@PathVariable("date")Date date){
+        return;
+    }
+    @GetMapping("/{userId}/comments")
+    public void commentList(Authentication authentication,@PathVariable("userId")String userId){
+        return;
+    }
+    @GetMapping("/{userId}/comments/{date}")
+    public void commentList(Authentication authentication,@PathVariable("userId")String userId,@PathVariable("date")Date date){
+        return;
+    }
+    @PostMapping("/{id}/comments")
+    public Response<Void> comment(Authentication authentication, @PathVariable("id")String userId, @RequestBody CommentRequest request){
+        feedService.sendComment(authentication.getName(),userId, request.getComment());
+        return Response.success();
+    }
+    @PutMapping("/comments/{cid}")
+    public void modifyComment(Authentication authentication,@PathVariable("cid")Long commentId){
+        return;
+    }
 
 }
