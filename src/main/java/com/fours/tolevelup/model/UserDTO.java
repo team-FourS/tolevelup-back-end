@@ -47,7 +47,7 @@ public class UserDTO implements UserDetails {
         private int level;
         private String intro;
 
-        public static publicUserData fromUser(User user){
+        public static publicUserData fromUser(User user) {
             return new publicUserData(
                     user.getId(),
                     user.getName(),

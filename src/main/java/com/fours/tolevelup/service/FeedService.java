@@ -16,6 +16,7 @@ import com.fours.tolevelup.service.mission.MissionServiceImpl;
 import com.fours.tolevelup.service.user.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,7 +37,7 @@ public class FeedService {
     private final CommentRepository commentRepository;
 
     public List<FeedDTO.feedData> getFollowingFeedList(String userId, Pageable pageable){
-        List<UserDTO.publicUserData> followUserList = followService.getFollowingList(userId);
+        Slice<UserDTO.publicUserData> followUserList = followService.getFollowingList(userId,pageable);
         List<FeedDTO.feedData> feedList = new ArrayList<>();
         for(UserDTO.publicUserData user : followUserList){
             feedList.add(FeedDTO.feedData.builder().userData(user)
