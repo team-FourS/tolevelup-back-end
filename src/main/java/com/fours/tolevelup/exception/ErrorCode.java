@@ -20,7 +20,7 @@ public enum ErrorCode {
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,"Internal Server Error"),
     ALREADY_FOLLOW(HttpStatus.CONFLICT,"Already follow"),
     LIKE_NOT_FOUND(HttpStatus.NOT_FOUND,"Like Not Found"),
-    ALREADY_LIKE(HttpStatus.CONFLICT,"Already Like")
+    ALREADY_LIKE(HttpStatus.CONFLICT,"Already Like"),
     COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND,"Comment Not Found")
     ;
     private HttpStatus status;
