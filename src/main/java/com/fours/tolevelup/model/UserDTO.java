@@ -46,6 +46,15 @@ public class UserDTO implements UserDetails {
         private String name;
         private int level;
         private String intro;
+
+        public static publicUserData fromUser(User user){
+            return new publicUserData(
+                    user.getId(),
+                    user.getName(),
+                    user.getLevel(),
+                    user.getIntro()
+            );
+        }
     }
 
     @Override
