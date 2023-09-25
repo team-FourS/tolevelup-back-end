@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
 
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED,"Token is Invalid"),
+    INVALID_PERMISSION(HttpStatus.UNAUTHORIZED,"Permission Is Invalid"),
     DUPLICATED_USER_ID(HttpStatus.CONFLICT,"User ID is Duplicated"),
     DUPLICATED_USER_EMAIL(HttpStatus.CONFLICT,"User Email Is Duplicated"),
     USER_NOT_FOUND(HttpStatus.NOT_FOUND,"User Not Founded"),
