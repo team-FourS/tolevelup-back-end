@@ -42,6 +42,12 @@ public class FeedController {
         return Response.success();
     }
 
+    @DeleteMapping ("/{id}/likes")
+    public Response<Void> likeCancel(Authentication authentication, @PathVariable("id")String userId){
+        feedService.deleteLike(authentication.getName(),userId);
+        return Response.success();
+    }
+
     @GetMapping("/comments/count")
     public void commentCount(Authentication authentication){
         return;
