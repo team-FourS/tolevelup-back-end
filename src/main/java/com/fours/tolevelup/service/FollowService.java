@@ -13,6 +13,8 @@ import com.fours.tolevelup.repository.AlarmRepository;
 import com.fours.tolevelup.repository.FollowRepository;
 import com.fours.tolevelup.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,28 +52,16 @@ public class FollowService {
         followRepository.delete(follow);
     }
 
-    public List<UserDTO.publicUserData> getFollowingList(String userId){
-        List<User> followingList = followRepository.findByUser(userId);
-        List<UserDTO.publicUserData> followingUserDataList = new ArrayList<>();
-        for(User user : followingList){
-            followingUserDataList.add(
-                    UserDTO.publicUserData.builder().userId(user.getId()).name(user.getName())
-                            .intro(user.getIntro()).level(user.getLevel()).build()
-            );
-        }
-        return followingUserDataList;
+    public Slice<UserDTO.publicUserData> getFollowingList(String id, Pageable pageable){
+        Slice<User> followUser = followRepository.findByUser(id,pageable);
+        return followUser.map(UserDTO.publicUserData::fromUser);
     }
 
-    public List<UserDTO.publicUserData> getFollowerList(String userId){
-        List<User> followerList = followRepository.findByFollowingUser(userId);
-        List<UserDTO.publicUserData> followerUserDataList = new ArrayList<>();
-        for(User user : followerList){
-            followerUserDataList.add(
-                    UserDTO.publicUserData.builder().userId(user.getId()).name(user.getName())
-                            .intro(user.getIntro()).level(user.getLevel()).build()
-            );
-        }
-        return followerUserDataList;
+
+
+    public Slice<UserDTO.publicUserData> getFollowerList(String userId, Pageable pageable){
+        Slice<User> followerList = followRepository.findByFollowingUser(userId,pageable);
+        return followerList.map(UserDTO.publicUserData::fromUser);
     }
 
     private User getUserOrException(String id){

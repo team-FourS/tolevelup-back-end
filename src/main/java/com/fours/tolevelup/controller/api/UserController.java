@@ -11,6 +11,7 @@ import com.fours.tolevelup.service.character.CharacterService;
 import com.fours.tolevelup.service.user.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,14 +58,15 @@ public class UserController {
         return Response.success();
     }
 
+
     @GetMapping("/following")
-    public Response<UserResponse.FollowUserData> followingList(Authentication authentication){ //내가 하는 리스트
-        return Response.success(new UserResponse.FollowUserData(followService.getFollowingList(authentication.getName())));
+    public Response<UserResponse.FollowingList> followingList(Authentication authentication,Pageable pageable){
+        return Response.success(new UserResponse.FollowingList(followService.getFollowingList(authentication.getName(),pageable)));
     }
 
     @GetMapping("/follower")
-    public Response<UserResponse.FollowUserData> followerList(Authentication authentication){ //나를 하는 리스트
-        return Response.success(new UserResponse.FollowUserData(followService.getFollowerList(authentication.getName())));
+    public Response<UserResponse.FollowerList> followerList(Authentication authentication,Pageable pageable){
+        return Response.success(new UserResponse.FollowerList(followService.getFollowerList(authentication.getName(),pageable)));
     }
 
     @GetMapping("/alarm")

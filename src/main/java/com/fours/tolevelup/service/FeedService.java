@@ -1,6 +1,7 @@
 package com.fours.tolevelup.service;
 
 
+import com.fours.tolevelup.controller.response.FeedResponse;
 import com.fours.tolevelup.exception.ErrorCode;
 import com.fours.tolevelup.exception.TluApplicationException;
 import com.fours.tolevelup.model.FeedDTO;
@@ -15,6 +16,7 @@ import com.fours.tolevelup.service.mission.MissionServiceImpl;
 import com.fours.tolevelup.service.user.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,7 +37,7 @@ public class FeedService {
     private final CommentRepository commentRepository;
 
     public List<FeedDTO.feedData> getFollowingFeedList(String userId, Pageable pageable){
-        List<UserDTO.publicUserData> followUserList = followService.getFollowingList(userId);
+        Slice<UserDTO.publicUserData> followUserList = followService.getFollowingList(userId,pageable);
         List<FeedDTO.feedData> feedList = new ArrayList<>();
         for(UserDTO.publicUserData user : followUserList){
             feedList.add(FeedDTO.feedData.builder().userData(user)
@@ -78,6 +80,18 @@ public class FeedService {
         User fromUser = getUserOrException(fromId);
         User toUser = getUserOrException(toId);
         commentRepository.save(Comment.builder().fromUser(fromUser).toUser(toUser).comment(comment).build());
+    }
+
+    @Transactional
+    public FeedDTO.CommentData modifyComment(String userId,Long commentId, String modifyComment){
+        User user = getUserOrException(userId);
+        Comment comment = commentRepository.findById(commentId).orElseThrow(()->
+                new TluApplicationException(ErrorCode.COMMENT_NOT_FOUND));
+        if(comment.getUser()!=user){
+            throw new TluApplicationException(ErrorCode.INVALID_PERMISSION);
+        }
+        commentRepository.updateComment(commentId,modifyComment);
+        return FeedDTO.CommentData.fromComment(commentRepository.findById(commentId).get());
     }
 
     private User getUserOrException(String id){
