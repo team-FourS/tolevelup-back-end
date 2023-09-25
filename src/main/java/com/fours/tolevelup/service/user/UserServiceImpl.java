@@ -134,6 +134,17 @@ public class UserServiceImpl implements UserService {
         return alarmDTOList;
     }
 
+    @Transactional
+    public void deleteAlarm(String id, Long alarmId){
+        Alarm alarm = alarmRepository.findById(alarmId).orElseThrow(()->
+                new TluApplicationException(ErrorCode.ALARM_NOT_FOUND));
+        if(!alarm.getToUser().getId().equals(id)){
+            throw new TluApplicationException(ErrorCode.INVALID_PERMISSION);
+        }
+        alarmRepository.delete(alarm);
+    }
+
+
     private User getUserOrException(String id){
         return userRepository.findById(id).orElseThrow(()->
                 new TluApplicationException(ErrorCode.USER_NOT_FOUND,String.format("%s is duplicated",id)));
