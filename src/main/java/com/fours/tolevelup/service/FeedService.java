@@ -1,6 +1,7 @@
 package com.fours.tolevelup.service;
 
 
+import com.fours.tolevelup.controller.response.FeedResponse;
 import com.fours.tolevelup.exception.ErrorCode;
 import com.fours.tolevelup.exception.TluApplicationException;
 import com.fours.tolevelup.model.FeedDTO;
@@ -72,6 +73,18 @@ public class FeedService {
         User fromUser = getUserOrException(fromId);
         User toUser = getUserOrException(toId);
         commentRepository.save(Comment.builder().fromUser(fromUser).toUser(toUser).comment(comment).build());
+    }
+
+    @Transactional
+    public FeedDTO.CommentData modifyComment(String userId,Long commentId, String modifyComment){
+        User user = getUserOrException(userId);
+        Comment comment = commentRepository.findById(commentId).orElseThrow(()->
+                new TluApplicationException(ErrorCode.COMMENT_NOT_FOUND));
+        if(comment.getUser()!=user){
+            throw new TluApplicationException(ErrorCode.INVALID_PERMISSION);
+        }
+        commentRepository.updateComment(commentId,modifyComment);
+        return FeedDTO.CommentData.fromComment(commentRepository.findById(commentId).get());
     }
 
     private User getUserOrException(String id){

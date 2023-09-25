@@ -3,6 +3,7 @@ package com.fours.tolevelup.controller.api;
 import com.fours.tolevelup.controller.request.CommentRequest;
 import com.fours.tolevelup.controller.response.FeedResponse;
 import com.fours.tolevelup.controller.response.Response;
+import com.fours.tolevelup.model.FeedDTO;
 import com.fours.tolevelup.service.FeedService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -73,8 +74,9 @@ public class FeedController {
         return Response.success();
     }
     @PutMapping("/comments/{cid}")
-    public void modifyComment(Authentication authentication,@PathVariable("cid")Long commentId){
-        return;
+    public Response<FeedResponse.Comment> modifyComment(Authentication authentication,@PathVariable("cid")Long commentId, @RequestBody CommentRequest request){
+        FeedDTO.CommentData modifyComment = feedService.modifyComment(authentication.getName(),commentId,request.getComment());
+        return Response.success(FeedResponse.Comment.fromDTO(modifyComment));
     }
 
 }
