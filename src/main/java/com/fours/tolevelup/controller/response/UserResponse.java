@@ -40,12 +40,19 @@ public class UserResponse {
         private List<ThemeExpDTO.user> themeExp;
     }
 
+
     @Getter
-    @Builder
     @AllArgsConstructor
-    public static class FollowUserData{
-        private List<UserDTO.publicUserData> userData;
+    public static class FollowingList{
+        private Slice<UserDTO.publicUserData> followingData;
     }
+
+    @Getter
+    @AllArgsConstructor
+    public static class FollowerList{
+        private Slice<UserDTO.publicUserData> followerData;
+    }
+
 
     @Getter
     @Builder
