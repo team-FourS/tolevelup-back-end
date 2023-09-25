@@ -49,12 +49,18 @@ public class FeedService {
     public void checkLike(String fromId, String toId){
         User fromUser = getUserOrException(fromId);
         User toUser = getUserOrException(toId);
-        Optional<Like> like = likeRepository.findByUserAndDateAndToUser(fromUser, Date.valueOf(LocalDate.now()),toUser);
-        if(like.isPresent()){
-            likeRepository.delete(like.get());
-        }else{
-            likeRepository.save(Like.builder().fromUser(fromUser).toUser(toUser).build());
-        }
+        likeRepository.findByUserAndDateAndToUser(fromUser, Date.valueOf(LocalDate.now()),toUser).ifPresent(it->{
+            throw new TluApplicationException(ErrorCode.ALREADY_LIKE);
+        });
+        likeRepository.save(Like.builder().fromUser(fromUser).toUser(toUser).build());
+    }
+    @Transactional
+    public void deleteLike(String fromId, String toId){
+        User fromUser = getUserOrException(fromId);
+        User toUser = getUserOrException(toId);
+        Like like = likeRepository.findByUserAndDateAndToUser(fromUser, Date.valueOf(LocalDate.now()),toUser).orElseThrow(()->
+                new TluApplicationException(ErrorCode.LIKE_NOT_FOUND));
+        likeRepository.delete(like);
     }
 
     public long getALLLikeCount(String userId){
