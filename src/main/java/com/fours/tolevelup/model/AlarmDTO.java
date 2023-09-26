@@ -11,14 +11,17 @@ import java.sql.Timestamp;
 @Getter
 @AllArgsConstructor
 public class AlarmDTO {
-
+    private Long alarmId;
     private String fromUserId;
     private AlarmType alarmType;
     private Timestamp registeredAt;
 
     public static AlarmDTO fromEntity(Alarm alarm){
         return new AlarmDTO(
-                alarm.getFromUser().getId(),alarm.getAlarmType(),alarm.getRegisteredAt()
+                alarm.getId(),
+                alarm.getFromUser().getId(),
+                alarm.getAlarmType(),
+                alarm.getRegisteredAt()
         );
     }
 }

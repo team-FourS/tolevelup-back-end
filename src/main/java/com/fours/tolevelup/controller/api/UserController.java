@@ -73,4 +73,9 @@ public class UserController {
     public Response<UserResponse.UserAlarmList> alarmList(Authentication authentication, Pageable pageable){
         return Response.success(new UserResponse.UserAlarmList(userService.findUserAlarmList(authentication.getName(),pageable)));
     }
+    @DeleteMapping("/alarm/{aid}")
+    public Response<Void> deleteAlarm(Authentication authentication,@PathVariable("aid")Long alarmId){
+        userService.deleteAlarm(authentication.getName(),alarmId);
+        return Response.success();
+    }
 }
