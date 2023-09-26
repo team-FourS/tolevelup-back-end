@@ -30,6 +30,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
         final String header = request.getHeader(HttpHeaders.AUTHORIZATION);
 
+        System.out.println(header);
+
         if(header == null || !header.startsWith("Bearer")){
             log.error("Error occurs while getting header. header is null or invalid");
             filterChain.doFilter(request,response);
@@ -37,21 +39,26 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         }
 
         try {
+            System.out.println("1");
             final String token = header.split(" ")[1].trim();
             if(JwtTokenUtils.isExpired(token,key)){
                 log.error("Key is expired");
+                System.out.println("1-1");
                 filterChain.doFilter(request,response);
                 return;
             }
+            System.out.println("2");
             String userId = JwtTokenUtils.getUserId(token,key);
             UserDTO user = userService.loadUserVoByUserId(userId);
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                     user,null,user.getAuthorities()
             );
+            System.out.println("3");
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
         }catch (RuntimeException e){
+            System.out.println("R");
             log.error("Error occurs while validating. {}",e.toString());
             filterChain.doFilter(request,response);
             return;
