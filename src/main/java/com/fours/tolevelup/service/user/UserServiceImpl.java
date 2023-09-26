@@ -149,7 +149,7 @@ public class UserServiceImpl implements UserService {
 
     private User getUserOrException(String id){
         return userRepository.findById(id).orElseThrow(()->
-                new TluApplicationException(ErrorCode.USER_NOT_FOUND,String.format("%s is duplicated",id)));
+                new TluApplicationException(ErrorCode.USER_NOT_FOUND,String.format("%s is duplicated and c check",id)));
     }
 
     @Override
