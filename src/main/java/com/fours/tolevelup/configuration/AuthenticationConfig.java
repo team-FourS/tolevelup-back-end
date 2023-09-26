@@ -2,6 +2,7 @@ package com.fours.tolevelup.configuration;
 
 
 
+import com.fours.tolevelup.configuration.filter.CorsConfig;
 import com.fours.tolevelup.configuration.filter.JwtTokenFilter;
 import com.fours.tolevelup.exception.CustomAuthenticationEntryPoint;
 import com.fours.tolevelup.exception.CustomJwtAccessDeniedHandler;
@@ -28,7 +29,8 @@ public class AuthenticationConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        http.csrf().disable()
+        http.cors().and()
+                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/*/users/join","/api/*/users/login")
                 .permitAll()

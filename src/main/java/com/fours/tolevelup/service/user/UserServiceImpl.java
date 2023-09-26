@@ -89,6 +89,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public String login(String id,String password){
         User user = getUserOrException(id);
+        System.out.println("login-"+id);
         if(!encoder.matches(password, user.getPassword())){
             throw new TluApplicationException(ErrorCode.INVALID_PASSWORD);
         }
