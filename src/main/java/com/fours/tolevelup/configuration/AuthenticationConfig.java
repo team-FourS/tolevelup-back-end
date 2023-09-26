@@ -4,6 +4,7 @@ package com.fours.tolevelup.configuration;
 
 import com.fours.tolevelup.configuration.filter.JwtTokenFilter;
 import com.fours.tolevelup.exception.CustomAuthenticationEntryPoint;
+import com.fours.tolevelup.exception.CustomJwtAccessDeniedHandler;
 import com.fours.tolevelup.service.user.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,6 +38,7 @@ public class AuthenticationConfig {
                 .and()
                 .addFilterBefore(new JwtTokenFilter(key,userService), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()
+                .accessDeniedHandler(new CustomJwtAccessDeniedHandler())
                 .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
         ;
         return http.build();
