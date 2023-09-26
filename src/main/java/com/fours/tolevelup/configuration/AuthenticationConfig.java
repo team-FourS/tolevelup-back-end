@@ -8,6 +8,7 @@ import com.fours.tolevelup.service.user.UserServiceImpl;
 import io.jsonwebtoken.Jwt;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -34,7 +35,6 @@ public class AuthenticationConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        http.cors();
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/*/users/join","/api/*/users/login")
@@ -49,17 +49,5 @@ public class AuthenticationConfig {
                 .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
         ;
         return http.build();
-    }
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("<http://localhost:3000>", "<http://44.198.225.181:8080>"));
-        configuration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        configuration.setAllowCredentials(true);
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Authorization-refresh", "Cache-Control", "Content-Type"));
-        configuration.setExposedHeaders(Arrays.asList("Authorization", "Authorization-refresh"));
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
     }
 }
