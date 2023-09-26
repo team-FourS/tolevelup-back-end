@@ -22,6 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class AuthenticationConfig {
 
     private final UserServiceImpl userService;
+    private final CorsConfig corsConfig;
     @Value("${jwt.secret-key}")
     private String key;
 
@@ -29,13 +30,14 @@ public class AuthenticationConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/*/users/join","/api/*/users/login","/api/*/users/my")
+                .antMatchers("/api/*/users/join","/api/*/users/login")
                 .permitAll()
                 .antMatchers("/api/**").authenticated()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+                .addFilter(corsConfig.corsFilter())
                 .addFilterBefore(new JwtTokenFilter(key,userService), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()
                 .accessDeniedHandler(new CustomJwtAccessDeniedHandler())

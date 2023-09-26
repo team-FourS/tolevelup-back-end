@@ -12,11 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@Component
-@RequiredArgsConstructor
+
 public class CustomJwtAccessDeniedHandler implements AccessDeniedHandler {
-
-
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
         response.setContentType("application/json");
