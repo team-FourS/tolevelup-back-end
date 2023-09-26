@@ -46,8 +46,9 @@ public class AuthenticationConfig {
                 .addFilterBefore(new JwtTokenFilter(key,userService), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()
                 .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                .and()
+                .cors().configurationSource(corsConfigurationSource())
         ;
-        http.cors();
         return http.build();
     }
     @Bean
