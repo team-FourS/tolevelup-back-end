@@ -90,6 +90,7 @@ public class UserServiceImpl implements UserService {
     public String login(String id,String password){
         User user = getUserOrException(id);
         System.out.println("login-"+id);
+        System.out.println("변경 확인");
         if(!encoder.matches(password, user.getPassword())){
             throw new TluApplicationException(ErrorCode.INVALID_PASSWORD);
         }
