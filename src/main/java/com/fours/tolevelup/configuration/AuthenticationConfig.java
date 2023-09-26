@@ -2,6 +2,7 @@ package com.fours.tolevelup.configuration;
 
 
 
+import com.fours.tolevelup.configuration.filter.CORSFilter;
 import com.fours.tolevelup.configuration.filter.JwtTokenFilter;
 import com.fours.tolevelup.exception.CustomAuthenticationEntryPoint;
 import com.fours.tolevelup.service.user.UserServiceImpl;
@@ -20,6 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
 import java.util.List;
@@ -44,6 +46,7 @@ public class AuthenticationConfig {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+                .addFilter(new CORSFilter().corsFilter())
                 .addFilterBefore(new JwtTokenFilter(key,userService), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()
                 .authenticationEntryPoint(new CustomAuthenticationEntryPoint())

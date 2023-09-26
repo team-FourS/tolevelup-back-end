@@ -1,35 +1,28 @@
 package com.fours.tolevelup.configuration.filter;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Configuration
-public class CORSFilter implements Filter {
+public class CORSFilter {
+    @Bean
+    public CorsFilter corsFilter(){
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);       // 내 서버가 응답할 때 JSON을 js에서 처리할 수 있게 할 지 설정
+        config.addAllowedOrigin("*");           // 모든 ip의 응답을 허용
+        config.addAllowedHeader("*");           // 모든 geader에 응답을 허용
+        config.addAllowedMethod("*");           // 모든 Method(post, get, put, delete, patch) 요청 허용
+        source.registerCorsConfiguration("/api/**", config);
 
-
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-        Filter.super.init(filterConfig);
+        return new CorsFilter(source);
     }
 
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse res, FilterChain chain) throws IOException, ServletException {
-        HttpServletResponse response = (HttpServletResponse) request;
-
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.addHeader("Access-Control-Allow-Headers", "x-requested-with, origin, content-type, accept");
-        response.addHeader("Access-Control-Allow-Headers", "authorization, content-type, x-csrf-token");
-        response.setHeader("Access-Control-Allow-Methods", "POST,GET,OPTIONS,DELETE,PUT");
-        response.setHeader("Access-Control-Max-Age", "3600");
-
-        chain.doFilter(request, response);
-    }
-
-    @Override
-    public void destroy() {
-        Filter.super.destroy();
-    }
 }

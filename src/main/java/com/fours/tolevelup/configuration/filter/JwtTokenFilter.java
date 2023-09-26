@@ -28,6 +28,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
+        //response.addHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS");
+        //response.addHeader("Access-Control-Allow-Headers", "authorization, content-type, x-csrf-token");
+        //response.setIntHeader("Access-Control-Max-Age", 3600);
+
         final String header = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         if(header == null || !header.startsWith("Bearer")){
