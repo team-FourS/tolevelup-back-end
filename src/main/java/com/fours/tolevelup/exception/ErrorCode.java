@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum ErrorCode {
 
+    FORBIDDEN_ACCESS(HttpStatus.FORBIDDEN,"Forbidden Access"),
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED,"Token is Invalid"),
     INVALID_PERMISSION(HttpStatus.UNAUTHORIZED,"Permission Is Invalid"),
     DUPLICATED_USER_ID(HttpStatus.CONFLICT,"User ID is Duplicated"),
