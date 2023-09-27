@@ -41,10 +41,7 @@ public class Comment {
     void registeredAt(){
         this.registeredAt = java.sql.Timestamp.valueOf(LocalDateTime.now());
     }
-    @PreUpdate
-    void updateAt(){
-        this.updatedAt = java.sql.Timestamp.valueOf(LocalDateTime.now());
-    }
+
 
     @Builder
     public Comment(User fromUser,User toUser,String comment){

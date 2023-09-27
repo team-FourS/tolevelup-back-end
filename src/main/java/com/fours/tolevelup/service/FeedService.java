@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -90,7 +91,7 @@ public class FeedService {
         if(comment.getUser()!=user){
             throw new TluApplicationException(ErrorCode.INVALID_PERMISSION);
         }
-        commentRepository.updateComment(commentId,modifyComment);
+        commentRepository.updateComment(commentId,modifyComment,java.sql.Timestamp.valueOf(LocalDateTime.now()));
         return FeedDTO.CommentData.fromComment(commentRepository.findById(commentId).get());
     }
 

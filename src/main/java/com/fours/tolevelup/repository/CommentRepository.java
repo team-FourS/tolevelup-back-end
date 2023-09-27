@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.Optional;
 
 @Repository
@@ -17,5 +18,5 @@ public interface CommentRepository extends JpaRepository<Comment,Long> {
 
     @Modifying(clearAutomatically = true)
     @Query("update Comment cm set cm.comment =:comment where cm.id =:cid")
-    void updateComment(@Param("cid")Long commentId,@Param("comment")String comment);
+    void updateComment(@Param("cid")Long commentId, @Param("comment")String comment, @Param("time")Timestamp updateTime);
 }
