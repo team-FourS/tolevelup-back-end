@@ -27,7 +27,6 @@ public class FeedResponse {
         private UserDTO.publicUserData fromUserData;
         private UserDTO.publicUserData toUserData;
         private String comment;
-        private Date date;
         private Timestamp registeredAt;
         private Timestamp updatedAt;
 
@@ -37,7 +36,6 @@ public class FeedResponse {
                     commentData.getFromUserData(),
                     commentData.getToUserData(),
                     commentData.getComment(),
-                    commentData.getDate(),
                     commentData.getRegisteredAt(),
                     commentData.getUpdatedAt()
             );

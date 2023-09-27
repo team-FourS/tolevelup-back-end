@@ -29,7 +29,6 @@ public class FeedDTO {
         private UserDTO.publicUserData fromUserData;
         private UserDTO.publicUserData toUserData;
         private String comment;
-        private Date date;
         private Timestamp registeredAt;
         private Timestamp updatedAt;
 
@@ -39,7 +38,6 @@ public class FeedDTO {
                     UserDTO.publicUserData.fromUser(comment.getUser()),
                     UserDTO.publicUserData.fromUser(comment.getOther_user()),
                     comment.getComment(),
-                    comment.getDate(),
                     comment.getRegisteredAt(),
                     comment.getUpdatedAt()
             );

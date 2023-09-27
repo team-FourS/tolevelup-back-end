@@ -31,9 +31,6 @@ public class Comment {
     @Column(name = "comment")
     private String comment;
 
-    @Column(name = "feed_date")
-    private Date date;
-
     @Column(name = "register_at")
     private Timestamp registeredAt;
 
@@ -42,7 +39,6 @@ public class Comment {
 
     @PrePersist
     void registeredAt(){
-        this.date = Date.valueOf(LocalDate.now());
         this.registeredAt = java.sql.Timestamp.valueOf(LocalDateTime.now());
     }
     @PreUpdate
