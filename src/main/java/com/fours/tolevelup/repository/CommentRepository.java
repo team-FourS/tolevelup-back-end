@@ -17,6 +17,6 @@ public interface CommentRepository extends JpaRepository<Comment,Long> {
     Optional<Comment> findById(Long id);
 
     @Modifying(clearAutomatically = true)
-    @Query("update Comment cm set cm.comment =:comment where cm.id =:cid")
+    @Query("update Comment cm set cm.comment =:comment, cm.updatedAt =:time where cm.id =:cid")
     void updateComment(@Param("cid")Long commentId, @Param("comment")String comment, @Param("time")Timestamp updateTime);
 }
