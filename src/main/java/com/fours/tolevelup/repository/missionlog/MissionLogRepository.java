@@ -22,8 +22,8 @@ public interface MissionLogRepository extends JpaRepository<MissionLog, Long>, M
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE MissionLog ml SET ml.status = :status, ml.end_date = :eDate where ml.id = :mid")
-    void updateMissionLogStatus(@Param("mid")Long missionLogId,@Param("status")MissionStatus status,@Param("eDate")Date eDate);
+    @Query(value = "UPDATE MissionLog ml SET ml.status = :status, ml.end_time = :eTime where ml.id = :mid")
+    void updateMissionLogStatus(@Param("mid")Long missionLogId,@Param("status")MissionStatus status,@Param("eTime") Timestamp eTime);
 
     @Query("select m from MissionLog m where m.user.id = :uid and m.mission.id = :mid and m.start_date = :day")
     Optional<MissionLog> findByUserAndMission(@Param("uid") String userId, @Param("mid") int missionId, @Param("day") Date date);
