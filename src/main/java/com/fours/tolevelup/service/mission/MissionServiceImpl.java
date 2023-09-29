@@ -48,7 +48,8 @@ public class MissionServiceImpl implements MissionService {
     }
 
     public List<MissionDTO.mission> userToDayCompleteList(String userId){
-        List<MissionLog> completeMissionLogs = missionLogRepository.findAllByUserAndEnd_date(userId,Date.valueOf(LocalDate.now()));
+        List<MissionLog> completeMissionLogs =
+                missionLogRepository.findAllByUserAndEnd_date(userId,LocalDate.now().toString());
         List<MissionDTO.mission> completeMissions = new ArrayList<>();
         for(MissionLog ml : completeMissionLogs){
             completeMissions.add(MissionDTO.mission.fromMissionLog(ml));

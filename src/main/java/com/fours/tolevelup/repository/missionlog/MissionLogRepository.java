@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,8 +33,9 @@ public interface MissionLogRepository extends JpaRepository<MissionLog, Long>, M
     @Query("select m from MissionLog m where m.user.id = :uid and m.mission.theme.type = :type")
     Optional<List<MissionLog>> findAllByUserIdAndType(@Param("uid") String userId,@Param("type") String type);
 
-    @Query("select m from MissionLog m where m.user.id = :uid and m.end_date = :eDate")
-    List<MissionLog> findAllByUserAndEnd_date(@Param("uid")String userId,@Param("eDate")Date date);
+    @Query("select m from MissionLog m where m.user.id = :uid " +
+            "and function('date_format', m.end_time, '%Y-%m-%d') = :eDate")
+    List<MissionLog> findAllByUserAndEnd_date(@Param("uid")String userId,@Param("eDate")String eDate);
 
     @Modifying
     @Query("delete from MissionLog m where m.user = :uid")
