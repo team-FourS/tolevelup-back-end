@@ -5,6 +5,7 @@ import com.fours.tolevelup.model.AlarmDTO;
 import com.fours.tolevelup.model.ThemeExpDTO;
 import com.fours.tolevelup.model.UserDTO;
 import com.fours.tolevelup.model.UserRole;
+import com.fours.tolevelup.model.entity.Theme;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,7 +30,14 @@ public class UserResponse {
     @Getter
     @Builder
     @AllArgsConstructor
-    public static class Data{
+    public static class UserAllData{
+        private UserData userData;
+        private List<UserExpData> expData;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class UserData{
         private String id;
         private String name;
         private String email;
@@ -37,7 +45,27 @@ public class UserResponse {
         private String intro;
         private UserRole role;
         private Date registeredAt;
-        private List<ThemeExpDTO.user> themeExp;
+        public static UserData fromUserDTO(UserDTO user){
+            return new UserData(
+                    user.getId(), user.getName(),
+                    user.getEmail(), user.getLevel(),
+                    user.getIntro(), user.getRole(),
+                    user.getRegisteredAt()
+            );
+        }
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class UserExpData{
+        private Theme themeData;
+        private float expData;
+        public static UserExpData fromExpDTO(ThemeExpDTO themeExp){
+            return new UserExpData(
+                    themeExp.getTheme(),
+                    themeExp.getExp_total()
+            );
+        }
     }
 
 

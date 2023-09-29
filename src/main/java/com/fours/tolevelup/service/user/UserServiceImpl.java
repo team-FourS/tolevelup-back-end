@@ -9,6 +9,8 @@ import com.fours.tolevelup.model.UserDTO;
 import com.fours.tolevelup.model.entity.*;
 import com.fours.tolevelup.model.entity.Character;
 import com.fours.tolevelup.repository.AlarmRepository;
+import com.fours.tolevelup.repository.CommentRepository;
+import com.fours.tolevelup.repository.LikeRepository;
 import com.fours.tolevelup.repository.character.CharacterRepository;
 import com.fours.tolevelup.repository.character.UserCharacterRepository;
 import com.fours.tolevelup.repository.missionlog.MissionLogRepository;
@@ -37,6 +39,8 @@ import java.util.stream.IntStream;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final AlarmRepository alarmRepository;
+    private final CommentRepository commentRepository;
+    private final LikeRepository likeRepository;
     private final ThemeExpRepository themeExpRepository;
     private final ThemeRepository themeRepository;
     private final MissionLogService missionLogService;
@@ -104,31 +108,37 @@ public class UserServiceImpl implements UserService {
         themeExpRepository.deleteAllByUser(user);
         missionLogRepository.deleteAllByUser(user);
         userCharacterRepository.deleteAllByUser(user);
+        commentRepository.deleteAllByUser(user);
+        likeRepository.deleteAllByUser(user);
+        alarmRepository.deleteAllByUser(user);
         userRepository.delete(user);
-
     }
 
     @Override
-    public UserResponse.Data findUserData(String id) {
-        UserDTO vo = loadUserVoByUserId(id);
-        List<ThemeExp> userExpList = themeExpRepository.findByUser_id(id);
-        List<ThemeExpDTO.user> userThemeExp = new ArrayList<>();
-        for(ThemeExp t : userExpList){
-            ThemeExpDTO.user dto = ThemeExpDTO.user.builder().theme_name(t.getTheme().getName()).exp_total(t.getExp_total()).build();
-            userThemeExp.add(dto);
-        }
-        return UserResponse.Data.builder()
-                .id(vo.getId())
-                .name(vo.getName())
-                .email(vo.getEmail())
-                .level(vo.getLevel())
-                .intro(vo.getIntro())
-                .role(vo.getRole())
-                .registeredAt(vo.getRegisteredAt())
-                .themeExp(userThemeExp)
-                .build();
+    public UserResponse.UserData findUserData(String userId) {
+        UserDTO user = loadUserVoByUserId(userId);
+        return UserResponse.UserData.fromUserDTO(user);
     }
 
+    public UserResponse.UserAllData findUserAllData(String userId){
+        return UserResponse.UserAllData.builder().
+                userData(findUserData(userId)).expData(userAllThemeExp(userId)).build();
+    }
+
+    public List<UserResponse.UserExpData> userAllThemeExp(String userId){
+        List<Theme> themeList = themeRepository.findAll();
+        List<UserResponse.UserExpData> userExpList = new ArrayList<>();
+        for(Theme t : themeList){
+            userExpList.add(UserResponse.UserExpData.fromExpDTO(userThemeExp(userId,t.getId())));
+        }
+        return userExpList;
+    }
+
+    public ThemeExpDTO userThemeExp(String userId,int themeId){
+        ThemeExp themeExp = themeExpRepository.getThemeExpByUserAndTheme(userId,themeId).orElseThrow(()->
+                new TluApplicationException(ErrorCode.THEME_EXP_NOT_FOUND));
+        return ThemeExpDTO.fromEntity(themeExp);
+    }
 
     public Slice<AlarmDTO> findUserAlarmList(String id, Pageable pageable){
         Slice<Alarm> alarmList = alarmRepository.findAllByToUser(id,pageable);

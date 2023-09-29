@@ -42,9 +42,15 @@ public class UserController {
     }
 
     @GetMapping("/my")
-    public Response<UserResponse.Data> myData(Authentication authentication){
+    public Response<UserResponse.UserAllData> myAllData(Authentication authentication){
+        return Response.success(userService.findUserAllData(authentication.getName()));
+    }
+
+    @GetMapping("/information")
+    public Response<UserResponse.UserData> myInformation(Authentication authentication){
         return Response.success(userService.findUserData(authentication.getName()));
     }
+
 
     @PostMapping("/follow/{userId}")
     public Response<Void> followUser(Authentication authentication, @PathVariable String userId){

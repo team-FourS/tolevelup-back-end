@@ -23,7 +23,8 @@ public enum ErrorCode {
     LIKE_NOT_FOUND(HttpStatus.NOT_FOUND,"Like Not Found"),
     ALREADY_LIKE(HttpStatus.CONFLICT,"Already Like"),
     COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND,"Comment Not Found"),
-    ALARM_NOT_FOUND(HttpStatus.NOT_FOUND,"Alarm Not Found")
+    ALARM_NOT_FOUND(HttpStatus.NOT_FOUND,"Alarm Not Found"),
+    THEME_EXP_NOT_FOUND(HttpStatus.NOT_FOUND,"Theme Exp Not Found")
     ;
     private HttpStatus status;
     private String message;
