@@ -11,6 +11,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 
 @NoArgsConstructor
@@ -24,7 +25,7 @@ public class MissionLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Date start_date;
-    private Date end_date;
+    private Timestamp end_time;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
@@ -44,10 +45,10 @@ public class MissionLog {
     }
 
     @Builder
-    public MissionLog(User user, Mission mission, Date end_date, MissionStatus status){
+    public MissionLog(User user, Mission mission, Timestamp end_time, MissionStatus status){
         this.user = user;
         this.mission = mission;
-        this.end_date = end_date;
+        this.end_time = end_time;
         this.status = status;
     }
 }

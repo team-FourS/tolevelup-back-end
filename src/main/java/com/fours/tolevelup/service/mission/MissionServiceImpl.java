@@ -18,11 +18,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +48,8 @@ public class MissionServiceImpl implements MissionService {
     }
 
     public List<MissionDTO.mission> userToDayCompleteList(String userId){
-        List<MissionLog> completeMissionLogs = missionLogRepository.findAllByUserAndEnd_date(userId,Date.valueOf(LocalDate.now()));
+        List<MissionLog> completeMissionLogs =
+                missionLogRepository.findAllByUserAndEnd_date(userId,LocalDate.now().toString());
         List<MissionDTO.mission> completeMissions = new ArrayList<>();
         for(MissionLog ml : completeMissionLogs){
             completeMissions.add(MissionDTO.mission.fromMissionLog(ml));
@@ -62,17 +66,14 @@ public class MissionServiceImpl implements MissionService {
     @Transactional
     public void changeMissionStatus(int missionId,String userId){
         MissionLog missionLog = getMissionLogOrException(missionId,userId);
+        Timestamp endTime = java.sql.Timestamp.valueOf(LocalDateTime.now());
         float exp = missionLog.getMission().getExp();
-        Date endDate = Date.valueOf(LocalDate.now());
-        if(missionLog.getEnd_date()!=null){
-            endDate = null;
-        }
-        missionLogRepository.updateMissionLogStatus(missionLog.getId(), checkMissionStatus(missionLog.getStatus()),endDate);
         if(missionLog.getStatus().toString().split("_")[1].equals("COMPLETE")){
+            endTime = null;
             exp*=-1;
         }
+        missionLogRepository.updateMissionLogStatus(missionLog.getId(), checkMissionStatus(missionLog.getStatus()),endTime);
         themeExpRepository.updateExp(exp, userId, missionLog.getMission().getTheme());
-        //TODO: 미션 로그의 상태 변경에 따른 피드(예정) 변동
     }
 
 

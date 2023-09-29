@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,8 +23,8 @@ public interface MissionLogRepository extends JpaRepository<MissionLog, Long>, M
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE MissionLog ml SET ml.status = :status, ml.end_date = :eDate where ml.id = :mid")
-    void updateMissionLogStatus(@Param("mid")Long missionLogId,@Param("status")MissionStatus status,@Param("eDate")Date eDate);
+    @Query(value = "UPDATE MissionLog ml SET ml.status = :status, ml.end_time = :eTime where ml.id = :mid")
+    void updateMissionLogStatus(@Param("mid")Long missionLogId,@Param("status")MissionStatus status,@Param("eTime") Timestamp eTime);
 
     @Query("select m from MissionLog m where m.user.id = :uid and m.mission.id = :mid and m.start_date = :day")
     Optional<MissionLog> findByUserAndMission(@Param("uid") String userId, @Param("mid") int missionId, @Param("day") Date date);
@@ -32,8 +33,9 @@ public interface MissionLogRepository extends JpaRepository<MissionLog, Long>, M
     @Query("select m from MissionLog m where m.user.id = :uid and m.mission.theme.type = :type")
     Optional<List<MissionLog>> findAllByUserIdAndType(@Param("uid") String userId,@Param("type") String type);
 
-    @Query("select m from MissionLog m where m.user.id = :uid and m.end_date = :eDate")
-    List<MissionLog> findAllByUserAndEnd_date(@Param("uid")String userId,@Param("eDate")Date date);
+    @Query("select m from MissionLog m where m.user.id = :uid " +
+            "and function('date_format', m.end_time, '%Y-%m-%d') = :eDate")
+    List<MissionLog> findAllByUserAndEnd_date(@Param("uid")String userId,@Param("eDate")String eDate);
 
     @Modifying
     @Query("delete from MissionLog m where m.user = :uid")
