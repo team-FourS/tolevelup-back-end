@@ -6,7 +6,7 @@ public interface UserService {
 
     void userJoin(String id,String password,String name,String email);
     String login(String id,String password);
-    UserResponse.Data findUserData(String id);
+    UserResponse.UserData findUserData(String id);
 
     void userLevelUp(String id);
     /*
