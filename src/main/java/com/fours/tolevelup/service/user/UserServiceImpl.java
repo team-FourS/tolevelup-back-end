@@ -9,6 +9,8 @@ import com.fours.tolevelup.model.UserDTO;
 import com.fours.tolevelup.model.entity.*;
 import com.fours.tolevelup.model.entity.Character;
 import com.fours.tolevelup.repository.AlarmRepository;
+import com.fours.tolevelup.repository.CommentRepository;
+import com.fours.tolevelup.repository.LikeRepository;
 import com.fours.tolevelup.repository.character.CharacterRepository;
 import com.fours.tolevelup.repository.character.UserCharacterRepository;
 import com.fours.tolevelup.repository.missionlog.MissionLogRepository;
@@ -37,6 +39,8 @@ import java.util.stream.IntStream;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final AlarmRepository alarmRepository;
+    private final CommentRepository commentRepository;
+    private final LikeRepository likeRepository;
     private final ThemeExpRepository themeExpRepository;
     private final ThemeRepository themeRepository;
     private final MissionLogService missionLogService;
@@ -104,8 +108,10 @@ public class UserServiceImpl implements UserService {
         themeExpRepository.deleteAllByUser(user);
         missionLogRepository.deleteAllByUser(user);
         userCharacterRepository.deleteAllByUser(user);
+        commentRepository.deleteAllByUser(user);
+        likeRepository.deleteAllByUser(user);
+        alarmRepository.deleteAllByUser(user);
         userRepository.delete(user);
-
     }
 
     @Override
