@@ -4,6 +4,8 @@ import com.fours.tolevelup.model.MissionStatus;
 import com.fours.tolevelup.model.entity.Mission;
 import com.fours.tolevelup.model.entity.MissionLog;
 import com.fours.tolevelup.model.entity.User;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -20,6 +22,9 @@ import java.util.Optional;
 @Repository
 public interface MissionLogRepository extends JpaRepository<MissionLog, Long>, MissionLogCustomRepository {
 
+
+    @Query("select ml.user from MissionLog ml group by ml.user order by ml.end_time desc")
+    Slice<User> findUserSortByEndTime(Pageable pageable);
 
     @Transactional
     @Modifying
