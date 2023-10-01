@@ -20,6 +20,12 @@ public class FeedController {
 
     private final FeedService feedService;
 
+    @GetMapping
+    public Response<FeedResponse.FeedList> userFeedList(Authentication authentication,Pageable pageable){
+        return Response.success(new FeedResponse.FeedList(
+                feedService.getFeedList(pageable)));
+    }
+
     @GetMapping("/follow")
     public Response<FeedResponse.FeedList> feedList(Authentication authentication, Pageable pageable){
         return Response.success(new FeedResponse.FeedList(
