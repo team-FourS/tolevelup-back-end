@@ -11,12 +11,14 @@ import com.fours.tolevelup.model.entity.Like;
 import com.fours.tolevelup.model.entity.User;
 import com.fours.tolevelup.repository.CommentRepository;
 import com.fours.tolevelup.repository.LikeRepository;
+import com.fours.tolevelup.repository.missionlog.MissionLogRepository;
 import com.fours.tolevelup.repository.user.UserRepository;
 import com.fours.tolevelup.service.mission.MissionServiceImpl;
 import com.fours.tolevelup.service.user.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +38,19 @@ public class FeedService {
     private final MissionServiceImpl missionService;
     private final LikeRepository likeRepository;
     private final CommentRepository commentRepository;
+    private final MissionLogRepository missionLogRepository;
+
+    public List<FeedDTO.feedData> getFeedList(Pageable pageable){
+        Slice<UserDTO.publicUserData> userList = missionLogRepository.
+                findUserSortByEndTime(pageable).map(UserDTO.publicUserData::fromUser);
+        List<FeedDTO.feedData> feedList = new ArrayList<>();
+        for(UserDTO.publicUserData user : userList){
+            feedList.add(FeedDTO.feedData.builder().userData(user)
+                    .userCompleteMissions(missionService.userToDayCompleteList(user.getUserId()))
+                    .build());
+        }
+        return feedList;
+    }
 
     public List<FeedDTO.feedData> getFollowingFeedList(String userId, Pageable pageable){
         Slice<UserDTO.publicUserData> followUserList = followService.getFollowingList(userId,pageable);
