@@ -14,6 +14,7 @@ public enum ErrorCode {
     INVALID_PERMISSION(HttpStatus.UNAUTHORIZED,"Permission Is Invalid"),
     DUPLICATED_USER_ID(HttpStatus.CONFLICT,"User ID is Duplicated"),
     DUPLICATED_USER_EMAIL(HttpStatus.CONFLICT,"User Email Is Duplicated"),
+    DATA_NOT_ENTERED(HttpStatus.INTERNAL_SERVER_ERROR,"Data Not Entered"),
     USER_NOT_FOUND(HttpStatus.NOT_FOUND,"User Not Founded"),
     MISSION_NOT_FOUND(HttpStatus.NOT_FOUND,"Mission Not Found"),
     MISSION_LOG_NOT_FOUND(HttpStatus.NOT_FOUND,"MissionLog Not Found"),
