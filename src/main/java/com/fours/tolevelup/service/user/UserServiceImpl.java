@@ -63,6 +63,9 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void userJoin(String id,String password,String name,String email){
+        if(id==null||password==null||name==null||email==null){
+            throw new TluApplicationException(ErrorCode.DATA_NOT_ENTERED);
+        }
         userRepository.findById(id).ifPresent(it -> {
             throw new TluApplicationException(ErrorCode.DUPLICATED_USER_ID,String.format("%s is duplicated",id));
         });
