@@ -5,6 +5,7 @@ package com.fours.tolevelup.controller.api;
 import com.fours.tolevelup.controller.request.UserRequest;
 import com.fours.tolevelup.controller.response.Response;
 import com.fours.tolevelup.controller.response.UserResponse;
+import com.fours.tolevelup.model.UserDTO;
 import com.fours.tolevelup.model.entity.User;
 import com.fours.tolevelup.service.FollowService;
 import com.fours.tolevelup.service.character.CharacterService;
@@ -47,8 +48,8 @@ public class UserController {
     }
 
     @GetMapping("/information")
-    public Response<UserResponse.UserData> myInformation(Authentication authentication){
-        return Response.success(userService.findUserData(authentication.getName()));
+    public Response<UserResponse.UserData> myInformation(Authentication authentication,@RequestBody String password){
+        return Response.success(userService.findUserPrivateData(authentication.getName(),password));
     }
 
 
