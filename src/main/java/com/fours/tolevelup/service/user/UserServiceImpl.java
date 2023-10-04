@@ -91,15 +91,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String login(String id,String password){
-        User user = getUserOrException(id);
-        System.out.println("login-"+id);
-        System.out.println("변경 확인");
-        if(!encoder.matches(password, user.getPassword())){
-            throw new TluApplicationException(ErrorCode.INVALID_PASSWORD);
-        }
-        String token = JwtTokenUtils.generateToken(id, secretKey,expiredTimeMs);
-        return token;
+    public String login(String userId,String password){
+        UserDTO user = loadUserVoByUserId(userId);
+        passwordMatchCheck(user.getPassword(),password);
+        return JwtTokenUtils.generateToken(userId, secretKey,expiredTimeMs);
     }
 
     @Transactional
@@ -113,6 +108,13 @@ public class UserServiceImpl implements UserService {
         alarmRepository.deleteAllByUser(user);
         userRepository.delete(user);
     }
+
+    public UserResponse.UserData findUserPrivateData(String userId,String password) {
+        UserDTO user = loadUserVoByUserId(userId);
+        passwordMatchCheck(user.getPassword(),password);
+        return UserResponse.UserData.fromUserDTO(user);
+    }
+
 
     @Override
     public UserResponse.UserData findUserData(String userId) {
@@ -156,6 +158,11 @@ public class UserServiceImpl implements UserService {
         alarmRepository.delete(alarm);
     }
 
+    private void passwordMatchCheck(String userPassword,String checkPassword){
+        if(!encoder.matches(checkPassword, userPassword)){
+            throw new TluApplicationException(ErrorCode.INVALID_PASSWORD);
+        }
+    }
 
     private User getUserOrException(String id){
         return userRepository.findById(id).orElseThrow(()->
