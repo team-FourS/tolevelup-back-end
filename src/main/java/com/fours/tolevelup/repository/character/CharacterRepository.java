@@ -21,8 +21,8 @@ public interface CharacterRepository extends JpaRepository<Character, String> {
     @Query("select c from Character c where c.id = :cid")
     Character getCharacter(@Param("cid") String character_id);
 
-    @Query("select c from Character c where c.theme.id = :tid")
-    List<Character> getCharacterByTheme(@Param("tid") int theme_id);
+    @Query("select c from Character c where c.id like %:ucid%")
+    List<Character> getCharacterByTheme(@Param("ucid") String ucid);
 
 
     @Query("select c from Character c where c.level = :level + 1 and c.theme.id = :tid")
