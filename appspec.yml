@@ -5,7 +5,7 @@ os: linux
 
 files:
   - source:  /
-    destination: /home/ec2-user/build/
+    destination: /home/ec2-user/tolevelup-back-end
     overwrite: yes
 
 permissions:
