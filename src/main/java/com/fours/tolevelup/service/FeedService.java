@@ -16,6 +16,7 @@ import com.fours.tolevelup.repository.user.UserRepository;
 import com.fours.tolevelup.service.mission.MissionServiceImpl;
 import com.fours.tolevelup.service.user.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.security.core.parameters.P;
@@ -89,6 +90,13 @@ public class FeedService {
     public long getDateLikeCount(String userId,Date date){
         User user = getUserOrException(userId);
         return likeRepository.countByDateAndToUser(date,user);
+    }
+
+    public Page<FeedDTO.FeedComments> getFeedComments(String userId, Pageable pageable){
+        User feedUser = getUserOrException(userId);
+        Page<FeedDTO.FeedComments> comments = commentRepository.findAllByUser(feedUser,pageable)
+                .map(FeedDTO.FeedComments::fromComment);
+        return comments;
     }
 
     @Transactional
