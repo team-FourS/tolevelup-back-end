@@ -103,11 +103,24 @@ public class FeedService {
         User user = getUserOrException(userId);
         Comment comment = commentRepository.findById(commentId).orElseThrow(()->
                 new TluApplicationException(ErrorCode.COMMENT_NOT_FOUND));
-        if(comment.getUser()!=user){
-            throw new TluApplicationException(ErrorCode.INVALID_PERMISSION);
-        }
+        userSameCheck(user,comment.getUser());
         commentRepository.updateComment(commentId,modifyComment,java.sql.Timestamp.valueOf(LocalDateTime.now()));
         return FeedDTO.CommentData.fromComment(commentRepository.findById(commentId).get());
+    }
+
+    @Transactional
+    public void deleteComment(String userId, Long commentId){
+        User user = getUserOrException(userId);
+        Comment comment = commentRepository.findById(commentId).orElseThrow(()->
+                new TluApplicationException(ErrorCode.COMMENT_NOT_FOUND));
+        userSameCheck(user,comment.getUser());
+        commentRepository.delete(comment);
+    }
+
+    private static void userSameCheck(User user, User checkUser){
+        if(user!=checkUser){
+            throw new TluApplicationException(ErrorCode.INVALID_PERMISSION);
+        }
     }
 
     private User getUserOrException(String id){
