@@ -16,6 +16,7 @@ import com.fours.tolevelup.repository.user.UserRepository;
 import com.fours.tolevelup.service.mission.MissionServiceImpl;
 import com.fours.tolevelup.service.user.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.security.core.parameters.P;
@@ -91,6 +92,13 @@ public class FeedService {
         return likeRepository.countByDateAndToUser(date,user);
     }
 
+    public Page<FeedDTO.FeedComments> getFeedComments(String userId, Pageable pageable){
+        User feedUser = getUserOrException(userId);
+        Page<FeedDTO.FeedComments> comments = commentRepository.findAllByUser(feedUser,pageable)
+                .map(FeedDTO.FeedComments::fromComment);
+        return comments;
+    }
+
     @Transactional
     public void sendComment(String fromId, String toId, String comment){
         User fromUser = getUserOrException(fromId);
@@ -103,7 +111,10 @@ public class FeedService {
         User user = getUserOrException(userId);
         Comment comment = commentRepository.findById(commentId).orElseThrow(()->
                 new TluApplicationException(ErrorCode.COMMENT_NOT_FOUND));
-        userSameCheck(user,comment.getUser());
+        if(comment.getFromUser()!=user){
+            throw new TluApplicationException(ErrorCode.INVALID_PERMISSION);
+        }
+
         commentRepository.updateComment(commentId,modifyComment,java.sql.Timestamp.valueOf(LocalDateTime.now()));
         return FeedDTO.CommentData.fromComment(commentRepository.findById(commentId).get());
     }

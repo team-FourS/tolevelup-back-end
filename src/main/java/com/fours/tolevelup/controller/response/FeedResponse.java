@@ -5,6 +5,7 @@ import com.fours.tolevelup.model.FeedDTO;
 import com.fours.tolevelup.model.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Slice;
 
 import java.sql.Date;
@@ -20,6 +21,13 @@ public class FeedResponse {
     public static class FeedList{
         private List<FeedDTO.feedData> feedList;
     }
+
+    @Getter
+    @AllArgsConstructor
+    public static class FeedCommentPage{
+        private Page<FeedDTO.FeedComments> comments;
+    }
+
     @Getter
     @AllArgsConstructor
     public static class Comment{
