@@ -22,6 +22,6 @@ public interface CommentRepository extends JpaRepository<Comment,Long> {
     void updateComment(@Param("cid")Long commentId, @Param("comment")String comment, @Param("time")Timestamp updateTime);
 
     @Modifying
-    @Query("delete from Comment c where c.user =:user or c.other_user =:user")
+    @Query("delete from Comment c where c.fromUser =:user or c.toUser =:user")
     void deleteAllByUser(@Param("user") User user);
 }

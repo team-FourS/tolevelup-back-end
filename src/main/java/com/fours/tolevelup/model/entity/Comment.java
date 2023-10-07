@@ -22,11 +22,11 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "from_user_id")
-    private User user;
+    private User fromUser;
 
     @ManyToOne
     @JoinColumn(name = "to_user_id")
-    private User other_user;
+    private User toUser;
 
     @Column(name = "comment")
     private String comment;
@@ -45,8 +45,8 @@ public class Comment {
 
     @Builder
     public Comment(User fromUser,User toUser,String comment){
-        this.user = fromUser;
-        this.other_user = toUser;
+        this.fromUser = fromUser;
+        this.toUser = toUser;
         this.comment = comment;
     }
 

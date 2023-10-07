@@ -35,8 +35,8 @@ public class FeedDTO {
         public static CommentData fromComment(Comment comment){
             return new CommentData(
                     comment.getId(),
-                    UserDTO.publicUserData.fromUser(comment.getUser()),
-                    UserDTO.publicUserData.fromUser(comment.getOther_user()),
+                    UserDTO.publicUserData.fromUser(comment.getFromUser()),
+                    UserDTO.publicUserData.fromUser(comment.getToUser()),
                     comment.getComment(),
                     comment.getRegisteredAt(),
                     comment.getUpdatedAt()

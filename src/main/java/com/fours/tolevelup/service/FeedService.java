@@ -103,7 +103,7 @@ public class FeedService {
         User user = getUserOrException(userId);
         Comment comment = commentRepository.findById(commentId).orElseThrow(()->
                 new TluApplicationException(ErrorCode.COMMENT_NOT_FOUND));
-        if(comment.getUser()!=user){
+        if(comment.getFromUser()!=user){
             throw new TluApplicationException(ErrorCode.INVALID_PERMISSION);
         }
         commentRepository.updateComment(commentId,modifyComment,java.sql.Timestamp.valueOf(LocalDateTime.now()));
