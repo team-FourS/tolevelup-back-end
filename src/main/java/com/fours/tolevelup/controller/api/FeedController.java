@@ -55,30 +55,13 @@ public class FeedController {
         return Response.success();
     }
 
-    @GetMapping("/comments/count")
-    public void commentCount(Authentication authentication){
-        return;
-    }
-
-    @GetMapping("/{userId}/comments/count")
-    public void commentCount(Authentication authentication,@PathVariable("userId")String userID){
-        return;
-    }
-    @GetMapping("/comments")
-    public void commentList(Authentication authentication){
-        return;
-    }
-    @GetMapping("/comments/{date}")
-    public void commentList(Authentication authentication,@PathVariable("date")Date date){
+    @GetMapping("/comments/{uid}")
+    public void commentList(Authentication authentication,@PathVariable("uid")String userId){
         return;
     }
     @GetMapping("/{userId}/comments")
-    public void commentList(Authentication authentication,@PathVariable("userId")String userId){
-        return;
-    }
-    @GetMapping("/{userId}/comments/{date}")
-    public void commentList(Authentication authentication,@PathVariable("userId")String userId,@PathVariable("date")Date date){
-        return;
+    public Response<FeedResponse.FeedCommentPage> feedCommentList(@PathVariable("userId")String userId, Pageable pageable){
+        return Response.success(new FeedResponse.FeedCommentPage(feedService.getFeedComments(userId,pageable)));
     }
     @PostMapping("/{id}/comments")
     public Response<Void> comment(Authentication authentication, @PathVariable("id")String userId, @RequestBody CommentRequest request){
