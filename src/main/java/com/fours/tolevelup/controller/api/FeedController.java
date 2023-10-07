@@ -64,14 +64,20 @@ public class FeedController {
         return Response.success(new FeedResponse.FeedCommentPage(feedService.getFeedComments(userId,pageable)));
     }
     @PostMapping("/{id}/comments")
-    public Response<Void> comment(Authentication authentication, @PathVariable("id")String userId, @RequestBody CommentRequest request){
+    public Response<String> comment(Authentication authentication, @PathVariable("id")String userId, @RequestBody CommentRequest request){
         feedService.sendComment(authentication.getName(),userId, request.getComment());
-        return Response.success();
+        return Response.success("코멘트 전송");
     }
     @PutMapping("/comments/{cid}")
     public Response<FeedResponse.Comment> modifyComment(Authentication authentication,@PathVariable("cid")Long commentId, @RequestBody CommentRequest request){
         FeedDTO.CommentData modifyComment = feedService.modifyComment(authentication.getName(),commentId,request.getComment());
         return Response.success(FeedResponse.Comment.fromDTO(modifyComment));
+    }
+
+    @DeleteMapping("/comments/{cid}")
+    public Response<String> deleteComment(Authentication authentication,@PathVariable("cid")Long commentId){
+        feedService.deleteComment(authentication.getName(), commentId);
+        return Response.success("코멘트 삭제");
     }
 
 }
