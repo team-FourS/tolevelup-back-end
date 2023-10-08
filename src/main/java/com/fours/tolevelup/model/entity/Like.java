@@ -21,12 +21,12 @@ public class Like {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "from_user_id")
+    private User fromUser;
 
     @ManyToOne
-    @JoinColumn(name = "other_id")
-    private User other_user;
+    @JoinColumn(name = "to_user_id")
+    private User toUser;
 
     @Column(name = "feed_date")
     private Date date;
@@ -38,7 +38,7 @@ public class Like {
 
     @Builder
     public Like(User fromUser, User toUser){
-        this.user = fromUser;
-        this.other_user = toUser;
+        this.fromUser = fromUser;
+        this.toUser = toUser;
     }
 }

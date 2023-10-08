@@ -145,6 +145,11 @@ public class UserServiceImpl implements UserService {
         return ThemeExpDTO.fromEntity(themeExp);
     }
 
+    public long totalReceivedLikes(String userId){
+        User user = getUserOrException(userId);
+        return likeRepository.countByToUser(user);
+    }
+
     public Slice<AlarmDTO> findUserAlarmList(String id, Pageable pageable){
         Slice<Alarm> alarmList = alarmRepository.findAllByToUser(id,pageable);
         Slice<AlarmDTO> alarmDTOList = alarmList.map(AlarmDTO::fromEntity);
