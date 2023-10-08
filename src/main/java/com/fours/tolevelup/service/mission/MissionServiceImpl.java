@@ -6,12 +6,14 @@ import com.fours.tolevelup.exception.ErrorCode;
 import com.fours.tolevelup.exception.TluApplicationException;
 import com.fours.tolevelup.model.MissionDTO;
 import com.fours.tolevelup.model.MissionStatus;
+import com.fours.tolevelup.model.entity.Theme;
 import com.fours.tolevelup.repository.mission.MissionRepository;
 import com.fours.tolevelup.repository.mission.MissionRepositoryImpl;
 import com.fours.tolevelup.model.entity.MissionLog;
 import com.fours.tolevelup.repository.missionlog.MissionLogRepository;
 import com.fours.tolevelup.repository.missionlog.MissionLogRepositoryImpl;
 import com.fours.tolevelup.model.entity.Mission;
+import com.fours.tolevelup.repository.theme.ThemeRepository;
 import com.fours.tolevelup.repository.themeexp.ThemeExpRepository;
 import com.fours.tolevelup.service.themeexp.ThemeExpServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +29,9 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -36,6 +40,7 @@ import java.util.List;
 public class MissionServiceImpl implements MissionService {
 
     private final MissionLogRepository missionLogRepository;
+    private final ThemeRepository themeRepository;
     private final ThemeExpRepository themeExpRepository;
 
 
@@ -45,6 +50,13 @@ public class MissionServiceImpl implements MissionService {
         List<MissionLog> weeklyMissionList = findUserMissionByTypeOrException(userId,"weekly");
         return MissionResponse.all.builder()
                 .dailyMissions(createMissionList(dailyMissionList)).weeklyMissions(createMissionList(weeklyMissionList)).build();
+    }
+
+    public List<MissionDTO.mission> todayThemeMissions(String userId,int themeId){
+        Theme theme = themeRepository.findById(themeId).orElseThrow(()->
+                new TluApplicationException(ErrorCode.THEME_NOT_FOUND));
+        return missionLogRepository.findByTheme(userId,theme).stream().map(MissionDTO.mission::fromMissionLog)
+                .collect(Collectors.toList());
     }
 
     public List<MissionDTO.mission> userToDayCompleteList(String userId){
