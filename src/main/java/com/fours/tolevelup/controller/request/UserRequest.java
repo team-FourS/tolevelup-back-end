@@ -29,4 +29,11 @@ public class UserRequest {
         private String password;
     }
 
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Password{
+        private String password;
+    }
+
 }
