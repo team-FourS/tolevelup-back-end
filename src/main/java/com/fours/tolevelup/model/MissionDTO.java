@@ -22,7 +22,7 @@ public class MissionDTO {
         private String themeName;
         private int missionId;
         private String content;
-        private boolean checked;
+        private MissionStatus checked;
         private float exp;
 
         public static MissionDTO.mission fromMissionLog(MissionLog missionLog){
@@ -30,7 +30,7 @@ public class MissionDTO {
                     missionLog.getMission().getTheme().getName(),
                     missionLog.getMission().getId(),
                     missionLog.getMission().getContent(),
-                    true,
+                    missionLog.getStatus(),
                     missionLog.getMission().getExp()
             );
         }

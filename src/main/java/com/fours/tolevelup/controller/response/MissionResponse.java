@@ -3,6 +3,7 @@ package com.fours.tolevelup.controller.response;
 
 import com.fours.tolevelup.model.MissionDTO;
 import com.fours.tolevelup.model.entity.Mission;
+import com.fours.tolevelup.model.entity.MissionLog;
 import lombok.*;
 
 import java.util.List;
@@ -26,5 +27,23 @@ public class MissionResponse {
         public List<MissionDTO.mission> missions;
     }
 
+
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    public static class ThemeMissions{
+        private int missionId;
+        private String content;
+        private String checked;
+        private float exp;
+        public static ThemeMissions fromMissionDTO(MissionDTO.mission missionDTO){
+            return new ThemeMissions(
+                    missionDTO.getMissionId(),
+                    missionDTO.getContent(),
+                    missionDTO.getChecked().toString(),
+                    missionDTO.getExp()
+            );
+        }
+    }
 
 }

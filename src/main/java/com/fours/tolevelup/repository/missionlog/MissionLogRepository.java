@@ -3,6 +3,7 @@ package com.fours.tolevelup.repository.missionlog;
 import com.fours.tolevelup.model.MissionStatus;
 import com.fours.tolevelup.model.entity.Mission;
 import com.fours.tolevelup.model.entity.MissionLog;
+import com.fours.tolevelup.model.entity.Theme;
 import com.fours.tolevelup.model.entity.User;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -25,6 +26,9 @@ public interface MissionLogRepository extends JpaRepository<MissionLog, Long>, M
 
     @Query("select ml.user from MissionLog ml group by ml.user order by ml.end_time desc")
     Slice<User> findUserSortByEndTime(Pageable pageable);
+
+    @Query("select ml from MissionLog ml where ml.user.id =:uid and ml.mission.theme =:theme and ml.start_date >= current_date")
+    List<MissionLog> findByTheme(@Param("uid")String user,@Param("theme")Theme theme);
 
     @Transactional
     @Modifying

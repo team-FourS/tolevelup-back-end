@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Slf4j
 @RestController
 @RequestMapping("/api/v1/missions")
@@ -35,6 +38,12 @@ public class MissionController {
         return Response.success(missionService.userMissionList(authentication.getName()));
     }
 
+    @GetMapping("/themes/{themeId}")
+    public Response<List<MissionResponse.ThemeMissions>> themeMissions(Authentication authentication, @PathVariable("themeId")int themeId){
+        return Response.success(missionService.todayThemeMissions(authentication.getName(), themeId).stream().
+                map(MissionResponse.ThemeMissions::fromMissionDTO).collect(Collectors.toList()));
+    }
+
     @GetMapping("/{type}")
     public Response<MissionResponse.type> userMissions(@PathVariable String type, Authentication authentication){
         return Response.success(missionService.getUserTypeMissions(authentication.getName(),type));
@@ -48,17 +57,5 @@ public class MissionController {
         return Response.success("미션 상태 변경");
     }
 
-    /*
-    @GetMapping("/missions/{theme_name}")
-    public ResponseEntity<List<MissionDTO.MissionContentData>> missionList(@PathVariable String theme_name, @RequestParam String user_id){
-        return ResponseEntity.ok(missionService.getUserThemeMissionContentList(theme_name,user_id));
-    }
-
-    @PutMapping("/missions/{theme_name}")
-    public ResponseEntity<List<MissionDTO.MissionContentData>> missionCheck(@PathVariable String theme_name,@RequestBody MissionDTO.MissionCheckData missionCheckData){
-        missionService.changeUserMissionStatus(missionCheckData);
-        return ResponseEntity.ok(missionService.getUserThemeMissionContentList(theme_name,missionCheckData.getUser_id()));
-    }
-*/
 
 }
