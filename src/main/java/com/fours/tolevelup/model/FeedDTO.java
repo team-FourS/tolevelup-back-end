@@ -21,28 +21,9 @@ public class FeedDTO {
     public static class feedData{
         private UserDTO.publicUserData userData;
         private List<MissionDTO.mission> userCompleteMissions;
+
     }
 
-
-    @Getter
-    @AllArgsConstructor
-    public static class FeedComments{
-        private Long commentId;
-        private UserDTO.publicUserData fromUserData;
-        private String comment;
-        private Timestamp registeredAt;
-        private Timestamp updatedAt;
-
-        public static FeedComments fromComment(Comment comment){
-            return new FeedComments(
-                    comment.getId(),
-                    UserDTO.publicUserData.fromUser(comment.getFromUser()),
-                    comment.getComment(),
-                    comment.getRegisteredAt(),
-                    comment.getUpdatedAt()
-            );
-        }
-    }
 
     @Getter
     @AllArgsConstructor

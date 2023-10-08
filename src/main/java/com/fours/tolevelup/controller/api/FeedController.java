@@ -7,6 +7,7 @@ import com.fours.tolevelup.model.FeedDTO;
 import com.fours.tolevelup.service.FeedService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -56,8 +57,8 @@ public class FeedController {
     }
 
     @GetMapping("/{userId}/comments")
-    public Response<FeedResponse.FeedCommentPage> feedCommentList(@PathVariable("userId")String userId, Pageable pageable){
-        return Response.success(new FeedResponse.FeedCommentPage(feedService.getFeedComments(userId,pageable)));
+    public Response<Page<FeedResponse.FeedComments>> feedCommentList(@PathVariable("userId")String userId, Pageable pageable){
+        return Response.success(feedService.getFeedComments(userId,pageable).map(FeedResponse.FeedComments::fromComment));
     }
     @PostMapping("/{id}/comments")
     public Response<String> comment(Authentication authentication, @PathVariable("id")String userId, @RequestBody CommentRequest request){

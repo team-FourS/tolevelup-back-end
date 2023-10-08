@@ -10,9 +10,13 @@ import com.fours.tolevelup.service.FollowService;
 import com.fours.tolevelup.service.character.CharacterService;
 import com.fours.tolevelup.service.user.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -66,13 +70,15 @@ public class UserController {
 
 
     @GetMapping("/following")
-    public Response<UserResponse.FollowingList> followingList(Authentication authentication,Pageable pageable){
-        return Response.success(new UserResponse.FollowingList(followService.getFollowingList(authentication.getName(),pageable)));
+    public Response<Slice<UserResponse.UserPublicData>> followingList(Authentication authentication, Pageable pageable){
+        return Response.success(followService.getFollowingList(authentication.getName(), pageable)
+                .map(UserResponse.UserPublicData::fromDTO));
     }
 
     @GetMapping("/follower")
-    public Response<UserResponse.FollowerList> followerList(Authentication authentication,Pageable pageable){
-        return Response.success(new UserResponse.FollowerList(followService.getFollowerList(authentication.getName(),pageable)));
+    public Response<Slice<UserResponse.UserPublicData>> followerList(Authentication authentication,Pageable pageable){
+        return Response.success(followService.getFollowerList(authentication.getName(), pageable)
+                .map(UserResponse.UserPublicData::fromDTO));
     }
 
     @GetMapping("likes")
@@ -81,19 +87,19 @@ public class UserController {
     }
 
     @GetMapping("/comments/send")
-    public Response<UserResponse.SentComments> sentCommentList(Authentication authentication,Pageable pageable){
-        return Response.success(new UserResponse.SentComments(
-                commentService.sentComments(authentication.getName(), pageable)
-        ));
+    public Response<Page<UserResponse.SentComments>> sentCommentList(Authentication authentication, Pageable pageable){
+        return Response.success(commentService.sentComments(authentication.getName(),pageable)
+                .map(UserResponse.SentComments::fromComment));
     }
     @GetMapping("/comments/receive")
-    public Response<UserResponse.ReceivedComments> receivedCommentList(Authentication authentication, Pageable pageable){
-        return Response.success(new UserResponse.ReceivedComments(
-                commentService.receivedComments(authentication.getName(), pageable)));
+    public Response<Page<UserResponse.ReceivedComments>> receivedCommentList(Authentication authentication, Pageable pageable){
+        return Response.success(commentService.receivedComments(authentication.getName(),pageable)
+                .map(UserResponse.ReceivedComments::fromComment));
     }
     @GetMapping("/alarm")
-    public Response<UserResponse.UserAlarmList> alarmList(Authentication authentication, Pageable pageable){
-        return Response.success(new UserResponse.UserAlarmList(userService.findUserAlarmList(authentication.getName(),pageable)));
+    public Response<Slice<UserResponse.UserAlarmList>> alarmList(Authentication authentication, Pageable pageable){
+        return Response.success(userService.findUserAlarmList(authentication.getName(), pageable)
+                .map(UserResponse.UserAlarmList::fromDTO));
     }
 
     @DeleteMapping("/alarm")

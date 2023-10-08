@@ -60,13 +60,9 @@ public class MissionServiceImpl implements MissionService {
     }
 
     public List<MissionDTO.mission> userToDayCompleteList(String userId){
-        List<MissionLog> completeMissionLogs =
-                missionLogRepository.findAllByUserAndEnd_date(userId,LocalDate.now().toString());
-        List<MissionDTO.mission> completeMissions = new ArrayList<>();
-        for(MissionLog ml : completeMissionLogs){
-            completeMissions.add(MissionDTO.mission.fromMissionLog(ml));
-        }
-        return completeMissions;
+        return missionLogRepository.findCompleteByUser(userId)
+                .stream().map(MissionDTO.mission::fromMissionLog).collect(Collectors.toList());
+
     }
 
     public MissionResponse.type getUserTypeMissions(String userId, String type){
@@ -132,57 +128,4 @@ public class MissionServiceImpl implements MissionService {
         throw new TluApplicationException(ErrorCode.INTERNAL_SERVER_ERROR,"mission status error");
     }
 
-    //TODO:수정
-    /**
-    @Override
-    public List<MissionDTO.MissionContentData> getUserThemeMissionContentList(String theme_name, String user_id) {
-        List<MissionDTO.MissionContentData> missionContentDataList = new ArrayList<>();
-        List<MissionLog> missionLogList = missionLogRepository.findByUser_IdAndStart_date(user_id,Date.valueOf(LocalDate.now()));
-        for(MissionLog missionLog : missionLogList){
-            if(missionLog.getMission().getTheme().getName().equals(theme_name)){
-                missionContentDataList.add(
-                        MissionDTO.MissionContentData.builder()
-                                .mission_id(missionLog.getMission().getId())
-                                .content(missionLog.getMission().getContent())
-                                .status(missionLog.getStatus())
-                                .build()
-                );
-            }
-        }
-        return missionContentDataList;
-    }
-
-    @Override
-    public void changeUserMissionStatus(MissionDTO.MissionCheckData missionCheckData){
-        MissionStatus missionStatus = missionCheckData.getStatus();
-        String user_id = missionCheckData.getUser_id();
-        Mission mission = missionRepository1.findById(missionCheckData.getMission_id());
-        MissionLog missionLog = findUserMissionInMissionLog(mission,missionStatus,user_id);
-        if(missionStatus.equals("완료")){
-            themeExpService.minusUserThemeExp(user_id,mission);
-            MissionStatus status = (mission.getTheme().getType().equals("weekly")) ? MissionStatus.WEEKLY_ONGOING : MissionStatus.DAILY_ONGOING;
-            missionLogRepositoryImpl.missionNonChecked(status,missionLog.getId());
-        }else {
-            System.out.println(mission.getId()+"//"+user_id);
-            themeExpService.plusUserThemeExp(user_id,mission);
-            missionLogRepositoryImpl.missionChecked(Date.valueOf(LocalDate.now()),MissionStatus.DAILY_COMPLETE,missionLog.getId());
-            System.out.println(missionLog.getId());
-            missionLogRepository.updateMissionLog(Date.valueOf(LocalDate.now()),MissionStatus.DAILY_COMPLETE,missionLog.getId());
-        }
-        missionLogRepository.save(missionLog);
-    }
-
-
-    @Override
-    public MissionLog findUserMissionInMissionLog(Mission mission,MissionStatus missionStatus,String user_id){
-        List<MissionLog> missionLogList = missionLogRepository.findByUser_IdAndStatus(user_id, String.valueOf(missionStatus));
-        //이거 날짜로 찾는거 status 로 찾게 변경 -> 완료
-        for(MissionLog missionLog : missionLogList){
-            if(missionLog.getMission().getId()==mission.getId()){
-                return missionLog;
-            }
-        }
-        return null;
-    }
-    **/
 }

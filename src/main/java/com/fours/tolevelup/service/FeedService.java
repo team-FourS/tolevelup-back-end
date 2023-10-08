@@ -97,10 +97,10 @@ public class FeedService {
         return likeRepository.countByDateAndToUser(date,user);
     }
 
-    public Page<FeedDTO.FeedComments> getFeedComments(String userId, Pageable pageable){
+    public Page<FeedDTO.CommentData> getFeedComments(String userId, Pageable pageable){
         User feedUser = getUserOrException(userId);
-        Page<FeedDTO.FeedComments> comments = commentRepository.findByUser(feedUser,pageable)
-                .map(FeedDTO.FeedComments::fromComment);
+        Page<FeedDTO.CommentData> comments = commentRepository.findByUser(feedUser,pageable)
+                .map(FeedDTO.CommentData::fromComment);
         return comments;
     }
 
