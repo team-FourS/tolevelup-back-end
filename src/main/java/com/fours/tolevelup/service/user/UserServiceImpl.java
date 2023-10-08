@@ -157,6 +157,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
+    public void deleteAllAlarm(String userId){
+        User user = getUserOrException(userId);
+        alarmRepository.deleteByUser(user);
+    }
+
+    @Transactional
     public void deleteAlarm(String id, Long alarmId){
         Alarm alarm = alarmRepository.findById(alarmId).orElseThrow(()->
                 new TluApplicationException(ErrorCode.ALARM_NOT_FOUND));

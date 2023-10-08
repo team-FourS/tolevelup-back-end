@@ -18,6 +18,10 @@ public interface AlarmRepository extends JpaRepository<Alarm,Long> {
     Slice<Alarm> findAllByToUser(@Param("toUser")String toUser, Pageable pageable);
 
     @Modifying
+    @Query("delete from Alarm a where a.toUser =:user")
+    void deleteByUser(@Param("user")User user);
+
+    @Modifying
     @Query("delete from Alarm a where a.toUser =:user or a.fromUser =:user")
     void deleteAllByUser(@Param("user") User user);
 }

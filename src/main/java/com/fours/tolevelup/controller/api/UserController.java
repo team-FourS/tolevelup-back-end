@@ -95,9 +95,16 @@ public class UserController {
     public Response<UserResponse.UserAlarmList> alarmList(Authentication authentication, Pageable pageable){
         return Response.success(new UserResponse.UserAlarmList(userService.findUserAlarmList(authentication.getName(),pageable)));
     }
+
+    @DeleteMapping("/alarm")
+    public Response<String> deleteAllAlarm(Authentication authentication){
+        userService.deleteAllAlarm(authentication.getName());
+        return Response.success("모든 알림 삭제");
+    }
+
     @DeleteMapping("/alarm/{aid}")
-    public Response<Void> deleteAlarm(Authentication authentication,@PathVariable("aid")Long alarmId){
+    public Response<String> deleteAlarm(Authentication authentication,@PathVariable("aid")Long alarmId){
         userService.deleteAlarm(authentication.getName(),alarmId);
-        return Response.success();
+        return Response.success("알림 삭제");
     }
 }
