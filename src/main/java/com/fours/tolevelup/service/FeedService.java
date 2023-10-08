@@ -4,11 +4,14 @@ package com.fours.tolevelup.service;
 import com.fours.tolevelup.controller.response.FeedResponse;
 import com.fours.tolevelup.exception.ErrorCode;
 import com.fours.tolevelup.exception.TluApplicationException;
+import com.fours.tolevelup.model.AlarmType;
 import com.fours.tolevelup.model.FeedDTO;
 import com.fours.tolevelup.model.UserDTO;
+import com.fours.tolevelup.model.entity.Alarm;
 import com.fours.tolevelup.model.entity.Comment;
 import com.fours.tolevelup.model.entity.Like;
 import com.fours.tolevelup.model.entity.User;
+import com.fours.tolevelup.repository.AlarmRepository;
 import com.fours.tolevelup.repository.CommentRepository;
 import com.fours.tolevelup.repository.LikeRepository;
 import com.fours.tolevelup.repository.missionlog.MissionLogRepository;
@@ -35,6 +38,7 @@ import java.util.Optional;
 public class FeedService {
 
     private final FollowService followService;
+    private final AlarmRepository alarmRepository;
     private final UserRepository userRepository;
     private final MissionServiceImpl missionService;
     private final LikeRepository likeRepository;
@@ -72,6 +76,7 @@ public class FeedService {
             throw new TluApplicationException(ErrorCode.ALREADY_LIKE);
         });
         likeRepository.save(Like.builder().fromUser(fromUser).toUser(toUser).build());
+        alarmRepository.save(Alarm.builder().toUser(toUser).fromUser(fromUser).alarmType(AlarmType.NEW_LIKE).build());
     }
     @Transactional
     public void deleteLike(String fromId, String toId){
@@ -104,6 +109,7 @@ public class FeedService {
         User fromUser = getUserOrException(fromId);
         User toUser = getUserOrException(toId);
         commentRepository.save(Comment.builder().fromUser(fromUser).toUser(toUser).comment(comment).build());
+        alarmRepository.save(Alarm.builder().toUser(toUser).fromUser(fromUser).alarmType(AlarmType.NEW_COMMENT).build());
     }
 
     @Transactional
@@ -113,6 +119,7 @@ public class FeedService {
                 new TluApplicationException(ErrorCode.COMMENT_NOT_FOUND));
         userSameCheck(user,comment.getFromUser());
         commentRepository.updateComment(commentId,modifyComment,java.sql.Timestamp.valueOf(LocalDateTime.now()));
+        alarmRepository.save(Alarm.builder().toUser(comment.getToUser()).fromUser(user).alarmType(AlarmType.MODIFY_COMMENT).build());
         return FeedDTO.CommentData.fromComment(commentRepository.findById(commentId).get());
     }
 

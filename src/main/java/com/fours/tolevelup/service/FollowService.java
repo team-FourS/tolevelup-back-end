@@ -38,9 +38,8 @@ public class FollowService {
                 }
         );
         Follow follow = Follow.builder().user(getUserOrException(userId)).following_id(getUserOrException(followingId)).build();
-        Alarm alarm = Alarm.builder().toUser(followingUser).fromUser(user).alarmType(AlarmType.FOLLOW).build();
         followRepository.save(follow);
-        alarmRepository.save(alarm);
+        alarmRepository.save(Alarm.builder().toUser(followingUser).fromUser(user).alarmType(AlarmType.FOLLOW).build());
     }
 
     @Transactional
