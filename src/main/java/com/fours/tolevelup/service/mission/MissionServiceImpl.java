@@ -98,7 +98,7 @@ public class MissionServiceImpl implements MissionService {
             MissionDTO.mission mission = MissionDTO.mission.builder().themeName(ml.getMission().getTheme().getName())
                     .missionId(ml.getMission().getId())
                     .content(ml.getMission().getContent())
-                    .checked(ml.getStatus().toString().split("_")[1].equals("COMPLETE"))
+                    .checked(ml.getStatus())
                     .exp(ml.getMission().getExp())
                     .build();
             missionList.add(mission);
