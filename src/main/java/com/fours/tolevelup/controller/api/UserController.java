@@ -51,8 +51,8 @@ public class UserController {
     }
 
     @GetMapping("/information")
-    public Response<UserResponse.UserData> myInformation(Authentication authentication,@RequestBody String password){
-        return Response.success(userService.findUserPrivateData(authentication.getName(),password));
+    public Response<UserResponse.UserData> myInformation(Authentication authentication,@RequestBody UserRequest.Password password){
+        return Response.success(userService.findUserPrivateData(authentication.getName(), password.getPassword()));
     }
 
 
