@@ -15,6 +15,7 @@ public interface LikeRepository extends JpaRepository<Like,Long> {
     @Query("select lk from Like lk where lk.fromUser = :f_user and lk.date = :date and lk.toUser = :t_user")
     Optional<Like> findByUserAndDateAndToUser(@Param("f_user")User fromUser,@Param("date")Date date,@Param("t_user")User toUser);
     @Query("select count(lk) from Like lk where lk.toUser = :user")
+    long countAllByToUser(@Param("user")User user);
     long countByToUser(@Param("user")User user);
 
     @Query("select count(lk) from Like lk where lk.toUser =:user and lk.date =:date")

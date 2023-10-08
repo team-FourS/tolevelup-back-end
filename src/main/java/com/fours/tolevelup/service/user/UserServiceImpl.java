@@ -147,7 +147,7 @@ public class UserServiceImpl implements UserService {
 
     public long totalReceivedLikes(String userId){
         User user = getUserOrException(userId);
-        return likeRepository.countByToUser(user);
+        return likeRepository.countAllByToUser(user);
     }
 
     public Slice<AlarmDTO> findUserAlarmList(String id, Pageable pageable){
