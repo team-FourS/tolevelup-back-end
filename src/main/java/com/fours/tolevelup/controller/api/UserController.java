@@ -26,7 +26,7 @@ public class UserController {
     @PostMapping("/join")
     public Response<String> join(@RequestBody UserRequest.JoinForm request){
         userService.userJoin(request.getId(),request.getPassword(),request.getName(), request.getEmail());
-        return Response.success("성공");
+        return Response.success("회원가입");
     }
 
     @PostMapping("/login")
@@ -36,9 +36,9 @@ public class UserController {
     }
 
     @DeleteMapping
-    public Response<Void> delete(Authentication authentication){
+    public Response<String> delete(Authentication authentication){
         userService.delete(authentication.getName());
-        return Response.success();
+        return Response.success("회원 탈퇴");
     }
 
     @GetMapping("/my")
@@ -53,15 +53,15 @@ public class UserController {
 
 
     @PostMapping("/follow/{userId}")
-    public Response<Void> followUser(Authentication authentication, @PathVariable String userId){
+    public Response<String> followUser(Authentication authentication, @PathVariable String userId){
         followService.follow(authentication.getName(), userId);
-        return Response.success();
+        return Response.success("팔로우");
     }
 
     @DeleteMapping("/follow/{userId}")
-    public Response<Void> unfollowUser(Authentication authentication, @PathVariable String userId){
+    public Response<String> unfollowUser(Authentication authentication, @PathVariable String userId){
         followService.unfollow(authentication.getName(), userId);
-        return Response.success();
+        return Response.success("언팔로우");
     }
 
 

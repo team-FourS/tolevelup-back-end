@@ -41,13 +41,11 @@ public class MissionController {
     }
 
     @PutMapping("/{missionId}")
-    public Response<Void> missionCheck(@PathVariable int missionId, Authentication authentication){
-        System.out.println("들어옴");
+    public Response<String> missionCheck(@PathVariable int missionId, Authentication authentication){
         missionService.changeMissionStatus(missionId,authentication.getName());
         userService.userLevelUp(authentication.getName());
         characterService.levelUpUserCharacter(authentication.getName());
-        return Response.success();
-        //return 은 유저 미션과 동일하게 ... 반영된 DTO
+        return Response.success("미션 상태 변경");
     }
 
     /*

@@ -44,15 +44,15 @@ public class FeedController {
     }
 
     @PostMapping("/{id}/likes")
-    public Response<Void> likeCheck(Authentication authentication, @PathVariable("id")String userId){
+    public Response<String> likeCheck(Authentication authentication, @PathVariable("id")String userId){
         feedService.checkLike(authentication.getName(),userId);
-        return Response.success();
+        return Response.success("좋아요 전송");
     }
 
     @DeleteMapping ("/{id}/likes")
-    public Response<Void> likeCancel(Authentication authentication, @PathVariable("id")String userId){
+    public Response<String> likeCancel(Authentication authentication, @PathVariable("id")String userId){
         feedService.deleteLike(authentication.getName(),userId);
-        return Response.success();
+        return Response.success("좋아요 취소");
     }
 
     @GetMapping("/{userId}/comments")
