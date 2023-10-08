@@ -151,9 +151,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public Slice<AlarmDTO> findUserAlarmList(String id, Pageable pageable){
-        Slice<Alarm> alarmList = alarmRepository.findAllByToUser(id,pageable);
-        Slice<AlarmDTO> alarmDTOList = alarmList.map(AlarmDTO::fromEntity);
-        return alarmDTOList;
+        return alarmRepository.findAllByToUser(id,pageable).map(AlarmDTO::fromEntity);
     }
 
     @Transactional

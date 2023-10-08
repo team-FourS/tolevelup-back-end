@@ -2,7 +2,10 @@ package com.fours.tolevelup.controller.response;
 
 
 import com.fours.tolevelup.model.*;
+import com.fours.tolevelup.model.entity.Alarm;
+import com.fours.tolevelup.model.entity.Comment;
 import com.fours.tolevelup.model.entity.Theme;
+import com.fours.tolevelup.model.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -69,8 +72,20 @@ public class UserResponse {
 
     @Getter
     @AllArgsConstructor
-    public static class FollowingList{
-        private Slice<UserDTO.publicUserData> followingData;
+    public static class UserPublicData{
+        private String userId;
+        private String name;
+        private int level;
+        private String intro;
+
+        public static UserPublicData fromDTO(UserDTO.publicUserData userData) {
+            return new UserPublicData(
+                    userData.getUserId(),
+                    userData.getName(),
+                    userData.getLevel(),
+                    userData.getIntro()
+            );
+        }
     }
 
     @Getter
@@ -82,20 +97,59 @@ public class UserResponse {
     @Getter
     @AllArgsConstructor
     public static class SentComments{
-        private Page<FeedDTO.CommentData> comments;
+        private Long commentId;
+        private UserDTO.publicUserData toUserData;
+        private String comment;
+        private Timestamp registeredAt;
+        private Timestamp updatedAt;
+        public static SentComments fromComment(FeedDTO.CommentData comment){
+            return new SentComments(
+                    comment.getCommentId(),
+                    comment.getToUserData(),
+                    comment.getComment(),
+                    comment.getRegisteredAt(),
+                    comment.getUpdatedAt()
+            );
+        }
     }
 
     @Getter
     @AllArgsConstructor
     public static class ReceivedComments{
-        private Page<FeedDTO.CommentData> comments;
+        private Long commentId;
+        private UserDTO.publicUserData fromUserDate;
+        private String comment;
+        private Timestamp registeredAt;
+        private Timestamp updatedAt;
+        public static ReceivedComments fromComment(FeedDTO.CommentData comment){
+            return new ReceivedComments(
+                    comment.getCommentId(),
+                    comment.getFromUserData(),
+                    comment.getComment(),
+                    comment.getRegisteredAt(),
+                    comment.getUpdatedAt()
+            );
+        }
     }
+
 
     @Getter
     @Builder
     @AllArgsConstructor
     public static class UserAlarmList{
-        private Slice<AlarmDTO> alarmList;
+        private Long alarmId;
+        private String fromUserId;
+        private AlarmType alarmType;
+        private Timestamp registeredAt;
+
+        public static UserAlarmList fromDTO(AlarmDTO alarm){
+            return new UserAlarmList(
+                    alarm.getAlarmId(),
+                    alarm.getFromUserId(),
+                    alarm.getAlarmType(),
+                    alarm.getRegisteredAt()
+            );
+        }
     }
 
 }

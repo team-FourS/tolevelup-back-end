@@ -42,9 +42,8 @@ public interface MissionLogRepository extends JpaRepository<MissionLog, Long>, M
     @Query("select m from MissionLog m where m.user.id = :uid and m.mission.theme.type = :type")
     Optional<List<MissionLog>> findAllByUserIdAndType(@Param("uid") String userId,@Param("type") String type);
 
-    @Query("select m from MissionLog m where m.user.id = :uid " +
-            "and function('date_format', m.end_time, '%Y-%m-%d') = :eDate")
-    List<MissionLog> findAllByUserAndEnd_date(@Param("uid")String userId,@Param("eDate")String eDate);
+    @Query("select ml from MissionLog ml where ml.user.id = :uid and ml.end_time >= current_date")
+    List<MissionLog> findCompleteByUser(@Param("uid")String userId);
 
     @Modifying
     @Query("delete from MissionLog m where m.user = :uid")
