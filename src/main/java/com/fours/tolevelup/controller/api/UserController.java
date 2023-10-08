@@ -5,14 +5,12 @@ package com.fours.tolevelup.controller.api;
 import com.fours.tolevelup.controller.request.UserRequest;
 import com.fours.tolevelup.controller.response.Response;
 import com.fours.tolevelup.controller.response.UserResponse;
-import com.fours.tolevelup.model.UserDTO;
-import com.fours.tolevelup.model.entity.User;
+import com.fours.tolevelup.service.CommentService;
 import com.fours.tolevelup.service.FollowService;
 import com.fours.tolevelup.service.character.CharacterService;
 import com.fours.tolevelup.service.user.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserServiceImpl userService;
     private final FollowService followService;
+    private final CommentService commentService;
     private final CharacterService characterService;
 
     @PostMapping("/join")
@@ -76,6 +75,17 @@ public class UserController {
         return Response.success(new UserResponse.FollowerList(followService.getFollowerList(authentication.getName(),pageable)));
     }
 
+    @GetMapping("/comments/send")
+    public Response<UserResponse.SentComments> sentCommentList(Authentication authentication,Pageable pageable){
+        return Response.success(new UserResponse.SentComments(
+                commentService.sentComments(authentication.getName(), pageable)
+        ));
+    }
+    @GetMapping("/comments/receive")
+    public Response<UserResponse.ReceivedComments> receivedCommentList(Authentication authentication, Pageable pageable){
+        return Response.success(new UserResponse.ReceivedComments(
+                commentService.receivedComments(authentication.getName(), pageable)));
+    }
     @GetMapping("/alarm")
     public Response<UserResponse.UserAlarmList> alarmList(Authentication authentication, Pageable pageable){
         return Response.success(new UserResponse.UserAlarmList(userService.findUserAlarmList(authentication.getName(),pageable)));

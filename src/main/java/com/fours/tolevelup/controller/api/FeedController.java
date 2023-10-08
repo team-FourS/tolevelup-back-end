@@ -55,10 +55,6 @@ public class FeedController {
         return Response.success();
     }
 
-    @GetMapping("/comments/{uid}")
-    public void commentList(Authentication authentication,@PathVariable("uid")String userId){
-        return;
-    }
     @GetMapping("/{userId}/comments")
     public Response<FeedResponse.FeedCommentPage> feedCommentList(@PathVariable("userId")String userId, Pageable pageable){
         return Response.success(new FeedResponse.FeedCommentPage(feedService.getFeedComments(userId,pageable)));
