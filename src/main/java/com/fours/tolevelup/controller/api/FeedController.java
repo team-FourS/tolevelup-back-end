@@ -34,9 +34,9 @@ public class FeedController {
     }
 
 
-    @GetMapping("/{user_id}/likes")
-    public Response<Long> likeCount(@PathVariable("user_id")String userId){
-        return Response.success(feedService.getALLLikeCount(userId));
+    @GetMapping("/{userId}/likes")
+    public Response<Long> likeCount(@PathVariable("userId")String userId){
+        return Response.success(feedService.getFeedLikeCount(userId));
     }
 
     @GetMapping("/{user_id}/likes/{date}")
