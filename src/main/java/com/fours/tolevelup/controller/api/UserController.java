@@ -75,6 +75,11 @@ public class UserController {
         return Response.success(new UserResponse.FollowerList(followService.getFollowerList(authentication.getName(),pageable)));
     }
 
+    @GetMapping("likes")
+    public Response<Long> likes(Authentication authentication){
+        return Response.success(userService.totalReceivedLikes(authentication.getName()));
+    }
+
     @GetMapping("/comments/send")
     public Response<UserResponse.SentComments> sentCommentList(Authentication authentication,Pageable pageable){
         return Response.success(new UserResponse.SentComments(
