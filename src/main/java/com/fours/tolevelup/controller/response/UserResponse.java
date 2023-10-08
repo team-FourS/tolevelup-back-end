@@ -1,15 +1,13 @@
 package com.fours.tolevelup.controller.response;
 
 
-import com.fours.tolevelup.model.AlarmDTO;
-import com.fours.tolevelup.model.ThemeExpDTO;
-import com.fours.tolevelup.model.UserDTO;
-import com.fours.tolevelup.model.UserRole;
+import com.fours.tolevelup.model.*;
 import com.fours.tolevelup.model.entity.Theme;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Slice;
 
 import javax.inject.Inject;
@@ -81,6 +79,17 @@ public class UserResponse {
         private Slice<UserDTO.publicUserData> followerData;
     }
 
+    @Getter
+    @AllArgsConstructor
+    public static class SentComments{
+        private Page<FeedDTO.CommentData> comments;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class ReceivedComments{
+        private Page<FeedDTO.CommentData> comments;
+    }
 
     @Getter
     @Builder
