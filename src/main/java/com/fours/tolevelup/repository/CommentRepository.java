@@ -20,8 +20,8 @@ public interface CommentRepository extends JpaRepository<Comment,Long> {
 
     Optional<Comment> findById(Long id);
 
-    @Query("select c from Comment c where c.toUser =:user and c.registeredAt >= current_date ")
-    Page<Comment> findAllByUser(@Param("user")User user, Pageable pageable);
+    @Query("select c from Comment c where c.toUser =:user and c.registeredAt >= current_date order by c.registeredAt desc")
+    Page<Comment> findByUser(@Param("user")User user, Pageable pageable);
 
     @Modifying(clearAutomatically = true)
     @Query("update Comment cm set cm.comment =:comment, cm.updatedAt =:time where cm.id =:cid")

@@ -94,7 +94,7 @@ public class FeedService {
 
     public Page<FeedDTO.FeedComments> getFeedComments(String userId, Pageable pageable){
         User feedUser = getUserOrException(userId);
-        Page<FeedDTO.FeedComments> comments = commentRepository.findAllByUser(feedUser,pageable)
+        Page<FeedDTO.FeedComments> comments = commentRepository.findByUser(feedUser,pageable)
                 .map(FeedDTO.FeedComments::fromComment);
         return comments;
     }
