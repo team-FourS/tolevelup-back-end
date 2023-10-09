@@ -87,7 +87,7 @@ public class FeedService {
         likeRepository.delete(like);
     }
 
-    public long getALLLikeCount(String userId){
+    public long getFeedLikeCount(String userId){
         User user = getUserOrException(userId);
         return likeRepository.countByToUser(user);
     }
