@@ -36,4 +36,12 @@ public class UserRequest {
         private String password;
     }
 
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ModifyForm{
+        private String type;
+        private String data;
+    }
+
 }
