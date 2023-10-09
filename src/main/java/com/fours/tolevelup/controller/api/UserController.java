@@ -55,6 +55,11 @@ public class UserController {
         return Response.success(userService.findUserPrivateData(authentication.getName(), password.getPassword()));
     }
 
+    @PutMapping("/information")
+    public Response<String> modifyInformation(Authentication authentication,@RequestBody UserRequest.ModifyForm newDataForm){
+        String type = userService.changeInformation(authentication.getName(), newDataForm.getType(),newDataForm.getData());
+        return Response.success(type+" 수정");
+    }
 
     @PostMapping("/follow/{userId}")
     public Response<String> followUser(Authentication authentication, @PathVariable String userId){
