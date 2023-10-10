@@ -8,10 +8,13 @@ import com.fours.tolevelup.model.entity.User;
 import com.fours.tolevelup.repository.missionlog.MissionLogRepository;
 import com.fours.tolevelup.repository.theme.ThemeRepository;
 import com.fours.tolevelup.repository.user.UserRepository;
+import lombok.Lombok;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 @Service
@@ -32,12 +35,29 @@ public class StatsService {
         List<Theme> themeList = themeRepository.findAll();
         List<StatsDTO.ThemeCompleteCounts> counts = new ArrayList<>();
         for(Theme t : themeList) {
-            counts.add(
-                    new StatsDTO.ThemeCompleteCounts(t.getName(), themeCompletes(user, t))
-            );
+            counts.add(new StatsDTO.ThemeCompleteCounts(t.getName(), themeCompletes(user, t)));
         }
         return counts;
     }
+
+    public List<StatsDTO.ThemeExps> themeExps(String userId, String date){
+        User user = getUserOrException(userId);
+        List<Theme> themeList = themeRepository.findAll();
+        List<StatsDTO.ThemeExps> expList = new ArrayList<>();
+        for(Theme t : themeList){
+            expList.add(new StatsDTO.ThemeExps(t.getName(),
+                    missionLogRepository.countByDateAndTheme(user,t,date).orElseGet(()->0L)));
+        }
+        return expList;
+    }
+
+
+    public long themeDateExp(String userId, int themeId, String date){
+        User user = getUserOrException(userId);
+        Theme theme = getThemeOrException(themeId);
+        return missionLogRepository.countByDateAndTheme(user,theme,date).orElseGet(()->0L);
+    }
+
 
     private long themeCompletes(User user,Theme theme){
         return missionLogRepository.countByTheme(user,theme);

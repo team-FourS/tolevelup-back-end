@@ -51,6 +51,12 @@ public interface MissionLogRepository extends JpaRepository<MissionLog, Long>, M
             " and ml.end_time <= current_date ")
     long countByTheme(@Param("user")User user, @Param("theme")Theme theme);
 
+
+    @Query("select sum(ml.mission.exp) from MissionLog ml where ml.user =:user and " +
+            "function('date_format',ml.end_time,'%Y-%m') =:date and ml.mission.theme =:theme")
+    Optional<Long> countByDateAndTheme(@Param("user")User user,@Param("theme")Theme theme,@Param("date")String date);
+
+
     @Modifying
     @Query("delete from MissionLog m where m.user = :uid")
     void deleteAllByUser(@Param("uid") User user);

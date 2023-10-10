@@ -20,6 +20,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -102,11 +103,21 @@ public class UserController {
     }
 
     @GetMapping("/missions/themes/counts")
-    public Response<List<StatsResponse.ThemeCounts>> themeCompletes(Authentication authentication){
+    public Response<List<StatsResponse.CompleteCounts>> themeCompletes(Authentication authentication){
         return Response.success(statsService.completeThemeCount(authentication.getName())
-                .stream().map(StatsResponse.ThemeCounts::fromDTO).collect(Collectors.toList()));
+                .stream().map(StatsResponse.CompleteCounts::fromDTO).collect(Collectors.toList()));
     }
 
+    @GetMapping("/exps")
+    public Response<List<StatsResponse.ExpCounts>> dateExpTotal(Authentication authentication, @RequestParam("year")String year, @RequestParam("month")String month){
+        return Response.success(statsService.themeExps(authentication.getName(), String.format("%s-%s",year,month))
+                .stream().map(StatsResponse.ExpCounts::fromDTO).collect(Collectors.toList()));
+    }
+
+    @GetMapping("/exps/{theme}")
+    public Response<Long> dateExpTotal(Authentication authentication,@PathVariable("theme")int themeId,@RequestParam("date")String date){
+        return Response.success(statsService.themeDateExp(authentication.getName(), themeId, date));
+    }
 
     @GetMapping("/comments/send")
     public Response<Page<UserResponse.SentComments>> sentCommentList(Authentication authentication, Pageable pageable){

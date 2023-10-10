@@ -12,13 +12,26 @@ public class StatsResponse {
 
     @Getter
     @AllArgsConstructor
-    public static class ThemeCounts{
-        String theme;
-        long completeCounts;
-        public static ThemeCounts fromDTO(StatsDTO.ThemeCompleteCounts counts){
-            return new ThemeCounts(
+    public static class CompleteCounts{
+        String themeName;
+        long completeTotal;
+        public static CompleteCounts fromDTO(StatsDTO.ThemeCompleteCounts counts){
+            return new CompleteCounts(
                     counts.getThemeName(),
                     counts.getCompleteCounts()
+            );
+        }
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class ExpCounts{
+        String themeName;
+        long expTotal;
+        public static ExpCounts fromDTO(StatsDTO.ThemeExps exps){
+            return new ExpCounts(
+                    exps.getThemeName(),
+                    exps.getExpCounts()
             );
         }
     }
