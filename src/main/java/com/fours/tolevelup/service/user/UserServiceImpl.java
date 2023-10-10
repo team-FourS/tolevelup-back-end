@@ -119,6 +119,39 @@ public class UserServiceImpl implements UserService {
         return UserResponse.UserData.fromUserDTO(user);
     }
 
+    @Transactional
+    public String changeInformation(String userId, String type, String data){
+        User user = getUserOrException(userId);
+        if(type.equals("password")) return changePassword(user,data);
+        if(type.equals("name")) return changeName(user,data);
+        if(type.equals("email")) return changeEmail(user,data);
+        if(type.equals("intro")) return changeIntro(user,data);
+        if(type.equals("id")) throw new TluApplicationException(ErrorCode.INVALID_PERMISSION,"id는 변경불가");
+        throw new TluApplicationException(ErrorCode.TYPE_NOT_FOUND);
+    }
+
+    private String changePassword(User user,String newPassword){
+        userRepository.updatePassWord(user,encoder.encode(newPassword));
+        return "password";
+    }
+
+    private String changeName(User user,String newName){
+        userRepository.updateName(user,newName);
+        return "name";
+    }
+
+    private String changeEmail(User user,String newEmail){
+        userRepository.findByEmail(newEmail).ifPresent(it->{
+            throw new TluApplicationException(ErrorCode.DUPLICATED_USER_EMAIL,String.format("%s is duplicated",newEmail));
+        });
+        userRepository.updateName(user,newEmail);
+        return "email";
+    }
+
+    private String changeIntro(User user,String newIntro){
+        userRepository.updatePassWord(user,newIntro);
+        return "intro";
+    }
 
     @Override
     public UserResponse.UserData findUserData(String userId) {
