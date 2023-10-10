@@ -38,12 +38,18 @@ public interface MissionLogRepository extends JpaRepository<MissionLog, Long>, M
     @Query("select m from MissionLog m where m.user.id = :uid and m.mission.id = :mid and m.start_date = :day")
     Optional<MissionLog> findByUserAndMission(@Param("uid") String userId, @Param("mid") int missionId, @Param("day") Date date);
 
-
     @Query("select m from MissionLog m where m.user.id = :uid and m.mission.theme.type = :type")
     Optional<List<MissionLog>> findAllByUserIdAndType(@Param("uid") String userId,@Param("type") String type);
 
     @Query("select ml from MissionLog ml where ml.user.id = :uid and ml.end_time >= current_date")
     List<MissionLog> findCompleteByUser(@Param("uid")String userId);
+
+    @Query("select count(ml) from MissionLog ml where ml.user =:user and ml.end_time <= current_date ")
+    long countAllCompleteByUser(@Param("user")User user);
+
+    @Query("select count(ml) from MissionLog ml where ml.user =:user and ml.mission.theme =:theme" +
+            " and ml.end_time <= current_date ")
+    long countByTheme(@Param("user")User user, @Param("theme")Theme theme);
 
     @Modifying
     @Query("delete from MissionLog m where m.user = :uid")

@@ -4,9 +4,11 @@ package com.fours.tolevelup.controller.api;
 
 import com.fours.tolevelup.controller.request.UserRequest;
 import com.fours.tolevelup.controller.response.Response;
+import com.fours.tolevelup.controller.response.StatsResponse;
 import com.fours.tolevelup.controller.response.UserResponse;
 import com.fours.tolevelup.service.CommentService;
 import com.fours.tolevelup.service.FollowService;
+import com.fours.tolevelup.service.StatsService;
 import com.fours.tolevelup.service.character.CharacterService;
 import com.fours.tolevelup.service.user.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,6 +28,7 @@ public class UserController {
     private final UserServiceImpl userService;
     private final FollowService followService;
     private final CommentService commentService;
+    private final StatsService statsService;
     private final CharacterService characterService;
 
     @PostMapping("/join")
@@ -86,10 +90,22 @@ public class UserController {
                 .map(UserResponse.UserPublicData::fromDTO));
     }
 
-    @GetMapping("likes")
+    @GetMapping("/likes")
     public Response<Long> likes(Authentication authentication){
         return Response.success(userService.totalReceivedLikes(authentication.getName()));
     }
+
+    @GetMapping("/missions/counts")
+    public Response<Long> totalCompletes(Authentication authentication){
+        return Response.success(statsService.totalCompleteMissionCount(authentication.getName()));
+    }
+
+    @GetMapping("/missions/themes/counts")
+    public Response<List<StatsResponse.ThemeCounts>> themeCompletes(Authentication authentication){
+        return Response.success(statsService.completeThemeCount(authentication.getName())
+                .stream().map(StatsResponse.ThemeCounts::fromDTO).collect(Collectors.toList()));
+    }
+
 
     @GetMapping("/comments/send")
     public Response<Page<UserResponse.SentComments>> sentCommentList(Authentication authentication, Pageable pageable){

@@ -85,10 +85,6 @@ public class MissionServiceImpl implements MissionService {
     }
 
 
-    public void userCompleteList(String userId){
-        //Page<MissionLog>
-    }
-
 
     private MissionLog getMissionLogOrException(int mission_id,String user_id){
         return missionLogRepository.findByUserAndMission(user_id,mission_id,Date.valueOf(LocalDate.now())).orElseThrow(()->
