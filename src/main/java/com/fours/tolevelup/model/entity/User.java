@@ -33,6 +33,9 @@ public class User {
     @Column(name = "register_at")
     private Date registeredAt;
 
+    @Transient
+    private int rank;
+
     @PrePersist
     void registeredAt(){
         this.level = 1;

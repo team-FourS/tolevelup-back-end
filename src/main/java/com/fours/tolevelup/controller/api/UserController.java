@@ -3,8 +3,10 @@ package com.fours.tolevelup.controller.api;
 
 
 import com.fours.tolevelup.controller.request.UserRequest;
+import com.fours.tolevelup.controller.response.RankResponse;
 import com.fours.tolevelup.controller.response.Response;
 import com.fours.tolevelup.controller.response.UserResponse;
+import com.fours.tolevelup.model.RankDTO;
 import com.fours.tolevelup.service.CommentService;
 import com.fours.tolevelup.service.FollowService;
 import com.fours.tolevelup.service.character.CharacterService;
@@ -55,6 +57,10 @@ public class UserController {
         return Response.success(userService.findUserPrivateData(authentication.getName(), password.getPassword()));
     }
 
+    @GetMapping("/rank")
+    public Response<RankResponse.RankList> getExpTotalAndRankByUser(Authentication authentication, Pageable pageable) {
+        return Response.success(new RankResponse.RankList(userService.getRankList(authentication.getName(), pageable)));
+    }
 
     @PostMapping("/follow/{userId}")
     public Response<String> followUser(Authentication authentication, @PathVariable String userId){
