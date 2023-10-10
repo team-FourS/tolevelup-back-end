@@ -60,7 +60,8 @@ public class UserController {
     @GetMapping("/rank")
     public Response<RankResponse.RankList> getExpTotalAndRankByUser(Authentication authentication, Pageable pageable) {
         return Response.success(new RankResponse.RankList(userService.getRankList(authentication.getName(), pageable)));
-  
+    }
+
     @PutMapping("/information")
     public Response<String> modifyInformation(Authentication authentication,@RequestBody UserRequest.ModifyForm newDataForm){
         String type = userService.changeInformation(authentication.getName(), newDataForm.getType(),newDataForm.getData());
