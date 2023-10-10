@@ -22,4 +22,17 @@ public class StatsResponse {
             );
         }
     }
+
+    @Getter
+    @AllArgsConstructor
+    public static class ExpCounts{
+        String themeName;
+        long expTotal;
+        public static ExpCounts fromDTO(StatsDTO.ThemeExps exps){
+            return new ExpCounts(
+                    exps.getThemeName(),
+                    exps.getExpCounts()
+            );
+        }
+    }
 }
