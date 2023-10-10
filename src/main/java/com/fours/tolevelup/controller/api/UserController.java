@@ -100,6 +100,13 @@ public class UserController {
         return Response.success(statsService.totalCompleteMissionCount(authentication.getName()));
     }
 
+    @GetMapping("/missions/themes/counts")
+    public Response<List<StatsResponse.ThemeCounts>> themeCompletes(Authentication authentication){
+        return Response.success(statsService.completeThemeCount(authentication.getName())
+                .stream().map(StatsResponse.ThemeCounts::fromDTO).collect(Collectors.toList()));
+    }
+
+
     @GetMapping("/comments/send")
     public Response<Page<UserResponse.SentComments>> sentCommentList(Authentication authentication, Pageable pageable){
         return Response.success(commentService.sentComments(authentication.getName(),pageable)

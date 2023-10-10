@@ -27,6 +27,27 @@ public class StatsService {
         return missionLogRepository.countAllCompleteByUser(user);
     }
 
+    public List<StatsDTO.ThemeCompleteCounts> completeThemeCount(String userId){
+        User user = getUserOrException(userId);
+        List<Theme> themeList = themeRepository.findAll();
+        List<StatsDTO.ThemeCompleteCounts> counts = new ArrayList<>();
+        for(Theme t : themeList) {
+            counts.add(
+                    new StatsDTO.ThemeCompleteCounts(t.getName(), themeCompletes(user, t))
+            );
+        }
+        return counts;
+    }
+
+    private long themeCompletes(User user,Theme theme){
+        return missionLogRepository.countByTheme(user,theme);
+    }
+
+
+    private Theme getThemeOrException(int themeId){
+        return themeRepository.findById(themeId).orElseThrow(()->
+                new TluApplicationException(ErrorCode.THEME_NOT_FOUND));
+    }
 
     private User getUserOrException(String id){
         return userRepository.findById(id).orElseThrow(()->
