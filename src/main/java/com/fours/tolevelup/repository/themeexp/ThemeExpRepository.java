@@ -1,13 +1,17 @@
 package com.fours.tolevelup.repository.themeexp;
 
+import com.fours.tolevelup.controller.response.UserResponse;
 import com.fours.tolevelup.model.ThemeExpDTO;
 import com.fours.tolevelup.model.entity.Theme;
 import com.fours.tolevelup.model.entity.ThemeExp;
 import com.fours.tolevelup.model.entity.User;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.parameters.P;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
@@ -31,5 +35,11 @@ public interface ThemeExpRepository extends JpaRepository<ThemeExp, String>, The
 
     @Query("select sum(t.exp_total) from ThemeExp t where t.user.id=:uid")
     int expTotal(@Param("uid") String user_id);
+
+    @Query("select te.user from ThemeExp te group by te.user")
+    Slice<User> findUserSortByUserId(Pageable pageable);
+
+    @Query(value = "SELECT RANK() OVER (ORDER BY SUM(:exp) DESC) FROM theme_exp WHERE user_id = :uid", nativeQuery = true)
+    int rank(@Param("exp") int exp, @Param("uid")String user_Id);
 
 }

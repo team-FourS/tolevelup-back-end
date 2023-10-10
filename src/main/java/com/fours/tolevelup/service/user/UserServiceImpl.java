@@ -4,6 +4,7 @@ import com.fours.tolevelup.controller.response.UserResponse;
 import com.fours.tolevelup.exception.ErrorCode;
 import com.fours.tolevelup.exception.TluApplicationException;
 import com.fours.tolevelup.model.AlarmDTO;
+import com.fours.tolevelup.model.RankDTO;
 import com.fours.tolevelup.model.ThemeExpDTO;
 import com.fours.tolevelup.model.UserDTO;
 import com.fours.tolevelup.model.entity.*;
@@ -158,10 +159,26 @@ public class UserServiceImpl implements UserService {
         return UserResponse.UserData.fromUserDTO(user);
     }
 
+
     public UserResponse.UserAllData findUserAllData(String userId){
         return UserResponse.UserAllData.builder().
                 userData(findUserData(userId)).expData(userAllThemeExp(userId)).build();
     }
+
+
+    public List<RankDTO.RankData> getRankList(String userId, Pageable pageable){
+        Slice<UserDTO.publicUserData> userList = themeExpRepository.findUserSortByUserId(pageable).map(UserDTO.publicUserData::fromUser);
+        List<RankDTO.RankData> rankList = new ArrayList<>();
+        for(UserDTO.publicUserData user : userList){
+            int exp = themeExpRepository.expTotal(user.getUserId());
+            rankList.add(RankDTO.RankData.builder().userData(user)
+                    .exp_total(themeExpRepository.expTotal(user.getUserId()))
+                    .rank(themeExpRepository.rank(exp, user.getUserId()))
+                    .build());
+        }
+        return rankList;
+    }
+
 
     public List<UserResponse.UserExpData> userAllThemeExp(String userId){
         List<Theme> themeList = themeRepository.findAll();
@@ -171,6 +188,7 @@ public class UserServiceImpl implements UserService {
         }
         return userExpList;
     }
+
 
     public ThemeExpDTO userThemeExp(String userId,int themeId){
         ThemeExp themeExp = themeExpRepository.getThemeExpByUserAndTheme(userId,themeId).orElseThrow(()->
@@ -217,13 +235,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public void userLevelUp(String id){
         int total = themeExpRepository.expTotal(id);
-        if(total >= 10){
-            userRepository.levelUp(id);
-        } else if (total >= 20) {
+        if(total >= 40){
             userRepository.levelUp(id);
         } else if (total >= 30) {
             userRepository.levelUp(id);
-        } else if (total >= 40) {
+        } else if (total >= 20) {
+            userRepository.levelUp(id);
+        } else if (total >= 10) {
             userRepository.levelUp(id);
         }
     }

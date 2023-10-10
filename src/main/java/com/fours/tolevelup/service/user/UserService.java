@@ -1,12 +1,20 @@
 package com.fours.tolevelup.service.user;
 
 import com.fours.tolevelup.controller.response.UserResponse;
+import com.fours.tolevelup.model.RankDTO;
+import com.fours.tolevelup.model.entity.User;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 public interface UserService {
 
     void userJoin(String id,String password,String name,String email);
     String login(String id,String password);
     UserResponse.UserData findUserData(String id);
+
+    List<RankDTO.RankData> getRankList(String userId, Pageable pageable);
+
 
     void userLevelUp(String id);
     /*

@@ -1,5 +1,6 @@
 package com.fours.tolevelup.model;
 
+import com.fours.tolevelup.model.entity.ThemeExp;
 import com.fours.tolevelup.model.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,6 +25,7 @@ public class UserDTO implements UserDetails {
     private String intro;
     private UserRole role;
     private Date registeredAt;
+    private int rank;
 
     public static UserDTO fromEntity(User entity){
         return new UserDTO(
@@ -34,7 +36,8 @@ public class UserDTO implements UserDetails {
                 entity.getLevel(),
                 entity.getIntro(),
                 entity.getRole(),
-                entity.getRegisteredAt()
+                entity.getRegisteredAt(),
+                entity.getRank()
         );
     }
 

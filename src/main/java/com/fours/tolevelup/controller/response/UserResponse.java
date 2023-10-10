@@ -88,6 +88,11 @@ public class UserResponse {
         }
     }
 
+
+
+
+
+
     @Getter
     @AllArgsConstructor
     public static class FollowerList{

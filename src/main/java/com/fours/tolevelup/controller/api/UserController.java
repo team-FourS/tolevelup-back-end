@@ -3,9 +3,11 @@ package com.fours.tolevelup.controller.api;
 
 
 import com.fours.tolevelup.controller.request.UserRequest;
+import com.fours.tolevelup.controller.response.RankResponse;
 import com.fours.tolevelup.controller.response.Response;
 import com.fours.tolevelup.controller.response.StatsResponse;
 import com.fours.tolevelup.controller.response.UserResponse;
+import com.fours.tolevelup.model.RankDTO;
 import com.fours.tolevelup.service.CommentService;
 import com.fours.tolevelup.service.FollowService;
 import com.fours.tolevelup.service.StatsService;
@@ -54,11 +56,10 @@ public class UserController {
         return Response.success(userService.findUserAllData(authentication.getName()));
     }
 
-    @GetMapping("/information")
-    public Response<UserResponse.UserData> myInformation(Authentication authentication,@RequestBody UserRequest.Password password){
-        return Response.success(userService.findUserPrivateData(authentication.getName(), password.getPassword()));
-    }
-
+    @GetMapping("/rank")
+    public Response<RankResponse.RankList> getExpTotalAndRankByUser(Authentication authentication, Pageable pageable) {
+        return Response.success(new RankResponse.RankList(userService.getRankList(authentication.getName(), pageable)));
+  
     @PutMapping("/information")
     public Response<String> modifyInformation(Authentication authentication,@RequestBody UserRequest.ModifyForm newDataForm){
         String type = userService.changeInformation(authentication.getName(), newDataForm.getType(),newDataForm.getData());
