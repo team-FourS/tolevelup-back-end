@@ -33,10 +33,6 @@ public class MissionController {
     }
 
 
-    @GetMapping
-    public Response<MissionResponse.all> userMissions(Authentication authentication){
-        return Response.success(missionService.userMissionList(authentication.getName()));
-    }
 
     @GetMapping("/themes/{themeId}")
     public Response<List<MissionResponse.ThemeMissions>> themeMissions(Authentication authentication, @PathVariable("themeId")int themeId){
@@ -44,16 +40,12 @@ public class MissionController {
                 map(MissionResponse.ThemeMissions::fromMissionDTO).collect(Collectors.toList()));
     }
 
-    @GetMapping("/{type}")
-    public Response<MissionResponse.type> userMissions(@PathVariable String type, Authentication authentication){
-        return Response.success(missionService.getUserTypeMissions(authentication.getName(),type));
-    }
 
     @PutMapping("/{missionId}")
-    public Response<String> missionCheck(@PathVariable int missionId, Authentication authentication){
-        missionService.changeMissionStatus(missionId,authentication.getName());
+    public Response<String> missionCheck(Authentication authentication,@PathVariable int missionId){
+        missionService.changeMissionStatus(authentication.getName(),missionId);
         userService.userLevelUp(authentication.getName());
-        characterService.levelUpUserCharacter(authentication.getName());
+        //characterService.levelUpUserCharacter(authentication.getName());
         return Response.success("미션 상태 변경");
     }
 

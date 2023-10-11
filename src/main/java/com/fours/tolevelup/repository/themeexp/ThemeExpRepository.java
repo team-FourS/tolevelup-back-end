@@ -20,8 +20,8 @@ public interface ThemeExpRepository extends JpaRepository<ThemeExp, String>, The
 
     @Transactional
     @Modifying(clearAutomatically = true)
-    @Query("update ThemeExp t set t.exp_total = t.exp_total + :exp where t.user.id = :uid and t.theme = :tid")
-    void updateExp(@Param("exp")float mission_exp,@Param("uid") String user_id,@Param("tid") Theme theme);
+    @Query("update ThemeExp t set t.exp_total = t.exp_total + :exp where t.user = :user and t.theme = :theme")
+    void updateExp(@Param("exp")float mission_exp,@Param("user") User user,@Param("theme") Theme theme);
 
     @Modifying
     @Query("delete from ThemeExp t where t.user = :uid")

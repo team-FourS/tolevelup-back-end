@@ -30,19 +30,19 @@ public interface MissionLogRepository extends JpaRepository<MissionLog, Long>, M
     @Query("select ml from MissionLog ml where ml.user.id =:uid and ml.mission.theme =:theme and ml.start_date >= current_date")
     List<MissionLog> findByTheme(@Param("uid")String user,@Param("theme")Theme theme);
 
+    @Query("select ml from MissionLog ml where ml.user =:user and ml.mission.theme =:theme and ml.start_date =:date")
+    List<MissionLog> findByThemAndDate(@Param("user")User user,@Param("theme")Theme theme,@Param("date")Date date);
+
     @Transactional
-    @Modifying
-    @Query(value = "UPDATE MissionLog ml SET ml.status = :status, ml.end_time = :eTime where ml.id = :mid")
-    void updateMissionLogStatus(@Param("mid")Long missionLogId,@Param("status")MissionStatus status,@Param("eTime") Timestamp eTime);
+    @Modifying(clearAutomatically = true)
+    @Query(value = "UPDATE MissionLog ml SET ml.status = :status, ml.end_time = :eTime where ml = :log")
+    void updateMissionLogStatus(@Param("log")MissionLog log,@Param("status")MissionStatus status,@Param("eTime") Timestamp eTime);
 
-    @Query("select m from MissionLog m where m.user.id = :uid and m.mission.id = :mid and m.start_date = :day")
-    Optional<MissionLog> findByUserAndMission(@Param("uid") String userId, @Param("mid") int missionId, @Param("day") Date date);
-
-    @Query("select m from MissionLog m where m.user.id = :uid and m.mission.theme.type = :type")
-    Optional<List<MissionLog>> findAllByUserIdAndType(@Param("uid") String userId,@Param("type") String type);
+    @Query("select m from MissionLog m where m.user = :user and m.mission = :mission and m.start_date = :date")
+    Optional<MissionLog> findByUserAndMission(@Param("user") User user, @Param("mission") Mission mission, @Param("date") Date date);
 
     @Query("select ml from MissionLog ml where ml.user.id = :uid and ml.end_time >= current_date")
-    List<MissionLog> findCompleteByUser(@Param("uid")String userId);
+    List<MissionLog> findTodayCompleteByUser(@Param("uid")String userId);
 
     @Query("select count(ml) from MissionLog ml where ml.user =:user and ml.end_time <= current_date ")
     long countAllCompleteByUser(@Param("user")User user);
