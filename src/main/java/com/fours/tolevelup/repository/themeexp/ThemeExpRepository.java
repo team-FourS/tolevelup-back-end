@@ -40,6 +40,6 @@ public interface ThemeExpRepository extends JpaRepository<ThemeExp, String>, The
     Slice<User> findUserSortByUserId(Pageable pageable);
 
     @Query(value = "SELECT RANK() OVER (ORDER BY SUM(:exp) DESC) FROM theme_exp WHERE user_id = :uid", nativeQuery = true)
-    int rank(@Param("exp") int exp, @Param("uid")String user_Id);
+    int rank(@Param("exp") int exp, @Param("uid") String user_Id);
 
 }
