@@ -39,7 +39,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         }
 
         try {
-            System.out.println("1");
             final String token = header.split(" ")[1].trim();
             if(JwtTokenUtils.isExpired(token,key)){
                 log.error("Key is expired");
@@ -47,13 +46,11 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 filterChain.doFilter(request,response);
                 return;
             }
-            System.out.println("2");
             String userId = JwtTokenUtils.getUserId(token,key);
             UserDTO user = userService.loadUserVoByUserId(userId);
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                     user,null,user.getAuthorities()
             );
-            System.out.println("3");
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
