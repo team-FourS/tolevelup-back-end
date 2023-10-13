@@ -39,7 +39,7 @@ public interface ThemeExpRepository extends JpaRepository<ThemeExp, String>, The
     @Query("select te.user from ThemeExp te group by te.user")
     Slice<User> findUserSortByUserId(Pageable pageable);
 
-    @Query(value = "SELECT RANK() OVER (ORDER BY SUM(:exp) DESC) FROM theme_exp WHERE user_id = :uid", nativeQuery = true)
-    int rank(@Param("exp") int exp, @Param("uid") String user_Id);
+    @Query(value = "SELECT i.ranking FROM(SELECT RANK() OVER (ORDER BY SUM(te.exp_total) DESC) ranking, te.user_id FROM theme_exp te GROUP BY te.user_id) i where i.user_id = :uid", nativeQuery = true)
+    int rank(@Param("uid") String user_Id);
 
 }
