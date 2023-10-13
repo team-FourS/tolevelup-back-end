@@ -170,10 +170,9 @@ public class UserServiceImpl implements UserService {
         Slice<UserDTO.publicUserData> userList = themeExpRepository.findUserSortByUserId(pageable).map(UserDTO.publicUserData::fromUser);
         List<RankDTO.RankData> rankList = new ArrayList<>();
         for(UserDTO.publicUserData user : userList){
-            int exp = themeExpRepository.expTotal(user.getUserId());
             rankList.add(RankDTO.RankData.builder().userData(user)
                     .exp_total(themeExpRepository.expTotal(user.getUserId()))
-                    .rank(themeExpRepository.rank(exp, user.getUserId()))
+                    .rank(themeExpRepository.rank(user.getUserId()))
                     .build());
         }
         return rankList;
