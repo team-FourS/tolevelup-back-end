@@ -49,5 +49,10 @@ public class RankService {
         return rankList;
     }
 
+//    public List<RankDTO.themeRankData> getThemeRankList(String userId, int themeId, String date, Pageable pageable){
+//        Slice<UserDTO.publicUserData> userList = themeExpRepository.findUserSortByUserId(pageable).map(UserDTO.publicUserData::fromUser);
+//        List<RankDTO.themeRankData> themeRankDataList = new ArrayList<>();
+//    }
+
 
 }
