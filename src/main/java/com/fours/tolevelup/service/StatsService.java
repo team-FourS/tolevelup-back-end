@@ -46,7 +46,7 @@ public class StatsService {
         List<StatsDTO.ThemeExps> expList = new ArrayList<>();
         for(Theme t : themeList){
             expList.add(new StatsDTO.ThemeExps(t.getName(),
-                    missionLogRepository.countByDateAndTheme(user,t,date).orElseGet(()->0L)));
+                    missionLogRepository.expSumByDateAndTheme(user,t,date).orElseGet(()->0L)));
         }
         return expList;
     }
@@ -55,7 +55,7 @@ public class StatsService {
     public long themeDateExp(String userId, int themeId, String date){
         User user = getUserOrException(userId);
         Theme theme = getThemeOrException(themeId);
-        return missionLogRepository.countByDateAndTheme(user,theme,date).orElseGet(()->0L);
+        return missionLogRepository.expSumByDateAndTheme(user,theme,date).orElseGet(()->0L);
     }
 
 
