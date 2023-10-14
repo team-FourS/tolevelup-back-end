@@ -6,6 +6,7 @@ import com.fours.tolevelup.exception.ErrorCode;
 import com.fours.tolevelup.exception.TluApplicationException;
 import com.fours.tolevelup.model.AlarmType;
 import com.fours.tolevelup.model.FeedDTO;
+import com.fours.tolevelup.model.MissionDTO;
 import com.fours.tolevelup.model.UserDTO;
 import com.fours.tolevelup.model.entity.Alarm;
 import com.fours.tolevelup.model.entity.Comment;
@@ -47,7 +48,7 @@ public class FeedService {
 
     public List<FeedDTO.feedData> getFeedList(Pageable pageable){
         Slice<UserDTO.publicUserData> userList = missionLogRepository.
-                findUserSortByEndTime(pageable).map(UserDTO.publicUserData::fromUser);
+                findUserSortByTodayEndTime(pageable).map(UserDTO.publicUserData::fromUser);
         List<FeedDTO.feedData> feedList = new ArrayList<>();
         for(UserDTO.publicUserData user : userList){
             feedList.add(FeedDTO.feedData.builder().userData(user)
@@ -58,9 +59,10 @@ public class FeedService {
     }
 
     public List<FeedDTO.feedData> getFollowingFeedList(String userId, Pageable pageable){
-        Slice<UserDTO.publicUserData> followUserList = followService.getFollowingList(userId,pageable);
+        Slice<UserDTO.publicUserData> followingList = missionLogRepository.
+                findFollowSortByTodayEndTime(userId,pageable).map(UserDTO.publicUserData::fromUser);
         List<FeedDTO.feedData> feedList = new ArrayList<>();
-        for(UserDTO.publicUserData user : followUserList){
+        for(UserDTO.publicUserData user : followingList){
             feedList.add(FeedDTO.feedData.builder().userData(user)
                     .userCompleteMissions(missionService.userToDayCompleteList(user.getUserId()))
                     .build());

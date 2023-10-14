@@ -13,6 +13,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,15 +24,21 @@ public class FeedController {
     private final FeedService feedService;
 
     @GetMapping
-    public Response<FeedResponse.FeedList> userFeedList(Authentication authentication,Pageable pageable){
-        return Response.success(new FeedResponse.FeedList(
-                feedService.getFeedList(pageable)));
+    public Response<List<FeedResponse.FeedData>> feedList(Authentication authentication, Pageable pageable){
+        return Response.success(
+                feedService.getFeedList(pageable)
+                        .stream().map(FeedResponse.FeedData::fromFeedDto)
+                        .collect(Collectors.toList())
+        );
     }
 
     @GetMapping("/follow")
-    public Response<FeedResponse.FeedList> feedList(Authentication authentication, Pageable pageable){
-        return Response.success(new FeedResponse.FeedList(
-                feedService.getFollowingFeedList(authentication.getName(),pageable)));
+    public Response<List<FeedResponse.FeedData>> followFeedList(Authentication authentication, Pageable pageable){
+        return Response.success(
+                feedService.getFollowingFeedList(authentication.getName(), pageable)
+                        .stream().map(FeedResponse.FeedData::fromFeedDto)
+                        .collect(Collectors.toList())
+        );
     }
 
 

@@ -24,8 +24,15 @@ import java.util.Optional;
 public interface MissionLogRepository extends JpaRepository<MissionLog, Long>, MissionLogCustomRepository {
 
 
-    @Query("select ml.user from MissionLog ml group by ml.user order by ml.end_time desc")
-    Slice<User> findUserSortByEndTime(Pageable pageable);
+    @Query("select ml.user from MissionLog ml where ml.end_time >= current_date " +
+            "group by ml.user order by ml.end_time desc")
+    Slice<User> findUserSortByTodayEndTime(Pageable pageable);
+
+    @Query("select distinct ml.user from MissionLog ml join fetch Follow f " +
+            "on ml.user = f.user "+
+            "where ml.end_time >= current_date " +
+            "group by ml.user order by ml.end_time desc")
+    Slice<User> findFollowSortByTodayEndTime(@Param("uid")String userId, Pageable pageable);
 
     @Query("select ml from MissionLog ml where ml.user.id =:uid and ml.mission.theme =:theme and ml.start_date >= current_date")
     List<MissionLog> findByTheme(@Param("uid")String user,@Param("theme")Theme theme);
