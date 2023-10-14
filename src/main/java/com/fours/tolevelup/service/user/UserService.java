@@ -13,7 +13,6 @@ public interface UserService {
     String login(String id,String password);
     UserResponse.UserData findUserData(String id);
 
-    List<RankDTO.RankData> getRankList(String userId, Pageable pageable);
 
 
     void userLevelUp(String id);

@@ -12,9 +12,10 @@ public class RankDTO {
     @AllArgsConstructor
     public static class RankData{
         private UserDTO.publicUserData userData;
-        private int exp_total;
-        private int rank;
+        private Integer exp_total;
+        private Integer rank;
 
 
     }
+
 }
