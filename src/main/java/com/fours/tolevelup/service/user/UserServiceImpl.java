@@ -166,17 +166,6 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    public List<RankDTO.RankData> getRankList(String userId, Pageable pageable){
-        Slice<UserDTO.publicUserData> userList = themeExpRepository.findUserSortByUserId(pageable).map(UserDTO.publicUserData::fromUser);
-        List<RankDTO.RankData> rankList = new ArrayList<>();
-        for(UserDTO.publicUserData user : userList){
-            rankList.add(RankDTO.RankData.builder().userData(user)
-                    .exp_total(themeExpRepository.expTotal(user.getUserId()))
-                    .rank(themeExpRepository.rank(user.getUserId()))
-                    .build());
-        }
-        return rankList;
-    }
 
 
     public List<UserResponse.UserExpData> userAllThemeExp(String userId){

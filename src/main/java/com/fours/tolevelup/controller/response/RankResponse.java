@@ -13,4 +13,5 @@ public class RankResponse {
     public static class RankList{
         private List<RankDTO.RankData> rankList;
     }
+
 }
