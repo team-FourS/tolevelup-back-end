@@ -54,7 +54,7 @@ public interface MissionLogRepository extends JpaRepository<MissionLog, Long>, M
 
     @Query("select sum(ml.mission.exp) from MissionLog ml where ml.user =:user and " +
             "function('date_format',ml.end_time,'%Y-%m') =:date and ml.mission.theme =:theme")
-    Optional<Long> countByDateAndTheme(@Param("user")User user,@Param("theme")Theme theme,@Param("date")String date);
+    Optional<Long> expSumByDateAndTheme(@Param("user")User user,@Param("theme")Theme theme,@Param("date")String date);
 
     @Query("select sum(ml.mission.exp) from MissionLog ml where ml.user.id =:uid and " +
             "function('date_format',ml.end_time,'%Y-%m') =:date group by ml.user.id")
