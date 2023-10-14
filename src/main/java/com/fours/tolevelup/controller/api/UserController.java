@@ -60,11 +60,6 @@ public class UserController {
     }
 
     @GetMapping("/rank")
-    public Response<RankResponse.RankList> getExpTotalAndRankByUser(Authentication authentication, Pageable pageable) {
-        return Response.success(new RankResponse.RankList(rankService.getRankList(authentication.getName(), pageable)));
-    }
-
-    @GetMapping("/rank/month/total")
     public Response<RankResponse.RankList> monthExpTotal(Authentication authentication, @RequestParam("year")String year, @RequestParam("month")String month, Pageable pageable){
         return Response.success(new RankResponse.RankList(rankService.getRankTotalList(authentication.getName(), String.format("%s-%s" ,year, month), pageable)));
     }
