@@ -2,6 +2,7 @@ package com.fours.tolevelup.service.character;
 
 import com.fours.tolevelup.model.entity.Character;
 import com.fours.tolevelup.model.entity.User;
+import com.fours.tolevelup.model.entity.UserCharacter;
 import lombok.*;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -44,12 +45,12 @@ public class CharacterDTO {
 
 
     @Getter
-    @Setter
+    @Builder
+    @AllArgsConstructor
     public static class UserCharacterInfo{
-        private String character_name;
-        private SerialBlob img;
-        private String info;
+        private com.fours.tolevelup.model.entity.UserCharacter userCharacter;
         private float exp;
+        private int level;
     }
 
     @Getter

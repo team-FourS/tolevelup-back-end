@@ -42,7 +42,7 @@ public class CharacterController {
     }
 
     @GetMapping("/userCharacter")
-    public ResponseEntity<List<CharacterDTO.UserCharacter>> userCharacterData(Authentication authentication){
+    public ResponseEntity<List<CharacterDTO.UserCharacterInfo>> userCharacterData(Authentication authentication){
         return ResponseEntity.ok(characterService.getUserCharacterData(authentication.getName()));
     }
 

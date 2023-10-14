@@ -3,10 +3,12 @@ package com.fours.tolevelup.repository.character;
 import com.fours.tolevelup.model.entity.Character;
 import com.fours.tolevelup.model.entity.User;
 import com.fours.tolevelup.model.entity.UserCharacter;
+import com.fours.tolevelup.service.character.CharacterDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,8 +18,8 @@ public interface UserCharacterRepository extends JpaRepository<UserCharacter, St
     @Query("SELECT c FROM Character c WHERE c.level = 1")
     List<Character> findBylevel();
 
-    @Query("SELECT uc.id, uc.user.id, uc.character.id, uc.character_name FROM UserCharacter uc WHERE uc.user.id = :id")
-    List<Object[]> getUserCharacter(@Param("id") String user_id);
+    @Query("SELECT uc FROM UserCharacter uc WHERE uc.user.id = :id")
+    List<UserCharacter> getUserCharacter(@Param("id") String user_id);
 
     @Modifying
     @Query("delete from UserCharacter u where u.user = :uid")
@@ -32,6 +34,12 @@ public interface UserCharacterRepository extends JpaRepository<UserCharacter, St
 
     @Query("select uc.character.level from UserCharacter uc where uc.id = :id")
     int getLevel(@Param("id") String id);
+
+    @Query("select te.exp_total from ThemeExp te where te.user.id = :uid and te.theme.id = :tid")
+    int getExp(@Param("uid") String user_id, @Param("tid") int theme_id);
+
+    @Query("select c.theme.id from Character c where c.id = :cid")
+    int getThemeId(@Param("cid") String character_id);
 
     @Transactional
     @Modifying(clearAutomatically = true)

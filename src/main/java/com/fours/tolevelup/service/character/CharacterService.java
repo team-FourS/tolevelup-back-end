@@ -67,21 +67,21 @@ public class CharacterService {
         return characterDTOList;
     }
 
-    public List<CharacterDTO.UserCharacter> getUserCharacterData(String user_id) {
-        List<Object[]> userCharacterList = userCharacterRepository.getUserCharacter(user_id);
-        List<CharacterDTO.UserCharacter> userCharacters = new ArrayList<>();
+    public List<CharacterDTO.UserCharacterInfo> getUserCharacterData(String user_id) {
+        List<UserCharacter> userCharacterList = userCharacterRepository.getUserCharacter(user_id);
+        List<CharacterDTO.UserCharacterInfo> userCharacterDataList = new ArrayList<>();
 
-        for (Object[] usercharacter : userCharacterList) {
-            CharacterDTO.UserCharacter userCharacterDTO = new CharacterDTO.UserCharacter();
-            userCharacterDTO.setId((String) usercharacter[0]);
-            userCharacterDTO.setUser_id((String) usercharacter[1]);
-            userCharacterDTO.setCharacter_id((String) usercharacter[2]);
-            userCharacterDTO.setCharacter_name((String) usercharacter[3]);
-            userCharacters.add(userCharacterDTO);
-            System.out.println("UserCharacter: " + Arrays.toString(usercharacter));
+        for(UserCharacter userCharacter : userCharacterList){
+            int theme_id = userCharacterRepository.getThemeId(userCharacter.getCharacter().getId());
+            userCharacterDataList.add(CharacterDTO.UserCharacterInfo.builder()
+                    .userCharacter(userCharacter)
+                    .exp(userCharacterRepository.getExp(user_id, theme_id))
+                    .level(userCharacterRepository.getLevel(userCharacter.getId()))
+                    .build());
+
         }
 
-        return userCharacters;
+        return userCharacterDataList;
     }
 
 

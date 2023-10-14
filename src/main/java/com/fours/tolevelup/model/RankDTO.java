@@ -15,7 +15,18 @@ public class RankDTO {
         private Integer exp_total;
         private Integer rank;
 
-
     }
+
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    public static class themeRankData{
+        private UserDTO.publicUserData userData;
+        private String themeName;
+        private Long exp_total;
+        private Integer rank;
+    }
+
+
 
 }
