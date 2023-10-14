@@ -2,6 +2,7 @@ package com.fours.tolevelup.controller.response;
 
 
 import com.fours.tolevelup.model.FeedDTO;
+import com.fours.tolevelup.model.MissionDTO;
 import com.fours.tolevelup.model.UserDTO;
 import com.fours.tolevelup.model.entity.Comment;
 import lombok.AllArgsConstructor;
@@ -19,8 +20,15 @@ public class FeedResponse {
 
     @Getter
     @AllArgsConstructor
-    public static class FeedList{
-        private List<FeedDTO.feedData> feedList;
+    public static class FeedData{
+        private UserDTO.publicUserData userData;
+        private List<MissionDTO.mission> userCompleteMissions;
+        public static FeedData fromFeedDto(FeedDTO.feedData feedData){
+            return new FeedData(
+                    feedData.getUserData(),
+                    feedData.getUserCompleteMissions()
+            );
+        }
     }
 
     @Getter
