@@ -79,7 +79,7 @@ public interface MissionLogRepository extends JpaRepository<MissionLog, Long>, M
             "      WHERE DATE_FORMAT(ml.end_time, '%Y-%m') = :date " +
             "      GROUP BY user_id) i " +
             "WHERE i.user_id = :uid", nativeQuery = true)
-    Optional<Integer> rank(@Param ("date")String date,@Param("uid") String user_id);
+    Integer rank(@Param ("date")String date,@Param("uid") String user_id);
 
 
     @Query(value = "select i.ranking" +
@@ -90,7 +90,7 @@ public interface MissionLogRepository extends JpaRepository<MissionLog, Long>, M
             " where DATE_FORMAT(ml.end_time, '%Y-%m') = :date and m.theme_id = :tid" +
             " group by ml.user_id, m.theme_id) i" +
             " where i.user_id = :uid", nativeQuery = true)
-    Optional<Integer> themeRank(@Param("tid") int theme_id, @Param("date") String date, @Param("uid") String user_id);
+    Integer themeRank(@Param("tid") int theme_id, @Param("date") String date, @Param("uid") String user_id);
 
 
     @Modifying
