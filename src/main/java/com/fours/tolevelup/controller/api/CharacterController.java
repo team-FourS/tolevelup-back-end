@@ -5,6 +5,7 @@ import com.fours.tolevelup.model.entity.Character;
 import com.fours.tolevelup.service.character.CharacterDTO;
 import com.fours.tolevelup.service.character.CharacterService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -25,6 +26,9 @@ import java.util.List;
 public class CharacterController {
 
     private final CharacterService characterService;
+
+    @Value("${image.base-url}")
+    private String imageUrlBasePath;
 
 
     @GetMapping("/character")
@@ -60,6 +64,9 @@ public class CharacterController {
          } catch (IOException e){
              e.printStackTrace();
          }
+
+        String absoluteImagePath = imageUrlBasePath + imageName;
+        header.add(HttpHeaders.LOCATION, absoluteImagePath);
         return new ResponseEntity<Resource>(resource,header, HttpStatus.OK);
     }
 
