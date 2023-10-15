@@ -14,4 +14,10 @@ public class RankResponse {
         private List<RankDTO.RankData> rankList;
     }
 
+    @Getter
+    @AllArgsConstructor
+    public static class ThemeRankList{
+        private List<RankDTO.themeRankData> themeRankDataList;
+    }
+
 }

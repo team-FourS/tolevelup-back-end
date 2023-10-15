@@ -64,6 +64,11 @@ public class UserController {
         return Response.success(new RankResponse.RankList(rankService.getRankTotalList(authentication.getName(), String.format("%s-%s" ,year, month), pageable)));
     }
 
+    @GetMapping("/rank/{theme}")
+    public Response<RankResponse.ThemeRankList> themeExpTotal(Authentication authentication, @PathVariable("theme")int themeId, @RequestParam("year") String year, @RequestParam("month") String month, Pageable pageable){
+        return Response.success(new RankResponse.ThemeRankList(rankService.getThemeRankList(authentication.getName(), themeId, String.format("%s-%s" ,year, month), pageable)));
+    }
+
     @PutMapping("/information")
     public Response<String> modifyInformation(Authentication authentication,@RequestBody UserRequest.ModifyForm newDataForm){
         String type = userService.changeInformation(authentication.getName(), newDataForm.getType(),newDataForm.getData());

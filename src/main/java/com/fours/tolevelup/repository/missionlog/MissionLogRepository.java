@@ -64,6 +64,10 @@ public interface MissionLogRepository extends JpaRepository<MissionLog, Long>, M
     Optional<Long> expSumByDateAndTheme(@Param("user")User user,@Param("theme")Theme theme,@Param("date")String date);
 
     @Query("select sum(ml.mission.exp) from MissionLog ml where ml.user.id =:uid and " +
+            "function('date_format',ml.end_time,'%Y-%m') =:date and ml.mission.theme =:theme")
+    Optional<Long> expSumByDateAndThemeAndUserId(@Param("uid")String user_id,@Param("theme")Theme theme,@Param("date")String date);
+
+    @Query("select sum(ml.mission.exp) from MissionLog ml where ml.user.id =:uid and " +
             "function('date_format',ml.end_time,'%Y-%m') =:date group by ml.user.id")
     Optional<Integer> expTotal(@Param("uid")String user_id,@Param("date")String date);
 
@@ -76,6 +80,17 @@ public interface MissionLogRepository extends JpaRepository<MissionLog, Long>, M
             "      GROUP BY user_id) i " +
             "WHERE i.user_id = :uid", nativeQuery = true)
     Optional<Integer> rank(@Param ("date")String date,@Param("uid") String user_id);
+
+
+    @Query(value = "select i.ranking" +
+            " from (select ml.user_id, m.theme_id, sum(m.exp), ml.end_time, " +
+            "rank() over (order by sum(exp) desc ) as ranking" +
+            " from mission_log ml" +
+            " left outer join mission m on ml.mission_id = m.id" +
+            " where DATE_FORMAT(ml.end_time, '%Y-%m') = :date and m.theme_id = :tid" +
+            " group by ml.user_id, m.theme_id) i" +
+            " where i.user_id = :uid", nativeQuery = true)
+    Optional<Integer> themeRank(@Param("tid") int theme_id, @Param("date") String date, @Param("uid") String user_id);
 
 
     @Modifying
