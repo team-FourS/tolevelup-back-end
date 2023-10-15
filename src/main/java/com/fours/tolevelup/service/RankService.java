@@ -16,7 +16,9 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -65,7 +67,7 @@ public class RankService {
                     .build());
         }
 
-        return themeRankDataList;
+        return themeRankDataList.stream().sorted(Comparator.comparing(RankDTO.themeRankData::getRank)).collect(Collectors.toList());
     }
 
     private Theme getThemeOrException(int themeId){
