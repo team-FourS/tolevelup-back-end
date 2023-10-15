@@ -22,7 +22,7 @@ public class RankDTO {
     @AllArgsConstructor
     public static class themeRankData{
         private UserDTO.publicUserData userData;
-        private String themeName;
+        private int themeId;
         private Long exp_total;
         private Integer rank;
     }
