@@ -47,10 +47,10 @@ public class RankService {
         for(UserDTO.publicUserData user : userList){
             rankList.add(RankDTO.RankData.builder().userData(user)
                     .exp_total(missionLogRepository.expTotal(user.getUserId(), date).orElseGet(()-> 0))
-                    .rank(missionLogRepository.rank(date, user.getUserId()).orElseGet(()-> 0))
+                    .rank(missionLogRepository.rank(date, user.getUserId()))
                     .build());
         }
-        return rankList;
+        return rankList.stream().sorted(Comparator.comparing(RankDTO.RankData::getExp_total).reversed()).collect(Collectors.toList());
     }
 
     public List<RankDTO.themeRankData> getThemeRankList(String userId, int themeId, String date, Pageable pageable){
@@ -63,11 +63,11 @@ public class RankService {
                     .userData(pUser)
                     .themeId(themeId)
                     .exp_total(missionLogRepository.expSumByDateAndThemeAndUserId(pUser.getUserId(), theme, date).orElseGet(()-> 0L))
-                    .rank(missionLogRepository.themeRank(theme.getId(), date, pUser.getUserId()).orElseGet(()-> 0))
+                    .rank(missionLogRepository.themeRank(theme.getId(), date, pUser.getUserId()))
                     .build());
         }
 
-        return themeRankDataList.stream().sorted(Comparator.comparing(RankDTO.themeRankData::getRank)).collect(Collectors.toList());
+        return themeRankDataList.stream().sorted(Comparator.comparing(RankDTO.themeRankData::getExp_total).reversed()).collect(Collectors.toList());
     }
 
     private Theme getThemeOrException(int themeId){
