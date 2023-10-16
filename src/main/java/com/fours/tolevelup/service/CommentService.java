@@ -19,9 +19,17 @@ public class CommentService {
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
 
+    public long receivedCommentsCounts(String userId){
+        return commentRepository.countAllReceivedByUser(userId).orElseGet(()->0L);
+    }
+
     public Page<FeedDTO.CommentData> receivedComments(String userId, Pageable pageable){
         User user = getUserOrException(userId);
         return commentRepository.findAllReceivedByUser(user,pageable).map(FeedDTO.CommentData::fromComment);
+    }
+
+    public long sentCommentsCounts(String userId){
+        return commentRepository.countAllSentByUser(userId).orElseGet(()->0L);
     }
 
     public Page<FeedDTO.CommentData> sentComments(String userId,Pageable pageable){

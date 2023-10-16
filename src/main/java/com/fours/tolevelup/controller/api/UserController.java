@@ -136,11 +136,22 @@ public class UserController {
         return Response.success(statsService.themeDateExp(authentication.getName(), themeId, date));
     }
 
+    @GetMapping("/comments/send/count")
+    public Response<Long> sentCommentList(Authentication authentication){
+        return Response.success(commentService.sentCommentsCounts(authentication.getName()));
+    }
+
     @GetMapping("/comments/send")
     public Response<Page<UserResponse.SentComments>> sentCommentList(Authentication authentication, Pageable pageable){
         return Response.success(commentService.sentComments(authentication.getName(),pageable)
                 .map(UserResponse.SentComments::fromComment));
     }
+
+    @GetMapping("/comments/receive/count")
+    public Response<Long> receivedCommentList(Authentication authentication){
+        return Response.success(commentService.receivedCommentsCounts(authentication.getName()));
+    }
+
     @GetMapping("/comments/receive")
     public Response<Page<UserResponse.ReceivedComments>> receivedCommentList(Authentication authentication, Pageable pageable){
         return Response.success(commentService.receivedComments(authentication.getName(),pageable)
