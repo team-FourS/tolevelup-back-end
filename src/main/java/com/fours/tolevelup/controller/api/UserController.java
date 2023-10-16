@@ -87,11 +87,20 @@ public class UserController {
         return Response.success("언팔로우");
     }
 
+    @GetMapping("/following/count")
+    public Response<Long> followingCounts(Authentication authentication){
+        return Response.success(followService.getFollowingCounts(authentication.getName()));
+    }
 
     @GetMapping("/following")
     public Response<Slice<UserResponse.UserPublicData>> followingList(Authentication authentication, Pageable pageable){
         return Response.success(followService.getFollowingList(authentication.getName(), pageable)
                 .map(UserResponse.UserPublicData::fromDTO));
+    }
+
+    @GetMapping("/follower/count")
+    public Response<Long> followerCounts(Authentication authentication){
+        return Response.success(followService.getFollowerCounts(authentication.getName()));
     }
 
     @GetMapping("/follower")
