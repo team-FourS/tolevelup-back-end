@@ -19,7 +19,7 @@ public class Follow {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private User fromUser;
 
     @ManyToOne
     @JoinColumn(name = "following_id")
@@ -41,8 +41,8 @@ public class Follow {
 
 
     @Builder
-    public Follow(User user, User following_id){
-        this.user = user;
+    public Follow(User fromUser, User following_id){
+        this.fromUser = fromUser;
         this.followingUser = following_id;
     }
 }
