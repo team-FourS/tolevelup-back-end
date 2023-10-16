@@ -29,8 +29,9 @@ public interface MissionLogRepository extends JpaRepository<MissionLog, Long>, M
     Slice<User> findUserSortByTodayEndTime(Pageable pageable);
 
     @Query("select distinct ml.user from MissionLog ml join fetch Follow f " +
-            "on ml.user = f.user "+
+            "on ml.user = f.followingUser "+
             "where ml.end_time >= current_date " +
+            "and f.fromUser =:uid "+
             "group by ml.user order by ml.end_time desc")
     Slice<User> findFollowSortByTodayEndTime(@Param("uid")String userId, Pageable pageable);
 
