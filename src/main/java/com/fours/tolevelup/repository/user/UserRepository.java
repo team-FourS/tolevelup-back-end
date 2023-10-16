@@ -19,10 +19,6 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Query("update User u set u.level = u.level + 1 where u.id = :uid")
     void levelUp(@Param("uid") String user_id);
 
-    @Transactional
-    @Modifying(clearAutomatically = true)
-    @Query("update User u set u.id =:nid where u =:user")
-    void updateId(@Param("user")User user,@Param("nid")String newId);
 
     @Transactional
     @Modifying(clearAutomatically = true)
