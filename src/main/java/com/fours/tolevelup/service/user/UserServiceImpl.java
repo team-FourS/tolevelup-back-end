@@ -144,12 +144,12 @@ public class UserServiceImpl implements UserService {
         userRepository.findByEmail(newEmail).ifPresent(it->{
             throw new TluApplicationException(ErrorCode.DUPLICATED_USER_EMAIL,String.format("%s is duplicated",newEmail));
         });
-        userRepository.updateName(user,newEmail);
+        userRepository.updateEmail(user,newEmail);
         return "email";
     }
 
     private String changeIntro(User user,String newIntro){
-        userRepository.updatePassWord(user,newIntro);
+        userRepository.updateIntro(user,newIntro);
         return "intro";
     }
 
