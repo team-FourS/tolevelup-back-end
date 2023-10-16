@@ -15,12 +15,18 @@ import java.util.Optional;
 @Repository
 public interface FollowRepository extends JpaRepository<Follow, Long> {
 
-    Optional<Follow> findByUserAndFollowingUser(User user,User follow);
+    Optional<Follow> findByFromUserAndFollowingUser(User user,User follow);
 
-    @Query("select f.followingUser from Follow f where f.user.id = :uid order by f.update_date desc")
+    @Query("select count(f) from Follow f where f.fromUser =:user")
+    Optional<Long> countByMyFollowing(@Param("user") User user);
+
+    @Query("select count(f) from Follow f where f.followingUser =:user")
+    Optional<Long> countByMyFollower(@Param("user") User user);
+
+    @Query("select f.followingUser from Follow f where f.fromUser.id = :uid order by f.update_date desc")
     Slice<User> findByUser(@Param("uid") String userId, Pageable pageable);
 
-    @Query("select f.user from Follow f where f.followingUser.id = :uid order by f.update_date desc")
+    @Query("select f.fromUser from Follow f where f.followingUser.id = :uid order by f.update_date desc")
     Slice<User> findByFollowingUser(@Param("uid") String userId, Pageable pageable);
 
 }
