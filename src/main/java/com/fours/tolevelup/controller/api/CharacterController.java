@@ -5,6 +5,7 @@ import com.fours.tolevelup.model.entity.Character;
 import com.fours.tolevelup.service.character.CharacterDTO;
 import com.fours.tolevelup.service.character.CharacterService;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
@@ -35,40 +36,43 @@ public class CharacterController {
 
 
     @GetMapping("/character")
-    public ResponseEntity<List<CharacterDTO.CharacterData>> characterData(){
+    public ResponseEntity<List<CharacterDTO.CharacterData>> characterData() {
         return ResponseEntity.ok(characterService.getCharacterData());
     }
-    public ResponseEntity<Object> characterList(){
+
+    public ResponseEntity<Object> characterList() {
         return ResponseEntity.ok().build();
     }
 
 
     @PutMapping("/characterName")
-    public ResponseEntity<CharacterDTO.UserCharacter> update(Authentication authentication, @RequestParam String character_id, @RequestBody CharacterDTO.UserCharacter userCharacter){
+    public ResponseEntity<CharacterDTO.UserCharacter> update(Authentication authentication, @RequestParam String character_id, @RequestBody CharacterDTO.UserCharacter userCharacter) {
         return ResponseEntity.ok(characterService.changeCharacterName(authentication.getName(), character_id, userCharacter));
     }
 
     @GetMapping("/userCharacter")
-    public ResponseEntity<List<CharacterDTO.UserCharacterInfo>> userCharacterData(Authentication authentication){
+    public ResponseEntity<List<CharacterDTO.UserCharacterInfo>> userCharacterData(Authentication authentication) {
         return ResponseEntity.ok(characterService.getUserCharacterData(authentication.getName()));
     }
 
     @GetMapping("/image")
-    public ResponseEntity<Resource> returnImage(@RequestParam String imageName) {
-        String path = "img/" + imageName;
-        Resource resource = new ClassPathResource(path);
+    public ResponseEntity<byte[]> returnImage(@RequestParam String imageName) {
+        String path = "img/" + imageName; // 클래스패스 상의 이미지 경로
 
-        HttpHeaders header = new HttpHeaders();
-        Path filePath = null;
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(path)) {
+            if (inputStream != null) {
+                byte[] imageBytes = IOUtils.toByteArray(inputStream); // Apache Commons IO 라이브러리의 IOUtils를 사용하여 바이트 배열로 읽음
 
-        try {
-            InputStream inputStream = resource.getInputStream();
-            header.add("Content-Type", Files.probeContentType(Paths.get(resource.getURI())));
-            return new ResponseEntity<>(new InputStreamResource(inputStream), header, HttpStatus.OK);
+                HttpHeaders headers = new HttpHeaders();
+                headers.add("Content-Type", Files.probeContentType(Paths.get(path)));
+                return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         } catch (IOException e) {
             e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
 
+    }
 }
