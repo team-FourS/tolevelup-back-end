@@ -23,8 +23,14 @@ public interface CommentRepository extends JpaRepository<Comment,Long> {
     @Query("select c from Comment c where c.toUser =:user and c.registeredAt >= current_date order by c.registeredAt desc")
     Page<Comment> findByUser(@Param("user")User user, Pageable pageable);
 
+    @Query("select count(c) from Comment c where c.toUser.id =:uid")
+    Optional<Long> countAllReceivedByUser(@Param("uid")String userId);
+
     @Query("select c from Comment c where c.toUser =:user order by c.registeredAt desc")
     Page<Comment> findAllReceivedByUser(@Param("user")User user,Pageable pageable);
+
+    @Query("select count(c) from Comment c where c.fromUser.id =:uid")
+    Optional<Long> countAllSentByUser(@Param("uid")String userId);
 
     @Query("select c from Comment c where c.fromUser =:user order by c.registeredAt desc")
     Page<Comment> findAllSentByUser(@Param("user")User user,Pageable pageable);
