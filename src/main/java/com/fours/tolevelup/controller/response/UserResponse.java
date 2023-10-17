@@ -122,7 +122,7 @@ public class UserResponse {
     @AllArgsConstructor
     public static class ReceivedComments{
         private Long commentId;
-        private UserDTO.publicUserData fromUserDate;
+        private UserDTO.publicUserData fromUserData;
         private String comment;
         private Timestamp registeredAt;
         private Timestamp updatedAt;
