@@ -13,6 +13,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+
 @Repository
 public interface UserCharacterRepository extends JpaRepository<UserCharacter, String> {
     @Query("SELECT c FROM Character c WHERE c.level = 1")
@@ -26,7 +28,7 @@ public interface UserCharacterRepository extends JpaRepository<UserCharacter, St
     void deleteAllByUser(@Param("uid") User user);
 
     @Query ("select uc from UserCharacter uc where uc.user.id=:user_id and uc.character.id=:character_id")
-    UserCharacter findByUserIdandCharacterId(@Param("user_id") String user_id, @Param("character_id") String character_id);
+    Optional<UserCharacter> findByUserIdandCharacterId(@Param("user_id") String user_id, @Param("character_id") String character_id);
 
     // themeId를 이용해서 userCharacater 객체 찾기
     @Query("select uc from UserCharacter uc where uc.id LIKE %:findCharacter%")
@@ -41,10 +43,20 @@ public interface UserCharacterRepository extends JpaRepository<UserCharacter, St
     @Query("select c.theme.id from Character c where c.id = :cid")
     int getThemeId(@Param("cid") String character_id);
 
+    @Query("select uc.character_name from UserCharacter uc where uc.user.id=:uid and uc.character.id=:cid")
+    String getCharacterName(@Param("uid")String user_id, @Param("cid")String character_id);
+
+    @Query("select uc.id from UserCharacter uc where uc.user.id=:uid and uc.character.id=:cid")
+    String getUserCharacterId(@Param("uid")String user_id, @Param("cid")String character_id);
     @Transactional
     @Modifying(clearAutomatically = true)
     @Query("update UserCharacter uc set uc.character.id=:changeCharacter_id where uc.character.id = :character_id")
     void updateLevel(@Param("changeCharacter_id") String changeCharacter_id, @Param("character_id") String character_id);
+
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query("update UserCharacter uc set uc.character_name = :character_name where uc.user.id=:uid and uc.character.id=:cid")
+    void updateName(@Param("character_name") String character_name, @Param("uid") String user_id, @Param("cid") String character_id);
 
     /*@Transactional
     @Modifying(clearAutomatically = true)
