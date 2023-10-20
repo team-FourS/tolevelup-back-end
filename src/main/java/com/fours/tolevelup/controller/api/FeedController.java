@@ -26,7 +26,7 @@ public class FeedController {
     @GetMapping
     public Response<List<FeedResponse.FeedData>> feedList(Authentication authentication, Pageable pageable){
         return Response.success(
-                feedService.getFeedList(pageable)
+                feedService.getFeedList(authentication.getName(), pageable)
                         .stream().map(FeedResponse.FeedData::fromFeedDto)
                         .collect(Collectors.toList())
         );
@@ -41,12 +41,12 @@ public class FeedController {
         );
     }
 
-
+/*
     @GetMapping("/{userId}/likes")
     public Response<Long> likeCount(@PathVariable("userId")String userId){
         return Response.success(feedService.getFeedLikeCount(userId));
     }
-
+*/
     @GetMapping("/{user_id}/likes/{date}")
     public Response<Long> likeCount(@PathVariable("user_id")String userId,@PathVariable("date")Date date){
         return Response.success(feedService.getDateLikeCount(userId,date));

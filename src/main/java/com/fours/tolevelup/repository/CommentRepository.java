@@ -20,6 +20,12 @@ public interface CommentRepository extends JpaRepository<Comment,Long> {
 
     Optional<Comment> findById(Long id);
 
+    @Query("select c from Comment c where c.toUser.id =:to_uid and c.fromUser.id =:f_uid")
+    Optional<Comment> findByUserAndFeedUser(@Param("f_uid")String fromUser,@Param("to_uid")String feedUser);
+
+    @Query("select count(c) from Comment c where c.toUser.id =:uid and c.registeredAt >= current_date ")
+    Optional<Long> findByFeedUser(@Param("uid")String feedUserId);
+
     @Query("select c from Comment c where c.toUser =:user and c.registeredAt >= current_date order by c.registeredAt desc")
     Page<Comment> findByUser(@Param("user")User user, Pageable pageable);
 
