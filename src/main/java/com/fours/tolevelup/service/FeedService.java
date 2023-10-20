@@ -46,35 +46,48 @@ public class FeedService {
     private final CommentRepository commentRepository;
     private final MissionLogRepository missionLogRepository;
 
-    public List<FeedDTO.feedData> getFeedList(Pageable pageable){
-        Slice<UserDTO.publicUserData> userList = missionLogRepository.
-                findUserSortByTodayEndTime(pageable).map(UserDTO.publicUserData::fromUser);
-        List<FeedDTO.feedData> feedList = new ArrayList<>();
-        for(UserDTO.publicUserData user : userList){
-            feedList.add(FeedDTO.feedData.builder().userData(user)
-                    .userCompleteMissions(missionService.userToDayCompleteList(user.getUserId()))
-                    .build());
-        }
-        return feedList;
+    public List<FeedDTO.feedData> getFeedList(String userId, Pageable pageable){
+        Slice<User> users = missionLogRepository.findUserSortByTodayEndTime(pageable);
+        return getFeedData(userId, users);
     }
 
     public List<FeedDTO.feedData> getFollowingFeedList(String userId, Pageable pageable){
-        Slice<UserDTO.publicUserData> followingList = missionLogRepository.
-                findFollowSortByTodayEndTime(userId,pageable).map(UserDTO.publicUserData::fromUser);
-        List<FeedDTO.feedData> feedList = new ArrayList<>();
-        for(UserDTO.publicUserData user : followingList){
-            feedList.add(FeedDTO.feedData.builder().userData(user)
-                    .userCompleteMissions(missionService.userToDayCompleteList(user.getUserId()))
-                    .build());
+        Slice<User> followingUsers = missionLogRepository.findFollowSortByTodayEndTime(userId,pageable);
+        return getFeedData(userId, followingUsers);
+    }
+
+    private List<FeedDTO.feedData> getFeedData(String userId, Slice<User> userList) {
+        List<FeedDTO.feedData> feedDataList = new ArrayList<>();
+        for(User feedUser : userList){
+            feedDataList.add(
+                    FeedDTO.feedData.builder()
+                            .userData(UserDTO.publicUserData.fromUser(feedUser))
+                            .userCompleteMissions(missionService.userToDayCompleteList(feedUser.getId()))
+                            .myLikeChecked(getUserLikeChecked(userId,feedUser.getId()))
+                            .thisLikeCounts(getFeedLikeCount(feedUser.getId()))
+                            .myCommentChecked(getUserCommentChecked(userId,feedUser.getId()))
+                            .thisCommentCounts(getFeedCommentCounts(feedUser.getId()))
+                            .build()
+            );
         }
-        return feedList;
+        return feedDataList;
+    }
+
+    private boolean getUserLikeChecked(String fromId, String toId) {
+        User fromUser = getUserOrException(fromId);
+        User toUser = getUserOrException(toId);
+        return likeRepository.findByUserAndFeedUser(fromUser, toUser).isPresent();
+    }
+
+    private boolean getUserCommentChecked(String fromId, String toId){
+        return commentRepository.findByUserAndFeedUser(fromId,toId).isPresent();
     }
 
     @Transactional
     public void checkLike(String fromId, String toId){
         User fromUser = getUserOrException(fromId);
         User toUser = getUserOrException(toId);
-        likeRepository.findByUserAndDateAndToUser(fromUser, Date.valueOf(LocalDate.now()),toUser).ifPresent(it->{
+        likeRepository.findByUserAndFeedUser(fromUser, toUser).ifPresent(it->{
             throw new TluApplicationException(ErrorCode.ALREADY_LIKE);
         });
         likeRepository.save(Like.builder().fromUser(fromUser).toUser(toUser).build());
@@ -84,19 +97,23 @@ public class FeedService {
     public void deleteLike(String fromId, String toId){
         User fromUser = getUserOrException(fromId);
         User toUser = getUserOrException(toId);
-        Like like = likeRepository.findByUserAndDateAndToUser(fromUser, Date.valueOf(LocalDate.now()),toUser).orElseThrow(()->
+        Like like = likeRepository.findByUserAndFeedUser(fromUser,toUser).orElseThrow(()->
                 new TluApplicationException(ErrorCode.LIKE_NOT_FOUND));
         likeRepository.delete(like);
     }
 
-    public long getFeedLikeCount(String userId){
-        User user = getUserOrException(userId);
-        return likeRepository.countByToUser(user);
+    private long getFeedLikeCount(String userId){
+        User user =  getUserOrException(userId);
+        return likeRepository.countByToUser(user).orElseGet(()->0L);
     }
 
     public long getDateLikeCount(String userId,Date date){
         User user = getUserOrException(userId);
         return likeRepository.countByDateAndToUser(date,user);
+    }
+
+    private long getFeedCommentCounts(String userId){
+        return commentRepository.findByFeedUser(userId).orElseGet(()->0L);
     }
 
     public Page<FeedDTO.CommentData> getFeedComments(String userId, Pageable pageable){
@@ -134,7 +151,7 @@ public class FeedService {
         commentRepository.delete(comment);
     }
 
-    private static void userSameCheck(User user, User checkUser){
+    private void userSameCheck(User user, User checkUser){
         if(user!=checkUser){
             throw new TluApplicationException(ErrorCode.INVALID_PERMISSION);
         }

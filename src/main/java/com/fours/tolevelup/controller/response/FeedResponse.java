@@ -23,10 +23,18 @@ public class FeedResponse {
     public static class FeedData{
         private UserDTO.publicUserData userData;
         private List<MissionDTO.mission> userCompleteMissions;
+        private boolean likeSent;
+        private long thisLikeCounts;
+        private boolean commentSent;
+        private long thisCommentCounts;
         public static FeedData fromFeedDto(FeedDTO.feedData feedData){
             return new FeedData(
                     feedData.getUserData(),
-                    feedData.getUserCompleteMissions()
+                    feedData.getUserCompleteMissions(),
+                    feedData.isMyLikeChecked(),
+                    feedData.getThisLikeCounts(),
+                    feedData.isMyCommentChecked(),
+                    feedData.getThisCommentCounts()
             );
         }
     }

@@ -21,7 +21,10 @@ public class FeedDTO {
     public static class feedData{
         private UserDTO.publicUserData userData;
         private List<MissionDTO.mission> userCompleteMissions;
-
+        private boolean myLikeChecked;
+        private long thisLikeCounts;
+        private boolean myCommentChecked;
+        private long thisCommentCounts;
     }
 
 
