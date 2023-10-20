@@ -80,7 +80,7 @@ public class FeedService {
     }
 
     private boolean getUserCommentChecked(String fromId, String toId){
-        return commentRepository.findByUserAndFeedUser(fromId,toId).isPresent();
+        return commentRepository.findFirstByByUserAndFeedUser(fromId,toId).isPresent();
     }
 
     @Transactional
