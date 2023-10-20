@@ -1,6 +1,9 @@
 package com.fours.tolevelup.controller.api;
 
 
+import com.fours.tolevelup.controller.response.Response;
+import com.fours.tolevelup.controller.response.UserCharacterResponse;
+import com.fours.tolevelup.controller.request.UserCharacterRequest;
 import com.fours.tolevelup.model.entity.Character;
 import com.fours.tolevelup.service.character.CharacterDTO;
 import com.fours.tolevelup.service.character.CharacterService;
@@ -46,8 +49,9 @@ public class CharacterController {
 
 
     @PutMapping("/characterName")
-    public ResponseEntity<CharacterDTO.UserCharacter> update(Authentication authentication, @RequestParam String character_id, @RequestBody CharacterDTO.UserCharacter userCharacter) {
-        return ResponseEntity.ok(characterService.changeCharacterName(authentication.getName(), character_id, userCharacter));
+    public Response<UserCharacterResponse.UserCharacter> update(Authentication authentication, @RequestParam String character_id, @RequestBody UserCharacterRequest userCharacterRequest) {
+        CharacterDTO.UserCharacter nameChange = characterService.changeCharacterName(authentication.getName(), character_id, userCharacterRequest.getCharacter_name());
+        return Response.success(UserCharacterResponse.UserCharacter.fromDTO(nameChange));
     }
 
     @GetMapping("/userCharacter")

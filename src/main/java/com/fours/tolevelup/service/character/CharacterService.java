@@ -38,17 +38,10 @@ public class CharacterService {
         return userCharacterList;
     }
 
-    public CharacterDTO.UserCharacter changeCharacterName(String user_id, String character_id, CharacterDTO.UserCharacter userCharacterDTO) {
-        UserCharacter userCharacter = userCharacterRepository.findByUserIdandCharacterId(user_id, character_id);
-        Optional<User> user = userRepository.findById(user_id);
-        Optional<Character> character = characterRepository.findById(character_id);
-        userCharacterRepository.save(userCharacter.builder()
-                .id(userCharacterDTO.getId())
-                .user(user.get())
-                .character(character.get())
-                .character_name(userCharacterDTO.getCharacter_name())
-                .build());
-        return userCharacterDTO;
+    public CharacterDTO.UserCharacter changeCharacterName(String user_id, String character_id, String change_name) {
+        userCharacterRepository.updateName(change_name, user_id, character_id);
+
+        return CharacterDTO.UserCharacter.fromUserCharacter(userCharacterRepository.findByUserIdandCharacterId(user_id, character_id).get());
 
     }
 
@@ -105,5 +98,10 @@ public class CharacterService {
                 }
             }
         }
+    }
+
+    private User getUserOrException(String id){
+        return userRepository.findById(id).orElseThrow(()->
+                new TluApplicationException(ErrorCode.USER_NOT_FOUND,String.format("%s is duplicated",id)));
     }
 }

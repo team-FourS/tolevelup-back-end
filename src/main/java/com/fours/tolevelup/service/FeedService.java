@@ -123,7 +123,7 @@ public class FeedService {
         commentRepository.updateComment(commentId,modifyComment,java.sql.Timestamp.valueOf(LocalDateTime.now()));
         alarmRepository.save(Alarm.builder().toUser(comment.getToUser()).fromUser(user).alarmType(AlarmType.MODIFY_COMMENT).build());
         return FeedDTO.CommentData.fromComment(commentRepository.findById(commentId).get());
-    }
+}
 
     @Transactional
     public void deleteComment(String userId, Long commentId){

@@ -35,12 +35,22 @@ public class CharacterDTO {
 
     @Getter
     @Setter
-    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
     public static class UserCharacter{
         private String id;
         private String user_id;
         private String character_id;
         private String character_name;
+
+        public static UserCharacter fromUserCharacter(com.fours.tolevelup.model.entity.UserCharacter userCharacter){
+            return new UserCharacter(
+                    userCharacter.getId(),
+                    userCharacter.getUser().getId(),
+                    userCharacter.getCharacter().getId(),
+                    userCharacter.getCharacter_name()
+            );
+        }
     }
 
 
