@@ -20,10 +20,10 @@ public class FeedDTO {
     @AllArgsConstructor
     public static class feedData{
         private UserDTO.publicUserData userData;
+        private boolean followStatus;
         private List<MissionDTO.mission> userCompleteMissions;
         private boolean myLikeChecked;
         private long thisLikeCounts;
-        private boolean myCommentChecked;
         private long thisCommentCounts;
     }
 

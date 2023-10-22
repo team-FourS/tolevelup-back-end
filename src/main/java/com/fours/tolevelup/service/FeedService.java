@@ -14,6 +14,7 @@ import com.fours.tolevelup.model.entity.Like;
 import com.fours.tolevelup.model.entity.User;
 import com.fours.tolevelup.repository.AlarmRepository;
 import com.fours.tolevelup.repository.CommentRepository;
+import com.fours.tolevelup.repository.FollowRepository;
 import com.fours.tolevelup.repository.LikeRepository;
 import com.fours.tolevelup.repository.missionlog.MissionLogRepository;
 import com.fours.tolevelup.repository.user.UserRepository;
@@ -38,7 +39,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class FeedService {
 
-    private final FollowService followService;
+    private final FollowRepository followRepository;
     private final AlarmRepository alarmRepository;
     private final UserRepository userRepository;
     private final MissionServiceImpl missionService;
@@ -57,15 +58,16 @@ public class FeedService {
     }
 
     private List<FeedDTO.feedData> getFeedData(String userId, Slice<User> userList) {
+        User user = getUserOrException(userId);
         List<FeedDTO.feedData> feedDataList = new ArrayList<>();
         for(User feedUser : userList){
             feedDataList.add(
                     FeedDTO.feedData.builder()
                             .userData(UserDTO.publicUserData.fromUser(feedUser))
+                            .followStatus(getFollowStatus(user,feedUser))
                             .userCompleteMissions(missionService.userToDayCompleteList(feedUser.getId()))
                             .myLikeChecked(getUserLikeChecked(userId,feedUser.getId()))
                             .thisLikeCounts(getFeedLikeCount(feedUser.getId()))
-                            .myCommentChecked(getUserCommentChecked(userId,feedUser.getId()))
                             .thisCommentCounts(getFeedCommentCounts(feedUser.getId()))
                             .build()
             );
@@ -79,9 +81,10 @@ public class FeedService {
         return likeRepository.findByUserAndFeedUser(fromUser, toUser).isPresent();
     }
 
-    private boolean getUserCommentChecked(String fromId, String toId){
-        return commentRepository.findFirstByByUserAndFeedUser(fromId,toId).isPresent();
+    private boolean getFollowStatus(User fromUser, User followUser){
+        return followRepository.findByFromUserAndFollowingUser(fromUser,followUser).isPresent();
     }
+
 
     @Transactional
     public void checkLike(String fromId, String toId){

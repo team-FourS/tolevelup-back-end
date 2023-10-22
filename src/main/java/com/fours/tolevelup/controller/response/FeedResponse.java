@@ -22,18 +22,18 @@ public class FeedResponse {
     @AllArgsConstructor
     public static class FeedData{
         private UserDTO.publicUserData userData;
+        private boolean followStatus;
         private List<MissionDTO.mission> userCompleteMissions;
         private boolean likeSent;
         private long thisLikeCounts;
-        private boolean commentSent;
         private long thisCommentCounts;
         public static FeedData fromFeedDto(FeedDTO.feedData feedData){
             return new FeedData(
                     feedData.getUserData(),
+                    feedData.isFollowStatus(),
                     feedData.getUserCompleteMissions(),
                     feedData.isMyLikeChecked(),
                     feedData.getThisLikeCounts(),
-                    feedData.isMyCommentChecked(),
                     feedData.getThisCommentCounts()
             );
         }
