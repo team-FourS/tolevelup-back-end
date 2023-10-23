@@ -34,10 +34,6 @@ public class CharacterController {
 
     private final CharacterService characterService;
 
-    @Value("${image.base-url}")
-    private String imageUrlBasePath;
-
-
     @GetMapping("/character")
     public ResponseEntity<List<CharacterDTO.CharacterData>> characterData() {
         return ResponseEntity.ok(characterService.getCharacterData());
