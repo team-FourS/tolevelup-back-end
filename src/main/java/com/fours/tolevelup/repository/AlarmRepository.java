@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public interface AlarmRepository extends JpaRepository<Alarm,Long> {
 
-    @Query("select a from Alarm a where a.toUser.id = :toUser")
+    @Query("select a from Alarm a where a.toUser.id = :toUser order by a.registeredAt desc")
     Slice<Alarm> findAllByToUser(@Param("toUser")String toUser, Pageable pageable);
 
     @Modifying
