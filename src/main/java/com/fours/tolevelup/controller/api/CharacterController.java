@@ -34,10 +34,10 @@ public class CharacterController {
 
     private final CharacterService characterService;
 
-    @GetMapping("/character")
-    public ResponseEntity<List<CharacterDTO.CharacterData>> characterData() {
-        return ResponseEntity.ok(characterService.getCharacterData());
-    }
+//    @GetMapping("/character")
+//    public ResponseEntity<List<CharacterDTO.CharacterData>> characterData() {
+//        return ResponseEntity.ok(characterService.getCharacterData());
+//    }
 
     public ResponseEntity<Object> characterList() {
         return ResponseEntity.ok().build();
