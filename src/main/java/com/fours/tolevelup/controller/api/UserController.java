@@ -69,6 +69,16 @@ public class UserController {
         return Response.success(new RankResponse.ThemeRankList(rankService.getThemeRankList(authentication.getName(), themeId, String.format("%s-%s" ,year, month), pageable)));
     }
 
+    @PostMapping("/password")
+    public Response<Boolean> userPassword(Authentication authentication, @RequestBody UserRequest.Password password){
+        return Response.success(userService.passwordCheck(authentication.getName(), password.getPassword()));
+    }
+
+    @GetMapping("/information")
+    public Response<UserResponse.UserData> userInformation(Authentication authentication){
+        return Response.success(userService.findUserPrivateData(authentication.getName()));
+    }
+
     @PutMapping("/information")
     public Response<String> modifyInformation(Authentication authentication,@RequestBody UserRequest.ModifyForm newDataForm){
         String type = userService.changeInformation(authentication.getName(), newDataForm.getType(),newDataForm.getData());
