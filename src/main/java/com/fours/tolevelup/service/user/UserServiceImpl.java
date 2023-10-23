@@ -113,9 +113,15 @@ public class UserServiceImpl implements UserService {
         userRepository.delete(user);
     }
 
-    public UserResponse.UserData findUserPrivateData(String userId,String password) {
+    public boolean passwordCheck(String userId, String password){
         UserDTO user = loadUserVoByUserId(userId);
         passwordMatchCheck(user.getPassword(),password);
+        return true;
+    }
+
+    public UserResponse.UserData findUserPrivateData(String userId) {
+        UserDTO user = loadUserVoByUserId(userId);
+        //passwordMatchCheck(user.getPassword(),password);
         return UserResponse.UserData.fromUserDTO(user);
     }
 
