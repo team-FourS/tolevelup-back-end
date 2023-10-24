@@ -11,6 +11,7 @@ import com.fours.tolevelup.model.entity.*;
 import com.fours.tolevelup.model.entity.Character;
 import com.fours.tolevelup.repository.AlarmRepository;
 import com.fours.tolevelup.repository.CommentRepository;
+import com.fours.tolevelup.repository.FollowRepository;
 import com.fours.tolevelup.repository.LikeRepository;
 import com.fours.tolevelup.repository.character.CharacterRepository;
 import com.fours.tolevelup.repository.character.UserCharacterRepository;
@@ -38,6 +39,7 @@ import java.util.stream.IntStream;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+    private final FollowRepository followRepository;
     private final UserRepository userRepository;
     private final AlarmRepository alarmRepository;
     private final CommentRepository commentRepository;
@@ -108,6 +110,7 @@ public class UserServiceImpl implements UserService {
         missionLogRepository.deleteAllByUser(user);
         userCharacterRepository.deleteAllByUser(user);
         commentRepository.deleteAllByUser(user);
+        followRepository.deleteAllByUser(user);
         likeRepository.deleteAllByUser(user);
         alarmRepository.deleteAllByUser(user);
         userRepository.delete(user);
