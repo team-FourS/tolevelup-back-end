@@ -68,6 +68,7 @@ public class MissionServiceImpl implements MissionService {
         MissionLog missionLog = getMissionLogOrException(user,mission,startDate);
         missionLogRepository.updateMissionLogStatus(missionLog,changeStatus(missionLog),getEndTime(missionLog));
         themeExpRepository.updateExp(getMissionExp(missionLog), user, mission.getTheme());
+
     }
 
 
