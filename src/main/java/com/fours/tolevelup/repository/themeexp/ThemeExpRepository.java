@@ -43,4 +43,7 @@ public interface ThemeExpRepository extends JpaRepository<ThemeExp, String>, The
             "FROM theme_exp te GROUP BY te.user_id) i where i.user_id = :uid", nativeQuery = true)
     int rank(@Param("uid") String user_Id);
 
+    @Query("select te.exp_total from ThemeExp te where te.user = :user and te.theme = :theme")
+    int exp(@Param("user") User user, @Param("theme") Theme theme);
+
 }
