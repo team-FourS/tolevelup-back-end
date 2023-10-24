@@ -78,27 +78,27 @@ public class CharacterService {
     }
 
 
-    public void levelUpUserCharacter(String id) {
-        List<ThemeExp> themeExpList = themeExpRepository.getThemeExp(id);
-        int num = 0;
-        for (ThemeExp t : themeExpList) {
-            if (t.getExp_total() % 10 == 0) {
-                String findCharacter = t.getId(); // 레벨업 할 테마 아이디 찾아서 변수에 저장
-                UserCharacter userCharacter = userCharacterRepository.findUserCharacterById(findCharacter); // 테마 아이디와 일치하는 유저캐릭터 객체 찾음
-                List<Character> characterList = characterRepository.getCharacterByTheme(userCharacter.getCharacter().getId().toString()); // 찾은 캐릭터 객체의 태마 아이디와 같은 캐릭터들의 리스트 리턴
-                int level = userCharacterRepository.getLevel(userCharacter.getId()); // 찾은 유저 캐릭터 객체의 레벨 찾기
-                for(Character c : characterList){
-                    if(c.getId() == userCharacter.getCharacter().getId().toString()){
-                        if (level < 4) {
-                            Character findLvCharacter = characterRepository.getLvUpCharacter(level, c.getTheme().getId());
-                            userCharacterRepository.updateLevel(findLvCharacter.getId(), userCharacter.getCharacter().getId().toString());
-                         }
-                    }
-
-                }
-            }
-        }
-    }
+//    public void levelUpUserCharacter(String id) {
+//        List<ThemeExp> themeExpList = themeExpRepository.getThemeExp(id);
+//        int num = 0;
+//        for (ThemeExp t : themeExpList) {
+//            if (t.getExp_total() % 10 == 0) {
+//                String findCharacter = t.getId(); // 레벨업 할 테마 아이디 찾아서 변수에 저장
+//                UserCharacter userCharacter = userCharacterRepository.findUserCharacterById(findCharacter); // 테마 아이디와 일치하는 유저캐릭터 객체 찾음
+//                List<Character> characterList = characterRepository.getCharacterByTheme(userCharacter.getCharacter().getId().toString()); // 찾은 캐릭터 객체의 태마 아이디와 같은 캐릭터들의 리스트 리턴
+//                int level = userCharacterRepository.getLevel(userCharacter.getId()); // 찾은 유저 캐릭터 객체의 레벨 찾기
+//                for(Character c : characterList){
+//                    if(c.getId() == userCharacter.getCharacter().getId().toString()){
+//                        if (level < 4) {
+//                            Character findLvCharacter = characterRepository.getLvUpCharacter(level, c.getTheme().getId());
+//                            userCharacterRepository.updateLevel(findLvCharacter.getId(), userCharacter.getCharacter().getId().toString());
+//                         }
+//                    }
+//
+//                }
+//            }
+//        }
+//    }
 
     private User getUserOrException(String id){
         return userRepository.findById(id).orElseThrow(()->

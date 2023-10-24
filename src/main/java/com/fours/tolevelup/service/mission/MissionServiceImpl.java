@@ -6,10 +6,10 @@ import com.fours.tolevelup.exception.ErrorCode;
 import com.fours.tolevelup.exception.TluApplicationException;
 import com.fours.tolevelup.model.MissionDTO;
 import com.fours.tolevelup.model.MissionStatus;
-import com.fours.tolevelup.model.entity.Mission;
-import com.fours.tolevelup.model.entity.Theme;
-import com.fours.tolevelup.model.entity.MissionLog;
-import com.fours.tolevelup.model.entity.User;
+import com.fours.tolevelup.model.entity.*;
+import com.fours.tolevelup.model.entity.Character;
+import com.fours.tolevelup.repository.character.CharacterRepository;
+import com.fours.tolevelup.repository.character.UserCharacterRepository;
 import com.fours.tolevelup.repository.mission.MissionRepository;
 import com.fours.tolevelup.repository.missionlog.MissionLogRepository;
 import com.fours.tolevelup.repository.theme.ThemeRepository;
@@ -34,10 +34,12 @@ import java.util.stream.Collectors;
 public class MissionServiceImpl implements MissionService {
 
     private final UserRepository userRepository;
+    private final UserCharacterRepository userCharacterRepository;
     private final MissionRepository missionRepository;
     private final MissionLogRepository missionLogRepository;
     private final ThemeRepository themeRepository;
     private final ThemeExpRepository themeExpRepository;
+    private final CharacterRepository characterRepository;
 
 
 
@@ -68,7 +70,17 @@ public class MissionServiceImpl implements MissionService {
         MissionLog missionLog = getMissionLogOrException(user,mission,startDate);
         missionLogRepository.updateMissionLogStatus(missionLog,changeStatus(missionLog),getEndTime(missionLog));
         themeExpRepository.updateExp(getMissionExp(missionLog), user, mission.getTheme());
+        int exp = themeExpRepository.exp(user, mission.getTheme());
 
+        if(exp % 10 == 0){
+            levelUpCharacter(user, mission);
+        }
+    }
+
+    private void levelUpCharacter(User user, Mission mission){
+        UserCharacter userCharacter = userCharacterRepository.findUserCharacterByUserAndThemeName(user, mission.getTheme().getName());
+        Character character = characterRepository.getLvUpCharacter(userCharacter.getCharacter().getLevel(), mission.getTheme().getId());
+        userCharacterRepository.updateLevel(character.getId(), userCharacter.getCharacter().getId());
     }
 
 
