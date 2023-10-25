@@ -3,9 +3,10 @@ name: Deploy to Amazon EC2
 on:
   push:
     branches:
-      - main #브랜치명
-      - msy
-      - msw
+      - main  # 메인 브랜치에 push가 발생했을 때
+  pull_request:
+    branches:
+      - main  # 메인 브랜치에 pull request가 오픈되었을 때
 
 # 본인이 설정한 값을 여기서 채워넣는다.
 env:
