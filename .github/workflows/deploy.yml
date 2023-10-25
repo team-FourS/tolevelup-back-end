@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main #브랜치명
+      - msy
+      - msw
 
 # 본인이 설정한 값을 여기서 채워넣는다.
 env:
