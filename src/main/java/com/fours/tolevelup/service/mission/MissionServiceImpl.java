@@ -84,6 +84,12 @@ public class MissionServiceImpl implements MissionService {
         userCharacterRepository.updateLevel(character.getId(), userCharacter.getCharacter().getId());
     }
 
+    private void levelDownCharacter(User user, Mission mission){
+        UserCharacter userCharacter = userCharacterRepository.findUserCharacterByUserAndThemeName(user, mission.getTheme().getName());
+        Character character = characterRepository.getLvDownCharacter(userCharacter.getCharacter().getLevel(), mission.getTheme().getId());
+        userCharacterRepository.updateLevel(character.getId(), userCharacter.getCharacter().getId());
+    }
+
 
 
     private User getUserOrException(String id){
