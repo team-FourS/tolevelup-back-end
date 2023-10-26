@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main  # 메인 브랜치에 push가 발생했을 때
+      - msw
+      - msy
   pull_request:
     branches:
       - main  # 메인 브랜치에 pull request가 오픈되었을 때
