@@ -38,7 +38,8 @@ public interface MissionLogRepository extends JpaRepository<MissionLog, Long>, M
     @Query("select ml from MissionLog ml where ml.user.id =:uid and ml.mission.theme =:theme and ml.start_date >= current_date")
     List<MissionLog> findByTheme(@Param("uid")String user,@Param("theme")Theme theme);
 
-    @Query("select ml from MissionLog ml where ml.user =:user and ml.mission.theme =:theme and ml.start_date =:date")
+
+    @Query("select ml from MissionLog ml where ml.user =:user and ml.mission.theme =:theme and ml.start_date >=:date")
     List<MissionLog> findByThemAndDate(@Param("user")User user,@Param("theme")Theme theme,@Param("date")Date date);
 
     @Transactional
