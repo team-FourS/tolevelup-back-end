@@ -75,6 +75,8 @@ public class MissionServiceImpl implements MissionService {
 
         if(afterExp % 10 == 0 && beforeExp < afterExp){
             levelUpCharacter(user, mission);
+        }else if(afterExp % 10 == 0){
+            levelDownCharacter(user, mission);
         }
     }
 
