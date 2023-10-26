@@ -27,4 +27,7 @@ public interface CharacterRepository extends JpaRepository<Character, String> {
 
     @Query("select c from Character c where c.level = :level + 1 and c.theme.id = :tid")
     Character getLvUpCharacter(@Param("level") int level, @Param("tid") int theme_id);
+
+    @Query("select c from Character c where c.level = :level - 1 and c.theme.id = :tid")
+    Character getLvDownCharacter(@Param("level") int level, @Param("tid") int theme_id);
 }
