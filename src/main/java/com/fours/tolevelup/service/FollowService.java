@@ -51,6 +51,15 @@ public class FollowService {
         followRepository.delete(follow);
     }
 
+    @Transactional
+    public void unfollowFromUser(String userId, String fromId){
+        User toUser = getUserOrException(userId);
+        User fromUser = getUserOrException(fromId);
+        Follow follow = followRepository.findByFromUserAndFollowingUser(fromUser,toUser).orElseThrow(()->
+                new TluApplicationException(ErrorCode.USER_NOT_FOUND,String.format("%s is duplicated",fromId)));
+        followRepository.delete(follow);
+    }
+
     public long getFollowingCounts(String userId){
         User user = getUserOrException(userId);
         return followRepository.countByMyFollowing(user).orElseGet(()->0L);
