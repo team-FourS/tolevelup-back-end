@@ -97,6 +97,12 @@ public class UserController {
         return Response.success("언팔로우");
     }
 
+    @DeleteMapping("/follower/{userId}")
+    public Response<String> unfollowFollower(Authentication authentication, @PathVariable String userId){
+        followService.unfollowFromUser(authentication.getName(), userId);
+        return Response.success("팔로워 삭제");
+    }
+
     @GetMapping("/following/count")
     public Response<Long> followingCounts(Authentication authentication){
         return Response.success(followService.getFollowingCounts(authentication.getName()));
