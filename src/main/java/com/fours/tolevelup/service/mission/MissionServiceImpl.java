@@ -68,14 +68,13 @@ public class MissionServiceImpl implements MissionService {
         Mission mission = getMissionOrException(missionId);
         Date startDate = getStartDate(mission.getTheme().getType());
         MissionLog missionLog = getMissionLogOrException(user,mission,startDate);
-        missionLogRepository.updateMissionLogStatus(missionLog,changeStatus(missionLog),getEndTime(missionLog));
         int beforeExp = themeExpRepository.exp(user, mission.getTheme());
-        themeExpRepository.updateExp(getMissionExp(missionLog), user, mission.getTheme());
+        missionLogRepository.updateMissionLogStatus(missionLog,changeStatus(missionLog),getEndTime(missionLog));
         int afterExp = themeExpRepository.exp(user, mission.getTheme());
 
-        if(afterExp % 10 == 0 && beforeExp < afterExp){
+        if(afterExp % 10 > beforeExp % 10) {
             levelUpCharacter(user, mission);
-        }else if(afterExp % 10 == 0){
+        }else if(afterExp % 10 < beforeExp % 10){
             levelDownCharacter(user, mission);
         }
     }
