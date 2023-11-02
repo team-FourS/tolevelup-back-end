@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-PROJECT_ROOT="/home/ec2-user/build/"
-JAR_FILE="$PROJECT_ROOT/tolevelup-backend/build/libs/tolevelup-0.0.1-SNAPSHOT.jar"
+PROJECT_ROOT="/home/ec2-user"
+JAR_FILE="$PROJECT_ROOT/build/build/tolevelup-backend/build/libs/tolevelup-0.0.1-SNAPSHOT.jar"
 
 DEPLOY_LOG="$PROJECT_ROOT/deploy.log"
 
