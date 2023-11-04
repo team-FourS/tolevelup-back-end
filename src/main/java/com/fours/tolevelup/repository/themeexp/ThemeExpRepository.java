@@ -1,27 +1,24 @@
 package com.fours.tolevelup.repository.themeexp;
 
-import com.fours.tolevelup.controller.response.UserResponse;
-import com.fours.tolevelup.model.ThemeExpDTO;
 import com.fours.tolevelup.model.entity.Theme;
 import com.fours.tolevelup.model.entity.ThemeExp;
 import com.fours.tolevelup.model.entity.User;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.security.core.parameters.P;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.List;
-import java.util.Optional;
 
 public interface ThemeExpRepository extends JpaRepository<ThemeExp, String>, ThemeExpCustomRepository {
 
     @Transactional
     @Modifying(clearAutomatically = true)
     @Query("update ThemeExp t set t.exp_total = t.exp_total + :exp where t.user = :user and t.theme = :theme")
-    void updateExp(@Param("exp")float mission_exp,@Param("user") User user,@Param("theme") Theme theme);
+    void updateExp(@Param("exp") float mission_exp, @Param("user") User user, @Param("theme") Theme theme);
 
     @Modifying
     @Query("delete from ThemeExp t where t.user = :uid")
@@ -31,7 +28,7 @@ public interface ThemeExpRepository extends JpaRepository<ThemeExp, String>, The
     List<ThemeExp> getThemeExp(@Param("uid") String user_id);
 
     @Query("select te from ThemeExp te where te.user.id =:uid and te.theme.id =:tid")
-    Optional<ThemeExp> getThemeExpByUserAndTheme(@Param("uid")String userId,@Param("tid")int themeId);
+    Optional<ThemeExp> getThemeExpByUserAndTheme(@Param("uid") String userId, @Param("tid") int themeId);
 
     @Query("select sum(t.exp_total) from ThemeExp t where t.user.id=:uid")
     int expTotal(@Param("uid") String user_id);
