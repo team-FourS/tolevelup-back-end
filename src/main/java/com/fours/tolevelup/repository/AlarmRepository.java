@@ -9,17 +9,14 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.List;
-import java.util.Optional;
-
-public interface AlarmRepository extends JpaRepository<Alarm,Long> {
+public interface AlarmRepository extends JpaRepository<Alarm, Long> {
 
     @Query("select a from Alarm a where a.toUser.id = :toUser order by a.registeredAt desc")
-    Slice<Alarm> findAllByToUser(@Param("toUser")String toUser, Pageable pageable);
+    Slice<Alarm> findAllByToUser(@Param("toUser") String toUser, Pageable pageable);
 
     @Modifying
     @Query("delete from Alarm a where a.toUser =:user")
-    void deleteByUser(@Param("user")User user);
+    void deleteByUser(@Param("user") User user);
 
     @Modifying
     @Query("delete from Alarm a where a.toUser =:user or a.fromUser =:user")
