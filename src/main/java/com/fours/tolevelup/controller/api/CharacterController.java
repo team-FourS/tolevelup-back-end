@@ -1,33 +1,28 @@
 package com.fours.tolevelup.controller.api;
 
 
-import com.fours.tolevelup.controller.response.FeedResponse;
+import com.fours.tolevelup.controller.request.UserCharacterRequest;
 import com.fours.tolevelup.controller.response.Response;
 import com.fours.tolevelup.controller.response.UserCharacterResponse;
-import com.fours.tolevelup.controller.request.UserCharacterRequest;
-import com.fours.tolevelup.model.entity.Character;
 import com.fours.tolevelup.service.character.CharacterDTO;
 import com.fours.tolevelup.service.character.CharacterService;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.FileSystem;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
@@ -46,8 +41,11 @@ public class CharacterController {
 
 
     @PutMapping("/characterName")
-    public Response<UserCharacterResponse.UserCharacter> update(Authentication authentication, @RequestParam String character_id, @RequestBody UserCharacterRequest userCharacterRequest) {
-        CharacterDTO.UserCharacter nameChange = characterService.changeCharacterName(authentication.getName(), character_id, userCharacterRequest.getCharacter_name());
+    public Response<UserCharacterResponse.UserCharacter> update(Authentication authentication,
+                                                                @RequestParam String character_id,
+                                                                @RequestBody UserCharacterRequest userCharacterRequest) {
+        CharacterDTO.UserCharacter nameChange = characterService.changeCharacterName(authentication.getName(),
+                character_id, userCharacterRequest.getCharacter_name());
         return Response.success(UserCharacterResponse.UserCharacter.fromDTO(nameChange));
     }
 
@@ -57,7 +55,8 @@ public class CharacterController {
     }
 
     @GetMapping("/otherCharacter/{id}")
-    public ResponseEntity<List<CharacterDTO.UserCharacterInfo>> otherData(Authentication authentication, @PathVariable("id")String userId){
+    public ResponseEntity<List<CharacterDTO.UserCharacterInfo>> otherData(Authentication authentication,
+                                                                          @PathVariable("id") String userId) {
         return ResponseEntity.ok(characterService.getUserCharacterData(userId));
     }
 
@@ -67,7 +66,8 @@ public class CharacterController {
 
         try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(path)) {
             if (inputStream != null) {
-                byte[] imageBytes = IOUtils.toByteArray(inputStream); // Apache Commons IO 라이브러리의 IOUtils를 사용하여 바이트 배열로 읽음
+                byte[] imageBytes = IOUtils.toByteArray(
+                        inputStream); // Apache Commons IO 라이브러리의 IOUtils를 사용하여 바이트 배열로 읽음
 
                 HttpHeaders headers = new HttpHeaders();
                 headers.add("Content-Type", Files.probeContentType(Paths.get(path)));

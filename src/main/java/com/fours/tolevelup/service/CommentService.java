@@ -19,27 +19,27 @@ public class CommentService {
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
 
-    public long receivedCommentsCounts(String userId){
-        return commentRepository.countAllReceivedByUser(userId).orElseGet(()->0L);
+    public long receivedCommentsCounts(String userId) {
+        return commentRepository.countAllReceivedByUser(userId).orElseGet(() -> 0L);
     }
 
-    public Page<FeedDTO.CommentData> receivedComments(String userId, Pageable pageable){
+    public Page<FeedDTO.CommentData> receivedComments(String userId, Pageable pageable) {
         User user = getUserOrException(userId);
-        return commentRepository.findAllReceivedByUser(user,pageable).map(FeedDTO.CommentData::fromComment);
+        return commentRepository.findAllReceivedByUser(user, pageable).map(FeedDTO.CommentData::fromComment);
     }
 
-    public long sentCommentsCounts(String userId){
-        return commentRepository.countAllSentByUser(userId).orElseGet(()->0L);
+    public long sentCommentsCounts(String userId) {
+        return commentRepository.countAllSentByUser(userId).orElseGet(() -> 0L);
     }
 
-    public Page<FeedDTO.CommentData> sentComments(String userId,Pageable pageable){
+    public Page<FeedDTO.CommentData> sentComments(String userId, Pageable pageable) {
         User user = getUserOrException(userId);
-        return commentRepository.findAllSentByUser(user,pageable).map(FeedDTO.CommentData::fromComment);
+        return commentRepository.findAllSentByUser(user, pageable).map(FeedDTO.CommentData::fromComment);
     }
 
-    private User getUserOrException(String id){
-        return userRepository.findById(id).orElseThrow(()->
-                new TluApplicationException(ErrorCode.USER_NOT_FOUND,String.format("%s is duplicated",id)));
+    private User getUserOrException(String id) {
+        return userRepository.findById(id).orElseThrow(() ->
+                new TluApplicationException(ErrorCode.USER_NOT_FOUND, String.format("%s is duplicated", id)));
     }
 
 }
