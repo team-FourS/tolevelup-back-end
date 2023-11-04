@@ -1,6 +1,7 @@
 package com.fours.tolevelup.controller.api;
 
 
+import com.fours.tolevelup.controller.response.FeedResponse;
 import com.fours.tolevelup.controller.response.Response;
 import com.fours.tolevelup.controller.response.UserCharacterResponse;
 import com.fours.tolevelup.controller.request.UserCharacterRequest;
@@ -55,6 +56,11 @@ public class CharacterController {
         return ResponseEntity.ok(characterService.getUserCharacterData(authentication.getName()));
     }
 
+    @GetMapping("/otherCharacter/{id}")
+    public ResponseEntity<List<CharacterDTO.UserCharacterInfo>> otherData(Authentication authentication, @PathVariable("id")String userId){
+        return ResponseEntity.ok(characterService.getUserCharacterData(userId));
+    }
+
     @GetMapping("/image")
     public ResponseEntity<byte[]> returnImage(@RequestParam String imageName) {
         String path = "img/" + imageName; // 클래스패스 상의 이미지 경로
@@ -75,4 +81,6 @@ public class CharacterController {
         }
 
     }
+
+
 }
