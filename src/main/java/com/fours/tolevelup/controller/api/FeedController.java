@@ -5,12 +5,16 @@ import com.fours.tolevelup.controller.response.FeedResponse;
 import com.fours.tolevelup.controller.response.Response;
 import com.fours.tolevelup.model.FeedDTO;
 import com.fours.tolevelup.service.FeedService;
+import com.fours.tolevelup.service.character.CharacterDTO;
+import com.fours.tolevelup.service.character.CharacterDTO.UserCharacterInfo;
+import com.fours.tolevelup.service.character.CharacterService;
 import java.sql.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class FeedController {
 
     private final FeedService feedService;
+    private final CharacterService characterService;
 
     @GetMapping
     public Response<List<FeedResponse.FeedData>> feedList(Authentication authentication, Pageable pageable) {
@@ -45,6 +50,13 @@ public class FeedController {
                         .collect(Collectors.toList())
         );
     }
+
+    @GetMapping("/character/{id}")
+    public Response<FeedResponse.CharacterData> characterData(Authentication authentication,
+                                                             @PathVariable("id") String userId) {
+        return Response.success(new FeedResponse.CharacterData(feedService.getCharacterData(userId)));
+    }
+
 
     /*
         @GetMapping("/{userId}/likes")

@@ -53,6 +53,22 @@ public class CharacterDTO {
         }
     }
 
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    public static class UserCharacterFeed{
+        private String character_id;
+        private String character_name;
+
+        public static UserCharacterFeed fromUserCharacter(com.fours.tolevelup.model.entity.UserCharacter userCharacterFeed){
+            return new UserCharacterFeed(
+                    userCharacterFeed.getCharacter().getId(),
+                    userCharacterFeed.getCharacter_name()
+            );
+        }
+    }
+
+
 
     @Getter
     @Builder

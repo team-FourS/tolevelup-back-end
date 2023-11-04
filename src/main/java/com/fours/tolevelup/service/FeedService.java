@@ -6,16 +6,22 @@ import com.fours.tolevelup.exception.TluApplicationException;
 import com.fours.tolevelup.model.AlarmType;
 import com.fours.tolevelup.model.FeedDTO;
 import com.fours.tolevelup.model.UserDTO;
+import com.fours.tolevelup.model.UserDTO.feedUserData;
 import com.fours.tolevelup.model.entity.Alarm;
 import com.fours.tolevelup.model.entity.Comment;
 import com.fours.tolevelup.model.entity.Like;
+import com.fours.tolevelup.model.entity.Theme;
 import com.fours.tolevelup.model.entity.User;
+import com.fours.tolevelup.model.entity.UserCharacter;
 import com.fours.tolevelup.repository.AlarmRepository;
 import com.fours.tolevelup.repository.CommentRepository;
 import com.fours.tolevelup.repository.FollowRepository;
 import com.fours.tolevelup.repository.LikeRepository;
+import com.fours.tolevelup.repository.character.UserCharacterRepository;
 import com.fours.tolevelup.repository.missionlog.MissionLogRepository;
+import com.fours.tolevelup.repository.theme.ThemeRepository;
 import com.fours.tolevelup.repository.user.UserRepository;
+import com.fours.tolevelup.service.character.CharacterDTO.UserCharacterFeed;
 import com.fours.tolevelup.service.mission.MissionServiceImpl;
 import java.sql.Date;
 import java.time.LocalDateTime;
@@ -39,6 +45,7 @@ public class FeedService {
     private final LikeRepository likeRepository;
     private final CommentRepository commentRepository;
     private final MissionLogRepository missionLogRepository;
+    private final UserCharacterRepository userCharacterRepository;
 
     public List<FeedDTO.feedData> getFeedList(String userId, Pageable pageable) {
         Slice<User> users = missionLogRepository.findUserSortByTodayEndTime(pageable);
@@ -66,6 +73,24 @@ public class FeedService {
             );
         }
         return feedDataList;
+    }
+
+    public List<FeedDTO.CharacterData> getCharacterData(String userId){
+        User user = getUserOrException(userId);
+        List<UserCharacter> userCharacterList = userCharacterRepository.getUserCharacter(userId);
+        List<FeedDTO.CharacterData> characterDataList = new ArrayList<>();
+
+        for(UserCharacter userCharacter : userCharacterList){
+            characterDataList.add(FeedDTO.CharacterData.builder()
+                    .feedUserData(feedUserData.fromUser(user))
+                    .userCharacterFeed(UserCharacterFeed.fromUserCharacter(userCharacter))
+                    .level(userCharacter.getCharacter().getLevel())
+                    .count(missionLogRepository.countByTheme(user, userCharacter.getCharacter().getTheme()))
+                    .build());
+        }
+
+        return characterDataList;
+
     }
 
     private boolean getUserLikeChecked(String fromId, String toId) {
@@ -160,5 +185,6 @@ public class FeedService {
         return userRepository.findById(id).orElseThrow(() ->
                 new TluApplicationException(ErrorCode.USER_NOT_FOUND, String.format("%s is duplicated", id)));
     }
+
 
 }

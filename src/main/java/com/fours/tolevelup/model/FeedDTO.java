@@ -1,7 +1,9 @@
 package com.fours.tolevelup.model;
 
 
+import com.fours.tolevelup.model.FeedDTO.CharacterData;
 import com.fours.tolevelup.model.entity.Comment;
+import com.fours.tolevelup.service.character.CharacterDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -48,5 +50,17 @@ public class FeedDTO {
                     comment.getUpdatedAt()
             );
         }
+    }
+
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    public static class CharacterData{
+
+        private UserDTO.feedUserData feedUserData;
+        private CharacterDTO.UserCharacterFeed userCharacterFeed;
+        private int level;
+        private long count;
+
     }
 }
