@@ -67,32 +67,36 @@ public class MissionServiceImpl implements MissionService {
         Mission mission = getMissionOrException(missionId);
         Date startDate = getStartDate(mission.getTheme().getType());
         MissionLog missionLog = getMissionLogOrException(user, mission, startDate);
+        UserCharacter userCharacter = userCharacterRepository.findUserCharacterByUserAndThemeName(user,mission.getTheme().getName());
         missionLogRepository.updateMissionLogStatus(missionLog, changeStatus(missionLog), getEndTime(missionLog));
         int beforeExp = themeExpRepository.exp(user, mission.getTheme());
         themeExpRepository.updateExp(getMissionExp(missionLog), user, mission.getTheme());
         int afterExp = themeExpRepository.exp(user, mission.getTheme());
 
-        if (afterExp / 10 > beforeExp / 10) {
-            levelUpCharacter(user, mission);
-        } else if (afterExp / 10 < beforeExp / 10) {
-            levelDownCharacter(user, mission);
+        if(userCharacter.getCharacter().getLevel() < 4){
+            if (afterExp / 10 > beforeExp / 10) {
+                levelUpCharacter(user, mission);
+            } else if (afterExp / 10 < beforeExp / 10) {
+                levelDownCharacter(user, mission);
+            }
         }
+
     }
 
     private void levelUpCharacter(User user, Mission mission) {
         UserCharacter userCharacter = userCharacterRepository.findUserCharacterByUserAndThemeName(user,
                 mission.getTheme().getName());
-        Character character = characterRepository.getLvUpCharacter(userCharacter.getCharacter().getLevel(),
+        Character updateCharacter = characterRepository.getLvUpCharacter(userCharacter.getCharacter().getLevel(),
                 mission.getTheme().getId());
-        userCharacterRepository.updateLevel(character.getId(), userCharacter.getCharacter().getId());
+        userCharacterRepository.updateLevel(updateCharacter.getId(), userCharacter.getCharacter().getId());
     }
 
     private void levelDownCharacter(User user, Mission mission) {
         UserCharacter userCharacter = userCharacterRepository.findUserCharacterByUserAndThemeName(user,
                 mission.getTheme().getName());
-        Character character = characterRepository.getLvDownCharacter(userCharacter.getCharacter().getLevel(),
+        Character updateCharacter = characterRepository.getLvDownCharacter(userCharacter.getCharacter().getLevel(),
                 mission.getTheme().getId());
-        userCharacterRepository.updateLevel(character.getId(), userCharacter.getCharacter().getId());
+        userCharacterRepository.updateLevel(updateCharacter.getId(), userCharacter.getCharacter().getId());
     }
 
 
