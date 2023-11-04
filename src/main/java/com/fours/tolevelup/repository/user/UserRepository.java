@@ -1,5 +1,7 @@
 package com.fours.tolevelup.repository.user;
 
+import java.util.List;
+import com.fours.tolevelup.model.UserDTO;
 import com.fours.tolevelup.model.entity.User;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -39,5 +41,8 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Modifying(clearAutomatically = true)
     @Query("update User u set u.intro =:nIntro where u =:user")
     void updateIntro(@Param("user") User user, @Param("nIntro") String newIntro);
+
+    @Query("select u.id,u.name from User u where u.id = :uid")
+    List<UserDTO.feedUserData> getUserById(@Param("uid") String user_id);
 
 }

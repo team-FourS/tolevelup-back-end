@@ -5,6 +5,7 @@ import com.fours.tolevelup.model.FeedDTO;
 import com.fours.tolevelup.model.MissionDTO;
 import com.fours.tolevelup.model.UserDTO;
 import com.fours.tolevelup.model.entity.Comment;
+import com.fours.tolevelup.service.character.CharacterDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.data.domain.Page;
@@ -37,6 +38,12 @@ public class FeedResponse {
                     feedData.getThisCommentCounts()
             );
         }
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class CharacterData{
+        private List<FeedDTO.CharacterData> characterDataList;
     }
 
     @Getter

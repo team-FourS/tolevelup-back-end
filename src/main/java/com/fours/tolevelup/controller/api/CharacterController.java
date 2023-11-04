@@ -54,11 +54,6 @@ public class CharacterController {
         return ResponseEntity.ok(characterService.getUserCharacterData(authentication.getName()));
     }
 
-    @GetMapping("/otherCharacter/{id}")
-    public ResponseEntity<List<CharacterDTO.UserCharacterInfo>> otherData(Authentication authentication,
-                                                                          @PathVariable("id") String userId) {
-        return ResponseEntity.ok(characterService.getUserCharacterData(userId));
-    }
 
     @GetMapping("/image")
     public ResponseEntity<byte[]> returnImage(@RequestParam String imageName) {

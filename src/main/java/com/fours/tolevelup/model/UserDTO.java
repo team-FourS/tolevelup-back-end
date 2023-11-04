@@ -60,6 +60,21 @@ public class UserDTO implements UserDetails {
         }
     }
 
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    public static class feedUserData{
+        private String userId;
+        private String name;
+
+        public static feedUserData fromUser(User user){
+            return new feedUserData(
+                    user.getId(),
+                    user.getName()
+            );
+        }
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(this.getRole().name()));
