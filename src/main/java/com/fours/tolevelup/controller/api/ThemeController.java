@@ -18,10 +18,10 @@ public class ThemeController {
         this.themeService = themeService;
     }
 
-//    @GetMapping("/themes")
-//    public ResponseEntity<List<ThemeDTO>> themeList(){
-//        return ResponseEntity.ok(themeService.findThemes());
-//    }
+    @GetMapping("/themes")
+    public ResponseEntity<List<ThemeDTO>> themeList(){
+        return ResponseEntity.ok(themeService.findThemes());
+    }
 
 
 
