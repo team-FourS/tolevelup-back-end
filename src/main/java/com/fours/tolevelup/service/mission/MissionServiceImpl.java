@@ -73,13 +73,13 @@ public class MissionServiceImpl implements MissionService {
         themeExpRepository.updateExp(getMissionExp(missionLog), user, mission.getTheme());
         int afterExp = themeExpRepository.exp(user, mission.getTheme());
 
-        if(userCharacter.getCharacter().getLevel() < 4){
             if (afterExp / 10 > beforeExp / 10) {
-                levelUpCharacter(user, mission);
+                if(userCharacter.getCharacter().getLevel() < 4) {
+                    levelUpCharacter(user, mission);
+                }
             } else if (afterExp / 10 < beforeExp / 10) {
                 levelDownCharacter(user, mission);
             }
-        }
 
     }
 
